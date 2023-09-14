@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Resources;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class BannerResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
+    {
+        $actionMethod = $request->route()->getActionMethod();
+        return match ($actionMethod) {
+            'getAppHomePageData' => $this->getAppHomePage(),
+            default => $this->allData(),
+        };
+    }
+    public function getAppHomePage()
+    {
+        $locale = app()->getLocale();
+        return [
+            'id'          => $this->id,
+            'url_link'    => $this->url_link,
+        ];
+    }
+    public function allData()
+    {
+        $locale = app()->getLocale();
+        return [
+            'id'          => $this->id,
+            'banner_type' => $this->banner_type,
+            'title'       =>  $this->getTranslation('title', $locale) ?? '',
+            'url_link'    => $this->url_link,
+            'service'     => $this->service,
+            'created_at'  => $this->created_at,
+            'media_urls'  => $this->media_urls,
+            'provider_id' => $this->provider_id
+        ];
+    }
+    
+}

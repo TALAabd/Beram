@@ -1,0 +1,6 @@
+{
+    "Hotels": true,
+    "Booking": true,
+    "Authentication": true,
+    "Resturant": false
+}

@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CoreTermRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = [
+            'name'      => ['required','string', 'max:255'],
+            'content'   => ['required','string', 'max:255'],
+            'icon_name' => ['nullable','string', 'max:255'],
+        ];
+
+        switch ($this->method()) {
+            case 'POST': {
+                    $rules += [
+                        'core_attribute_id' => ['required','integer'],
+                    ];
+                    return $rules;
+                }
+            case 'PUT': {
+                    return $rules;
+                }
+            default:
+                break;
+        }
+        return $rules;
+    }
+}

@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Services;
+
+use Illuminate\Support\Facades\DB;
+use App\Repositories\$modelName$Repository;
+
+class $modelName$Service
+{
+    public function __construct(private $modelName$Repository $$modelVar$Repository)
+    {
+    }
+
+    public function getAll()
+    {
+        return $this->$modelVar$Repository->getAll();
+    }
+
+    public function find($$modelVar$Id)
+    {
+        return $this->$modelVar$Repository->find($$modelVar$Id);
+    }
+
+    public function create($validatedData)
+    {
+        DB::beginTransaction();
+
+        $$modelVar$ = $this->$modelVar$Repository->create($validatedData);
+
+        DB::commit();
+
+        return $$modelVar$;
+    }
+
+    public function update($validatedData, $$modelVar$Id)
+    {
+        $$modelVar$ = $this->$modelVar$Repository->find($$modelVar$Id);
+
+        DB::beginTransaction();
+
+        $this->$modelVar$Repository->update($validatedData, $$modelVar$);
+
+        DB::commit();
+
+        return true;
+    }
+
+    public function delete($$modelVar$Id)
+    {
+        $$modelVar$ = $this->$modelVar$Repository->find($$modelVar$Id);
+
+        DB::beginTransaction();
+
+        $this->$modelVar$Repository->delete($$modelVar$);
+
+        DB::commit();
+
+        return true;
+    }
+}
