@@ -24,7 +24,6 @@ class BookingController extends Controller
         );
     }
 
-
     public function getAllByCustomer($status)   //get id
     {
         $bookings = $this->bookingService->getAllByCustomer($status);

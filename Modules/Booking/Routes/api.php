@@ -56,11 +56,12 @@ Route::group(['prefix' => 'v1'], function () {
     //Routes BY Provider
     Route::group(['prefix' => 'customer', 'middleware' => 'auth:customer'], function () {
 
-
+        Route::get('/search', [CustomerBookingController::class,'search']);
         ############################################
         Route::group(['prefix' => 'bookings',], function () {
             Route::get('/', [CustomerBookingController::class, 'getAllByCustomer']);
             Route::get('/{status}', [CustomerBookingController::class, 'getAllByCustomerStatus']);
+           
             Route::prefix('{booking}')->group(function () {
                 Route::get('/details', [CustomerBookingController::class, 'getBookingDetails']);
                 Route::put('/cancel', [CustomerBookingController::class, 'cancelBooking']);
