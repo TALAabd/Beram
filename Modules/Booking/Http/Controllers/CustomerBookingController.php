@@ -6,6 +6,7 @@ use Modules\Booking\Http\Resources\BookingResource;
 use Modules\Booking\Http\Resources\HotelRoomsBookingResource;
 use Modules\Booking\Http\Services\BookingService;
 use App\Http\Controllers\Controller;
+use Modules\Booking\Http\Requests\BookingRequest;
 use Modules\Booking\Http\Requests\HotelRoomsBookingRequest;
 use Modules\Booking\Http\Services\HotelRoomsBookingService;
 
@@ -26,6 +27,16 @@ class CustomerBookingController extends Controller
         );
     }
 
+    public function search(BookingRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        $bookings = $this->bookingService->search($validatedData);
+        return $this->successResponse(
+            $this->resource($bookings, BookingResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
     public function getAllByCustomer()
     {
         $bookings = $this->bookingService->getAllByCustomer();

@@ -24,6 +24,7 @@ class BookingRequest extends FormRequest
     {
         return match ($this->getFunctionName()) {
             'update' => $this->update(),
+            'search' => $this->search(),
             'changeStatusBooking' => $this->changeStatusBooking(),
             'DELETE' => $this->destroy(),
             default => []
@@ -40,6 +41,15 @@ class BookingRequest extends FormRequest
             'booking_notes' => 'required|string',
         ];
     }
+
+    public function search()
+    {
+        return [
+            'booking_code' => 'required',
+            'last_name'    => 'required',
+        ];
+    }
+
 
     public function changeStatusBooking()
     {

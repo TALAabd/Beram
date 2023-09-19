@@ -97,7 +97,6 @@ class Room extends Model implements HasMedia
                 });
             }
         }
-        dd($filter);
         $query->when(isset($filter['adults']), function ($query) use ($filter) {
             $query->where('adults', '>=', $filter['adults']);
         });

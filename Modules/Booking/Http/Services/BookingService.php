@@ -32,6 +32,10 @@ class BookingService
         return $this->bookingRepository->getAll($status);
     }
 
+    public function search($request)
+    {
+        return $this->bookingRepository->search($request);
+    }
 
     public function getAllByCustomerStatus($status)
     {

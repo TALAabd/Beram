@@ -17,6 +17,36 @@ class BookingResource extends JsonResource
      */
     public function toArray($request)
     {
+        $actionMethod = $request->route()->getActionMethod();
+        return match ($actionMethod) {
+            'getAllByCustomer' => $this->getAllByCustomer($request),
+            default            => $this->allData($request),
+        };
+    }
+    public function getAllByCustomer($request)
+    {
+
+        return [
+            'id'              => $this->id,
+            'booking_code'    => $this->booking_code,
+            'check_in_date'   => $this->check_in_date,
+            'check_out_date'  => $this->check_out_date,
+            'customer_notes'  => $this->customer_notes,
+            'booking_notes'   => $this->booking_notes,
+            'status'          => $this->status,
+            'total_price'     => $this->total_price,
+            'is_confirmed'    => $this->is_confirmed,
+            'created_at'      => $this->created_at,
+            'hotel_id'        => $this->bookable->id,
+            'hotel_name'      => $this->bookable->name,
+            'room_id'         => $this->roomBookings[0]->room->id,
+            'room_name'       => $this->roomBookings[0]->room->title,
+            'status'          => $this->status,
+            
+        ];
+    }
+    public function allData($request)
+    {
         return [
             'id'              => $this->id,
             'booking_code'    => $this->booking_code,

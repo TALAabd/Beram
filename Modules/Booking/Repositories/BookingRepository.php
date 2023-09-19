@@ -35,6 +35,13 @@ class BookingRepository
         return $bookings;
     }
 
+    public function search($request)
+    {
+        $bookings = Booking::where('booking_code', $request['booking_code'])
+            ->where('last_name', $request['last_name'])->where('service_type','hotel')->get();
+            return  $bookings;
+    }
+
     public function find($bookingId)
     {
         return $this->findByIdOrFail(Booking::class, 'booking', $bookingId);
