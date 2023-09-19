@@ -41,7 +41,7 @@ class HotelResource extends JsonResource
             'min_price'           => $hotel->min_price * $currencyDetails['exchange_rate'],
             'max_price'           => $hotel->max_price * $currencyDetails['exchange_rate'],
             'star_rate'           => $hotel->star_rate,
-            'favorite'            => $hotel->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0,
+            'favorite'            => Auth::guard('customer')->user() ? ($hotel->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
         ];
             }
             }else
@@ -55,7 +55,7 @@ class HotelResource extends JsonResource
             'min_price'           => $this->min_price * $currencyDetails['exchange_rate'],
             'max_price'           => $this->max_price * $currencyDetails['exchange_rate'],
             'star_rate'           => $this->star_rate,
-            'favorite'            => $this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0,
+            'favorite'            => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
         ];
             }
         return $data;

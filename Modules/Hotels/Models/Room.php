@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Modules\Authentication\Models\Customer;
+use Modules\Booking\Models\HotelRoomsBooking;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -28,7 +31,7 @@ class Room extends Model implements HasMedia
     public $translatable = ['title', 'content'];
 
     protected $fillable = [
-        'title', 'content','foreign_price', 'syrian_price', 'number', 'beds', 'size','baths','adults', 'children', 'status',
+        'title', 'content', 'foreign_price', 'syrian_price', 'number', 'beds', 'size', 'baths', 'adults', 'children', 'status',
     ];
 
     protected $hidden = ['create_user', 'update_user', 'deleted_at'];
@@ -42,7 +45,7 @@ class Room extends Model implements HasMedia
         'adults' => 'integer',
         'children' => 'integer',
         'status' => 'boolean',
-        
+
     ];
 
     public function getMediaUrlsAttribute()
@@ -70,6 +73,11 @@ class Room extends Model implements HasMedia
         return $this->belongsTo(Hotel::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(HotelRoomsBooking::class);
+    }
+
     public function terms()
     {
         return $this->belongsToMany(CoreTerm::class, 'room_term');
@@ -77,14 +85,56 @@ class Room extends Model implements HasMedia
 
     public function scopeFilter($query, $filter)
     {
-        // $query->when(isset($filter['min_price']) && isset($filter['max_price']), function ($query) use ($filter) {
-        //     $query->whereBetween('price', [$filter['min_price'], $filter['max_price']]);
-        // });
+        if (Auth::guard('customer')->check()) {
+            $user = Customer::where('id', Auth::guard('customer')->user()->id)->first();
+            if ($user->nationality == 'Syrian') {
+                $query->when(isset($filter['min_price']) && isset($filter['max_price']), function ($query) use ($filter) {
+                    $query->whereBetween('syrian_price', [$filter['min_price'], $filter['max_price']]);
+                });
+            } else {
+                $query->when(isset($filter['min_price']) && isset($filter['max_price']), function ($query) use ($filter) {
+                    $query->whereBetween('foreign_price', [$filter['min_price'], $filter['max_price']]);
+                });
+            }
+        }
+        dd($filter);
         $query->when(isset($filter['adults']), function ($query) use ($filter) {
             $query->where('adults', '>=', $filter['adults']);
         });
         $query->when(isset($filter['children']), function ($query) use ($filter) {
             $query->where('children', '>=', $filter['children']);
         });
+        $query->when(isset($filter['beds']), function ($query) use ($filter) {
+            $query->where('beds', '>=', $filter['beds']);
+        });
+        $query->when(isset($filter['baths']), function ($query) use ($filter) {
+            $query->where('baths', '>=', $filter['baths']);
+        });
+        $query->when(request()->city, function ($query) {
+            $city = request()->city;
+            $query->whereHas('hotel', function ($query) use ($city) {
+                $query->where('location_id', $city);
+            });
+        });
+        $query->when(isset($filter['checkin_date']) && isset($filter['checkout_date']), function ($query) use ($filter) {
+            $query->whereBetween('', [$filter[''], $filter['']]);
+        });
+
+        // $query->withSum(['bookings' => function ($query) use ($filter) {
+        //     $query->where('start_date', '<=', $filter['checkout_date'])
+        //         ->where('end_date', '>=', $filter['checkin_date'])
+        //         ->whereHas('booking', function ($query) {
+        //             $query->where('status', 'Confirmed');
+        //         });
+        // }], 'rooms_count');
+        // $ids = [];
+        // foreach ($query as $q) {
+        //     if ($q->bookings_sum_rooms_count < $q->number) {
+        //         $ids[] = $q->id;
+        //     };
+        // }
+        // dd($ids);
+        // $query->whereIn('id', $ids);
+        // return $query;
     }
 }

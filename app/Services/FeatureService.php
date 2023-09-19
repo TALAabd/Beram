@@ -52,11 +52,11 @@ class FeatureService
     {
         $feature = Feature::find($featureId);
 
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
         $feature->delete();
 
-        DB::commit();
+        // DB::commit();
 
         return true;
     }
