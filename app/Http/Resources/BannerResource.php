@@ -33,7 +33,7 @@ class BannerResource extends JsonResource
         return [
             'id'          => $this->id,
             'banner_type' => $this->banner_type,
-            'title'       =>  $this->getTranslation('title', $locale) ?? '',
+            'title'       => $this->getTranslation('title', $locale) ?? '',
             'url_link'    => $this->url_link,
             'service'     => $this->service,
             'created_at'  => $this->created_at,
@@ -41,5 +41,5 @@ class BannerResource extends JsonResource
             'provider_id' => $this->provider_id
         ];
     }
-    
+
 }

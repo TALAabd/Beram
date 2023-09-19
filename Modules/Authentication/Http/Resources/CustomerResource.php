@@ -21,9 +21,9 @@ class CustomerResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'phone' => $this->phone,
-            // 'gender' => $this->gender,
-            // 'address' => $this->address,
-            // 'birthday' => $this->birthday,
+            'gender' => $this->gender,
+            'address' => $this->address,
+            'birthday' => $this->birthday,
             // 'city' => $this->city,
             // 'state' => $this->state,
             // 'country' => $this->country,
@@ -31,7 +31,7 @@ class CustomerResource extends JsonResource
             // 'last_login_at' => $this->last_login_at,
             // 'bio' => $this->bio,
             'nationality'=>$this->nationality,
-        
+
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 use App\Repositories\TripFeatureRepository;
+use Illuminate\Support\Facades\App;
 
 class TripFeatureService
 {
@@ -13,6 +14,7 @@ class TripFeatureService
 
     public function getAll()
     {
+
         return $this->trip_featureRepository->getAll();
     }
 

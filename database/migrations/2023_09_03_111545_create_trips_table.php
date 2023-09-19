@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('price');
             $table->string('contact');
             $table->date('date');
+            $table->unsignedBigInteger('starting_city_id')->nullable();
             $table->timestamps();
         });
     }

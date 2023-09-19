@@ -19,55 +19,62 @@ class HotelResource extends JsonResource
     {
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
-            'getAppHomePageData'=> $this->getAppHomePage($request),
+            'getAppHomePageData' => $this->getAppHomePage($request),
             'getAllHotels'      => $this->getAppHomePage($request),
             default             => $this->allData($request),
         };
     }
+
     public function getAppHomePage($request)
     {
         $locale = app()->getLocale();
         $currencyDetails = $this->currencyConvert($request->currencySymbol);
-         $data = [];
-        if(isset($request->page) && (is_numeric($request->page) && is_numeric($request->per_page))) {    //for pagination
+        $data = [];
+        if (isset($request->page) && (is_numeric($request->page) && is_numeric($request->per_page))) {    //for pagination
             foreach ($this->items() as $hotel) {
 
-    $data[] = [
-            'lang'                => $locale,
-            'id'                  => $hotel->id,
-            'media_urls'          => $hotel->media_urls,
-            'name'                => $hotel->getTranslation('name', $locale) ?? '',
-            'address'             => $hotel->getTranslation('address', $locale) ?? '',
-            'min_price'           => $hotel->min_price * $currencyDetails['exchange_rate'],
-            'max_price'           => $hotel->max_price * $currencyDetails['exchange_rate'],
-            'star_rate'           => $hotel->star_rate,
-            'favorite'            => Auth::guard('customer')->user() ? ($hotel->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
-        ];
+                $data[] = [
+                    'lang'                => $locale,
+                    'id'                  => $hotel->id,
+                    'media_urls'          => $hotel->media_urls,
+                    'name'                => $hotel->getTranslation('name', $locale) ?? '',
+                    'address'             => $hotel->getTranslation('address', $locale) ?? '',
+                    'min_price'           => $hotel->min_price * $currencyDetails['exchange_rate'],
+                    'max_price'           => $hotel->max_price * $currencyDetails['exchange_rate'],
+                    'star_rate'           => $hotel->star_rate,
+                    'email'               => $hotel->email,
+                    'phone'               => $hotel->phone,
+                    'numberOfReviews'     => $hotel->numberOfReviews(),
+                    'numberOfRatings'     => $hotel->numberOfRatings(),
+                    'favorite'            => Auth::guard('customer')->user() ? ($hotel->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
+                ];
             }
-            }else
-            {
-        $data = [
-            'lang'                => $locale,
-            'id'                  => $this->id,
-            'media_urls'          => $this->media_urls,
-            'name'                => $this->getTranslation('name', $locale) ?? '',
-            'address'             => $this->getTranslation('address', $locale) ?? '',
-            'min_price'           => $this->min_price * $currencyDetails['exchange_rate'],
-            'max_price'           => $this->max_price * $currencyDetails['exchange_rate'],
-            'star_rate'           => $this->star_rate,
-            'favorite'            => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
-        ];
-            }
+        } else {
+            $data = [
+                'lang'                => $locale,
+                'id'                  => $this->id,
+                'media_urls'          => $this->media_urls,
+                'name'                => $this->getTranslation('name', $locale) ?? '',
+                'address'             => $this->getTranslation('address', $locale) ?? '',
+                'min_price'           => $this->min_price * $currencyDetails['exchange_rate'],
+                'max_price'           => $this->max_price * $currencyDetails['exchange_rate'],
+                'star_rate'           => $this->star_rate,
+                'email'               => $this->email,
+                'phone'               => $this->phone,
+                'numberOfReviews'     => $this->numberOfReviews(),
+                'numberOfRatings'     => $this->numberOfRatings(),
+                'favorite'            => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
+            ];
+        }
         return $data;
-
     }
-        
+
     public function allData($request)
     {
         $locale = app()->getLocale();
         $currencyDetails = $this->currencyConvert($request->currencySymbol);
         $data = [];
-        if(isset($request->page) && (is_numeric($request->page) && is_numeric($request->per_page))) {    //for pagination
+        if (isset($request->page) && (is_numeric($request->page) && is_numeric($request->per_page))) {    //for pagination
             foreach ($this->items() as $hotel) {
                 $data[] = [
                     'lang'                  => $locale,
@@ -82,7 +89,7 @@ class HotelResource extends JsonResource
                     'map_lng'               => $hotel->map_lng,
                     'map_zoom'              => $hotel->map_zoom,
                     'is_featured'           => $hotel->is_featured,
-                    'policy'                => $hotel->policy,
+                    'policy'                => $this->getTranslation('policy', $locale) ?? '',
                     'star_rate'             => $hotel->star_rate,
                     'check_in_time'         => $hotel->check_in_time,
                     'check_out_time'        => $hotel->check_out_time,
@@ -123,7 +130,7 @@ class HotelResource extends JsonResource
                 'max_price'           => $this->max_price * $currencyDetails['exchange_rate'],
                 'symbol_price'        => $currencyDetails['symbol'],
                 'web'                 => $this->web,
-                'email'               => $this->email,   
+                'email'               => $this->email,
                 'fax'                 => $this->fax,
                 'phone'               => $this->phone,
                 'media_urls'          => $this->media_urls,
@@ -137,4 +144,3 @@ class HotelResource extends JsonResource
         return $data;
     }
 }
-

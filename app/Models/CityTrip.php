@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +14,7 @@ class CityTrip extends Model
     use HasFactory;
     use InteractsWithMedia;
     use HasTranslations;
-    use SoftDeletes;
+    // use SoftDeletes;
     use Notifiable;
 
     public $translatable = ['dis'];

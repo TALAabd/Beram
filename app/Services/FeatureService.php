@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Feature;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\FeatureRepository;
+use Illuminate\Support\Facades\App;
 
 class FeatureService
 {
@@ -12,13 +13,19 @@ class FeatureService
     // {
     // }
 
-    public function getAll()
+    public function getAll($request)
     {
+        if (isset($request->lang)) {
+            App::setlocale($request->lang);
+        }
         return Feature::get();
     }
 
-    public function find($featureId)
+    public function find($featureId, $request)
     {
+        if (isset($request->lang)) {
+            App::setlocale($request->lang);
+        }
         return Feature::find($featureId);
     }
 
@@ -26,8 +33,8 @@ class FeatureService
     {
         DB::beginTransaction();
         $feature = new Feature();
-        $feature->setTranslation('name','en', $validatedData['name']);
-        $feature->setTranslation('name','ar', $validatedData['name']);
+        $feature->setTranslation('name', 'en', $validatedData['name']);
+        $feature->setTranslation('name', 'ar', $validatedData['name']);
         $feature->save();
         DB::commit();
 
@@ -52,11 +59,11 @@ class FeatureService
     {
         $feature = Feature::find($featureId);
 
-        // DB::beginTransaction();
+        DB::beginTransaction();
 
         $feature->delete();
 
-        // DB::commit();
+        DB::commit();
 
         return true;
     }

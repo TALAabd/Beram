@@ -21,10 +21,10 @@ class ConfigResource extends JsonResource
     public function toArray($request)
     {
         if (request()->routeIs('setting')) {
-             return [
-            'ranges'    => SettingResource::collection($this->resource['rangs']),
-            'country'   => CountryResource::collection($this->resource['country']),
-        ]; 
+            return [
+                'ranges'    => SettingResource::collection($this->resource['rangs']),
+                'country'   => CountryResource::collection($this->resource['country']),
+            ];
         }
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
@@ -36,13 +36,14 @@ class ConfigResource extends JsonResource
 
     public function getAppHomePageData()
     {
+
         return [
             'banners1'         => BannerResource::collection($this->resource['banner1']),
             'banners2'         => BannerResource::collection($this->resource['banner2']),
             'topRatedHotels'   => HotelResource::collection($this->resource['topRatedHotels']),
             'recentlyHotels'   => HotelResource::collection($this->resource['recentlyHotels']),
-            'tours'            => HotelResource::collection($this->resource['recentlyHotels']),
-        ]; 
+            'recentlyTrips'    => TripResource::collection($this->resource['recentlyTrips']),
+        ];
     }
 
     public function getControlPanelStatistics()

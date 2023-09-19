@@ -29,7 +29,7 @@ class CustomerRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             //'email' => 'required|string|email|unique:customers,email|max:255',
             //'phone' => 'required|string|unique:customers,phone|max:255',
-            'gender' => 'required|string|in:male,female',
+            'gender' => 'nullable|string|in:male,female',
             'address' => 'nullable|string|max:255',
             'birthday' => 'nullable|date',
             //'password' => 'nullable|string|min:6',

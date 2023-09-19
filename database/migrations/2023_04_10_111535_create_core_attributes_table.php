@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('position',255)->default(0);
             $table->string('slug',30);
             $table->string('service');
+            $table->string('icon',255);
             $table->softDeletes();
             $table->timestamps();
         });

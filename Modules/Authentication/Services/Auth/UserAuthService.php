@@ -32,6 +32,10 @@ class UserAuthService extends Controller
             throw new Exception(__('messages.incorrect_password'), 401);
         }
 
+        if ($user->status != 1) {
+            throw new Exception(__('messages.blockedUser'), 401);
+        }
+
         $roles = $user->roles;
         foreach ($roles as $role)
             $role->permissions;

@@ -25,6 +25,7 @@ return [
 
     'Unauthorized'                   => 'لا تملك صلاحيات للقيام بهذا الإجراء',
     'Unauthenticated'                => 'الرجاء تسجيل الدخول اولاً',
+    'blockedUser'                    => 'المستخدم محظور',
 
 
     // General msgs

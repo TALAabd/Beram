@@ -15,9 +15,18 @@ class TripService
     // {
     // }
 
-    public function getAll()
+    public function getAll($request)
     {
-        return Trip::get();
+        $page = (isset($request->page)) ? $request->page :  null;
+        $per_page = 5;
+
+        return $trips = (isset($page)) ? Trip::query()->filters()->simplePaginate($per_page) :  Trip::query()->filters()->get();
+
+    }
+
+    public function recentlyTrips()
+    {
+        return Trip::orderBy('created_at','desc')->take(10)->get();
     }
 
     public function find($tripId)
@@ -27,14 +36,16 @@ class TripService
 
     public function create($validatedData)
     {
-        $lang = app()->getLocale();
+        if (!isset($validatedData['lang'])){
+            $validatedData['lang'] = app()->getLocale();
+        }
         DB::beginTransaction();
 
         //create trip
         $data[] = $validatedData;
         $trip = Trip::create($validatedData);
-        $trip->setTranslation('name', $lang, $validatedData['name']);
-        $trip->setTranslation('description', $lang, $validatedData['description']);
+        $trip->setTranslation('name', $validatedData['lang'], $validatedData['name']);
+        $trip->setTranslation('description', $validatedData['lang'], $validatedData['description']);
 
         //create trip feature
         if (isset($validatedData['feature'])) {
@@ -53,7 +64,7 @@ class TripService
             }
         }
 
-        //ceate trip direction 
+        //ceate trip direction
         if (isset($validatedData['cities'])) {
             foreach ($validatedData['cities'] as $city) {
                 $tripCity = DB::table('cities_trips')->where('trip_id', $trip['id'])->where('city_id', $city['city_id'])->first();
@@ -61,7 +72,7 @@ class TripService
                     $citytrip = new CityTrip();
                     $citytrip->trip_id = $trip['id'];
                     $citytrip->city_id = $city['city_id'];
-                    $citytrip->setTranslation('dis', $lang, $city['value']);
+                    $citytrip->setTranslation('dis', $validatedData['lang'], $city['value']);
                     $citytrip->save();
                 }
             }
@@ -74,16 +85,19 @@ class TripService
     public function update($validatedData, $tripId)
     {
         $trip = Trip::find($tripId);
-        $lang = app()->getLocale();
+        if (!isset($validatedData['lang'])){
+            $validatedData['lang'] = app()->getLocale();
+        }
 
         DB::beginTransaction();
 
-        $trip->setTranslation('name', $lang, $validatedData['name']);
-        $trip->setTranslation('description', $lang, $validatedData['description']);
+        $trip->setTranslation('name', $validatedData['lang'], $validatedData['name']);
+        $trip->setTranslation('description', $validatedData['lang'], $validatedData['description']);
         $trip->price   = $validatedData['price'];
         $trip->date    = $validatedData['date'];
         $trip->period  = $validatedData['period'];
         $trip->contact = $validatedData['contact'];
+        $trip->starting_city_id = $validatedData['starting_city_id'];
         $trip->save();
 
         //delete trip feature
@@ -127,7 +141,11 @@ class TripService
         //update cities
         foreach ($validatedData['cities'] as $city) {
             $trip->city()->sync($city['city_id']);
-            DB::table('cities_trips')->where('city_id', $city['city_id'])->update(['dis' => $city['value']]);
+            $cityTrip = CityTrip::where('trip_id', $trip->id)->where('city_id', $city['city_id'])->first();
+            if ($cityTrip){
+                $cityTrip->setTranslation('dis', $validatedData['lang'], $city['value']);
+                $cityTrip->save(); 
+            }
         }
         DB::commit();
 

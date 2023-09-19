@@ -164,7 +164,7 @@ class HotelsController extends Controller
     public function getRooms($hotelId)
     {
        
-        $rooms = $this->hotelService->getRoomsByhotel($hotelId);
+        $rooms = $this->hotelService->getRooms($hotelId);
         return $this->successResponse(
             $this->resource($rooms, RoomResource::class),
             'dataFetchedSuccessfully'

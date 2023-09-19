@@ -17,18 +17,18 @@ class RoomAttributeTermsResource extends JsonResource
     public function toArray($request)
     {
         $locale = app()->getLocale();
-  
+
         return [
             'lang'      => $locale,
             'id'        => $this->id,
             'title'     => $this->getTranslation('title', $locale) ?? '',
             'content'   => $this->getTranslation('content', $locale) ?? '',
             'price'     => $this->syrian_price,
-            'hotel id'  => $this->hotel->id,
+            'hotel_id'  => $this->hotel->id,
             'name'      => $this->hotel->name,
             'address'   => $this->hotel->address,
             'baths'     => $this->baths,
-            'room count'=> $this->number,
+            'room_count'=> $this->number,
             'space'     => $this->size,
             'beds'      => $this->beds,
             'media_urls' => $this->media_urls,

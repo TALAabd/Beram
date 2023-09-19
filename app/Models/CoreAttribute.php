@@ -23,7 +23,7 @@ class CoreAttribute extends Model
     public $translatable = ['name', 'content'];
 
     protected $fillable = [
-        'name', 'position', 'service', 'slug'
+        'name', 'position', 'service', 'slug', 'icon'
     ];
     protected $hidden = ['slug'];
 

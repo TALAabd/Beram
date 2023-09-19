@@ -28,6 +28,7 @@ class TripRequest extends FormRequest
             'name' => '',
             'description' => '',
             'period' => '',
+            'starting_city_id' => '',
             'price' => '',
             'image' => '',
             'contact' => '',

@@ -18,10 +18,11 @@ class AttributeTermsResource extends JsonResource
     {
         $locale = app()->getLocale();
         return [
-            'id' => $this->id,
-            'name' => $this->getTranslation('name', $locale) ?? '',
-            'position' => $this->position,
-            'service' => $this->service,
+            'id'         => $this->id,
+            'name'       => $this->getTranslation('name', $locale) ?? '',
+            'position'   => $this->position,
+            'service'    => $this->service,
+            'icon'       => $this->icon,
             'created_at' => $this->created_at,
             'core_terms' => CoreTermResource::collection($this->core_terms),
         ];
