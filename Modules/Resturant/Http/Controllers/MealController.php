@@ -75,7 +75,7 @@ class MealController extends Controller
         $media = $this->mealService->getAllMedia($menuId);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 

@@ -9,6 +9,7 @@ use Modules\Hotels\Models\Hotel;
 use Illuminate\Support\Str;
 use App\Traits\ModelHelper;
 use Modules\Authentication\Models\User;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class HotelRepository implements HotelRepositoryInterface
 {
@@ -27,13 +28,13 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function allTopRated()
     {
-        return Hotel::where('star_rate', [4,5])->get();
+        return Hotel::where('star_rate', [4, 5])->get();
     }
     public function recentlyHotels()
     {
-        return Hotel::orderBy('created_at','asc')->get();
+        return Hotel::orderBy('created_at', 'asc')->get();
     }
-    
+
 
     public function allByProvider()
     {
@@ -42,9 +43,9 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function create($attributes)
     {
-        $user=User::where('id',Auth::user()->id)->first();
-        $attributes['slug']= Str::slug($attributes['name'] . '-' . Str::random(6));
-        $attributes['user_id']= ($user->role=="employee") ? $user->parent->id :$user->id;
+        $user = User::where('id', Auth::user()->id)->first();
+        $attributes['slug'] = Str::slug($attributes['name'] . '-' . Str::random(6));
+        $attributes['user_id'] = ($user->role == "employee") ? $user->parent->id : $user->id;
         return Hotel::create($attributes);
     }
 
@@ -85,11 +86,15 @@ class HotelRepository implements HotelRepositoryInterface
         $hotel->delete();
     }
 
-    public function createMedia($hotelId, $mediaFile)
+    public function createMedia($hotelId, $mediaFile, $type = 'media')
     {
-
         $hotel = $this->find($hotelId);
-        $hotel->addMedia($mediaFile)->toMediaCollection('hotels-media');
+        if ($type == 'main') {
+            $hotel->clearMediaCollection('thumbnail');
+            $hotel->addMedia($mediaFile)->toMediaCollection('thumbnail');
+        } elseif ($type == 'media') {
+            $hotel->addMedia($mediaFile)->toMediaCollection('hotels-media');
+        }
     }
 
     public function getAllMedia($id)
@@ -109,7 +114,8 @@ class HotelRepository implements HotelRepositoryInterface
     public function deleteMediaForId($hotelId, $mediaId)
     {
         $hotel = $this->find($hotelId);
-        $mediaItem = $hotel->getMedia('hotels-media')->firstWhere('id', $mediaId);
+        $media = Media::where('id', $mediaId)->first();
+        $mediaItem = $hotel->getMedia($media->collection_name)->firstWhere('id', $mediaId);
         $mediaItem->delete();
         return true;
     }
@@ -141,11 +147,10 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function getAttributesTermsByHotel(Hotel $hotel)
     {
-        $hotelsTerms = $hotel->terms->pluck('id')->toArray();  
+        $hotelsTerms = $hotel->terms->pluck('id')->toArray();
         $attributesWithHotelTerms = CoreAttribute::with(['core_terms' => function ($query) use ($hotelsTerms) {
-            $query->whereIn('id', $hotelsTerms)->select('id','name','core_attribute_id');
-        }])->where('service', 'hotel')->
-        get();
+            $query->whereIn('id', $hotelsTerms)->select('id', 'name', 'core_attribute_id');
+        }])->where('service', 'hotel')->get();
         return $attributesWithHotelTerms;
     }
 

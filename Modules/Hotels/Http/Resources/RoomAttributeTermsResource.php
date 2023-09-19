@@ -17,6 +17,12 @@ class RoomAttributeTermsResource extends JsonResource
     public function toArray($request)
     {
         $locale = app()->getLocale();
+        $media = $this->getMedia('rooms-media');
+            $sub_media_urls = $media->map(function ($item) {
+                return [
+                    'url' => $item->getFullUrl()
+                ];
+            });
 
         return [
             'lang'      => $locale,
@@ -32,7 +38,9 @@ class RoomAttributeTermsResource extends JsonResource
             'space'     => $this->size,
             'beds'      => $this->beds,
             'media_urls' => $this->media_urls,
+            'sub_media_urls'       => $sub_media_urls,
             'attributes_and_terms' =>  $this->attributes,
+
         ];
     }
 }

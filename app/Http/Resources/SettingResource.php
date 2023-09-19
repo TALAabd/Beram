@@ -14,13 +14,12 @@ class SettingResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this->rangs);
         return [
             'id'        => $this->id,
             'beds'      => $this->beds,
             'baths'     => $this->baths,
-            'min price' => $this->min_prie,
-            'max price' => $this->max_price,
+            'min_price' => $this->min_price,
+            'max_price' => $this->max_price,
         ];
     }
 }

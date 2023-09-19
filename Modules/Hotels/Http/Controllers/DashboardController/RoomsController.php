@@ -105,7 +105,7 @@ class RoomsController extends Controller
         $media = $this->roomService->getAllMedia($roomId);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 
@@ -147,6 +147,4 @@ class RoomsController extends Controller
             'dataUpdatedSuccessfully'
         );
     }
-
-
 }

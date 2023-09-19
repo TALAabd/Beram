@@ -8,6 +8,7 @@ use Modules\Hotels\RepositoryInterface\RoomRepositoryInterface;
 use Modules\Hotels\Models\Room;
 use Modules\Hotels\Models\Hotel;
 use App\Traits\ModelHelper;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RoomRepository implements RoomRepositoryInterface
 {
@@ -69,10 +70,15 @@ class RoomRepository implements RoomRepositoryInterface
         $room->delete();
     }
 
-    public function createMedia($roomId, $mediaFile)
+    public function createMedia($roomId, $mediaFile, $type = 'media')
     {
         $room = $this->find($roomId);
-        $room->addMedia($mediaFile)->toMediaCollection('rooms-media');
+        if ($type == 'main') {
+            $room->clearMediaCollection('thumbnail');
+            $room->addMedia($mediaFile)->toMediaCollection('thumbnail');
+        } elseif ($type == 'media') {
+            $room->addMedia($mediaFile)->toMediaCollection('rooms-media');
+        }
     }
 
     public function getAllMedia($roomId)
@@ -90,8 +96,9 @@ class RoomRepository implements RoomRepositoryInterface
 
     public function deleteMediaForId($roomId, $mediaId)
     {
-        $room = $this->find($roomId);
-        $mediaItem = $room->getMedia('rooms-media')->firstWhere('id', $mediaId);
+        $room  = $this->find($roomId);
+        $media = Media::where('id', $mediaId)->first();
+        $mediaItem = $room->getMedia($media->collection_name)->firstWhere('id', $mediaId);
         $mediaItem->delete();
     }
 

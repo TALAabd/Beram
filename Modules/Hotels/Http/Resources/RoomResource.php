@@ -20,13 +20,18 @@ class RoomResource extends JsonResource
         $locale = app()->getLocale();
         if(Auth::guard('customer')->check())
         {
-           
+            $media = $this->getMedia('rooms-media');
+            $sub_media_urls = $media->map(function ($item) {
+                return [
+                    'url' => $item->getFullUrl()
+                ];
+            });
             $user = Customer::where('id',Auth::guard('customer')->user()->id)->first();
             $price=null;
             if($user->nationality =='Syrian')
             {
               $price = $this->syrian_price;
-              
+
             }else{
               $price = $this->foreign_price;
             }
@@ -46,6 +51,7 @@ class RoomResource extends JsonResource
                 // 'adults' => $this->adults,
                 // 'children'   => $this->children,
                 'media_urls' => $this->media_urls,
+                'sub_media_urls' => $sub_media_urls,
             ];
         }else{
             return [
@@ -65,7 +71,7 @@ class RoomResource extends JsonResource
                 'media_urls' => $this->media_urls,
             ];
         }
-       
-       
+
+
     }
 }

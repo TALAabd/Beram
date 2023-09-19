@@ -21,11 +21,9 @@ class TripResource extends JsonResource
     {
         if (request()->routeIs('app.home.page')) {
             return $this->getAppHomePage($request);
-        }
-        elseif (request()->routeIs('trip.index.customer')) {
+        } elseif (request()->routeIs('trip.index.customer')) {
             return $this->getDataForApp($request);
-        }
-        elseif (request()->routeIs('trip.show.customer')) {
+        } elseif (request()->routeIs('trip.show.customer')) {
             return $this->allDataForApp($request);
         }
 
@@ -54,7 +52,7 @@ class TripResource extends JsonResource
                     'date'       => $trip->date,
                     'favorite'   => Auth::guard('customer')->user() ? ($trip->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
                     'starting_city_id' => $trip->starting_city_id,
-                    'starting_city'    => $trip->startingCity? $trip->startingCity->name : null,
+                    'starting_city'    => $trip->startingCity ? $trip->startingCity->name : null,
                 ];
             }
         } else {
@@ -69,7 +67,7 @@ class TripResource extends JsonResource
                 'date'       => $this->date,
                 'favorite'   => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
                 'starting_city_id' => $this->starting_city_id,
-                'starting_city'    => $this->startingCity? $this->startingCity->name : null,
+                'starting_city'    => $this->startingCity ? $this->startingCity->name : null,
             ];
         }
         return $data;
@@ -114,14 +112,13 @@ class TripResource extends JsonResource
             'image'       => $this->media_urls,
             'contact'     => $this->contact,
             'date'        => $this->date,
-            'starting_city' => $this->startingCity? $this->startingCity->name : null,
+            'starting_city' => $this->startingCity ? $this->startingCity->name : null,
             // 'feature'     => $this->feature,
             'featurevalue' => $featureValuesByFeature,
             'city'        => $cities,
             'starting_city_id' => $this->starting_city_id,
             'favorite'         => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
         ];
-       
     }
     public function allDataForApp($request)
     {
@@ -154,6 +151,13 @@ class TripResource extends JsonResource
             ];
         }
 
+        $media = $this->getMedia('trips-media');
+        $sub_media_urls = $media->map(function ($item) {
+            return [
+                'url' => $item->getFullUrl()
+            ];
+        });
+
         return [
             'id'          => $this->id,
             'name'        => $this->name,
@@ -161,16 +165,16 @@ class TripResource extends JsonResource
             'period'      => $this->period,
             'price'       => $this->price,
             'image'       => $this->media_urls,
+            'sub_media_urls' => $sub_media_urls,
             'contact'     => $this->contact,
             'date'        => $this->date,
-            'starting_city' => $this->startingCity? $this->startingCity->name : null,
+            'starting_city' => $this->startingCity ? $this->startingCity->name : null,
             // 'feature'     => $this->feature,
             'featurevalue' => $featureValuesByFeature,
             'city'        => $cities,
             'starting_city_id' => $this->starting_city_id,
             'favorite'         => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
         ];
-       
     }
     public function getDataForApp($request)
     {
@@ -212,13 +216,12 @@ class TripResource extends JsonResource
             'image'       => $this->media_urls,
             'contact'     => $this->contact,
             'date'        => $this->date,
-            'starting_city' => $this->startingCity? $this->startingCity->name : null,
+            'starting_city' => $this->startingCity ? $this->startingCity->name : null,
             // 'feature'     => $this->feature,
             // 'featurevalue' => $featureValuesByFeature,
             // 'city'        => $cities,
             'starting_city_id' => $this->starting_city_id,
             'favorite'         => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
         ];
-       
     }
 }

@@ -54,9 +54,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'trip'], function () {
             Route::get('/', [TripController::class, 'getAll'])->name('trip.index.admin');
             Route::post('/', [TripController::class, 'create'])->name('trip.store.admin');
-            Route::get('/{currency}', [TripController::class, 'find'])->name('trip.shoe.admin');
-            Route::post('/{currency}', [TripController::class, 'update'])->name('trip.update.admin');
-            Route::delete('/{currency}', [TripController::class, 'delete'])->name('trip.delete.admin');
+            Route::get('/{trip}', [TripController::class, 'find'])->name('trip.shoe.admin');
+            Route::post('/{trip}', [TripController::class, 'update'])->name('trip.update.admin');
+            Route::delete('/{trip}', [TripController::class, 'delete'])->name('trip.delete.admin');
+            Route::prefix('{trip}')->group(function () {
+                Route::get('media', [TripController::class, 'getMedia'])->name('trip.media');
+                Route::post('media', [TripController::class, 'addMedia'])->name('trip.addMedia');
+                Route::delete('media/{mediaId}', [TripController::class, 'deleteMedia'])->name('trip.deleteMedia');
+            });
 
         });
 
