@@ -18,11 +18,9 @@ class RoomAttributeTermsResource extends JsonResource
     {
         $locale = app()->getLocale();
         $media = $this->getMedia('rooms-media');
-            $sub_media_urls = $media->map(function ($item) {
-                return [
-                    'url' => $item->getFullUrl()
-                ];
-            });
+        $sub_media_urls = $media->map(function ($item) {
+            return $item->getFullUrl();
+        });
 
         return [
             'lang'      => $locale,
@@ -34,7 +32,7 @@ class RoomAttributeTermsResource extends JsonResource
             'name'      => $this->hotel->name,
             'address'   => $this->hotel->address,
             'baths'     => $this->baths,
-            'room_count'=> $this->number,
+            'room_count' => $this->number,
             'space'     => $this->size,
             'beds'      => $this->beds,
             'media_urls' => $this->media_urls,

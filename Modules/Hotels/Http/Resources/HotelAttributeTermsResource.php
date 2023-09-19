@@ -31,10 +31,9 @@ class HotelAttributeTermsResource extends JsonResource
 
         $media = $this->getMedia('hotels-media');
         $sub_media_urls = $media->map(function ($item) {
-            return [
-                'url' => $item->getFullUrl()
-            ];
+            return $item->getFullUrl();
         });
+
 
         $locale = app()->getLocale();
         return [
