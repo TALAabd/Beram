@@ -25,7 +25,7 @@ return [
 
     'Unauthorized'                   => 'You do not have permissions to perform this action',
     'Unauthenticated'                => 'PLease login first',
-
+    'blockedUser'                    => 'the user is blocked',
 
     // General msgs
     'dataAddedSuccessfully'          => 'Data added successfully',

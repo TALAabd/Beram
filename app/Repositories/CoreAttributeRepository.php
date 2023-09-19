@@ -27,6 +27,7 @@ class CoreAttributeRepository implements CoreAttributeRepositoryInterface
         $coreAttribute->position = $attributes['position'];
         $coreAttribute->slug = Str::slug($attributes['name'] . '-' . Str::random(6));
         $coreAttribute->service = $attributes['service'];
+        $coreAttribute->icon = $attributes['icon'];
         $coreAttribute->save();
         return $coreAttribute;
     }
@@ -38,6 +39,7 @@ class CoreAttributeRepository implements CoreAttributeRepositoryInterface
         $coreAttribute->slug = Str::slug($attributes['name'] . '-' . Str::random(6));
         $coreAttribute->position = $attributes['position'];
         $coreAttribute->service = $attributes['service'] ?? $coreAttribute->service;
+        $coreAttribute->icon = $attributes['icon'] ?? $coreAttribute->icon;
         $coreAttribute->save();
         return $coreAttribute;
     }

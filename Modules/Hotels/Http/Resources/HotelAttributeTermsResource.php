@@ -23,7 +23,7 @@ class HotelAttributeTermsResource extends JsonResource
                     'id'         => $attributes->id,
                     'name'       => $attributes->name,
                     'service'    => $attributes->service,
-                    'name'       => $attributes->name,
+                    'icon'       => $attributes->icon,
                     'core_terms' => $attributes->core_terms,
                 ];
             }
@@ -41,8 +41,13 @@ class HotelAttributeTermsResource extends JsonResource
             'star_rate'            => $this->star_rate,
             'phone'                => $this->phone,
             'email'                => $this->email,
+            'policy'               => $this->getTranslation('policy', $locale) ?? '',
+            'check_in_time'        => $this->check_in_time,
+            'check_out_time'       => $this->check_out_time,
             'web'                  => $this->web,
             'media_urls'           => $this->media_urls,
+            'numberOfReviews'      => $this->numberOfReviews(),
+            'numberOfRatings'      => $this->numberOfRatings(),
             'attributes_and_terms' =>  $data,
         ];
     }

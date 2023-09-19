@@ -16,7 +16,7 @@ class NotificationService
 
     public function getAll()
     {
-        return Notification::where('to_id',Auth::guard('customer')->user()->id)->get();
+        return Notification::where('to_id', Auth::guard('customer')->user()->id)->get();
     }
 
     public function find($notificationId)
@@ -81,8 +81,9 @@ class NotificationService
             'payload'       =>  '',
         ];
         $this->create($data);
-        bookingHelper::sendPushNotificationToDevice($customer->fcm_token, $data);
-
+        if ($customer->fcm_token) {
+            bookingHelper::sendPushNotificationToDevice($customer->fcm_token, $data);
+        }
         DB::commit();
     }
 
@@ -92,8 +93,8 @@ class NotificationService
         DB::beginTransaction();
 
         $data = [
-            'title'        =>  __('messages.'.$booking->status."Booking"),
-            'description'  =>  __('messages.'. "YourBooking".$booking->status."Successfully"),
+            'title'        =>  __('messages.' . $booking->status . "Booking"),
+            'description'  =>  __('messages.' . "YourBooking" . $booking->status . "Successfully"),
             'booking_code' =>  $booking->booking_code,
             'to_id'        =>  $customer->id,
             'from_type'    =>  'customer',
@@ -101,7 +102,9 @@ class NotificationService
             'payload'      =>  '',
         ];
         $this->create($data);
-        bookingHelper::sendPushNotificationToDevice($customer->fcm_token, $data);
+        if ($customer->fcm_token) {
+            bookingHelper::sendPushNotificationToDevice($customer->fcm_token, $data);
+        }
 
         DB::commit();
     }
@@ -112,8 +115,8 @@ class NotificationService
         DB::beginTransaction();
 
         $data = [
-            'title'        =>  __('messages.'.$booking->status."Booking"),
-            'description'  =>  __('messages.'."YourBooking".$booking->status."Successfully"),
+            'title'        =>  __('messages.' . $booking->status . "Booking"),
+            'description'  =>  __('messages.' . "YourBooking" . $booking->status . "Successfully"),
             'booking_code' =>  $booking->booking_code,
             'to_id'        =>  $customer->id,
             'from_type'    =>  'customer',
@@ -121,8 +124,9 @@ class NotificationService
             'payload'      =>  '',
         ];
         $this->create($data);
-        bookingHelper::sendPushNotificationToDevice($customer->fcm_token, $data);
-
+        if ($customer->fcm_token) {
+            bookingHelper::sendPushNotificationToDevice($customer->fcm_token, $data);
+        }
         DB::commit();
     }
 }

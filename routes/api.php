@@ -26,11 +26,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::resource('roles', RoleController::class)->except(['create', 'show', 'destroy']);
         Route::get('/get-permissions', [RoleController::class, 'getpermissions']);
     });
-    
+
     Route::group(['prefix' => 'admin/cities'], function () {
              Route::get('/', [CityController::class, 'getAll'])->name('cities.index');
     });
-    
+
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 
        //Routes BY Currencies
@@ -52,11 +52,11 @@ Route::group(['prefix' => 'v1'], function () {
 
         });
         Route::group(['prefix' => 'trip'], function () {
-            Route::get('/', [TripController::class, 'getAll']);
-            Route::post('/', [TripController::class, 'create']);
-            Route::get('/{currency}', [TripController::class, 'find']);
-            Route::post('/{currency}', [TripController::class, 'update']);
-            Route::delete('/{currency}', [TripController::class, 'delete']);
+            Route::get('/', [TripController::class, 'getAll'])->name('trip.index.admin');
+            Route::post('/', [TripController::class, 'create'])->name('trip.store.admin');
+            Route::get('/{currency}', [TripController::class, 'find'])->name('trip.shoe.admin');
+            Route::post('/{currency}', [TripController::class, 'update'])->name('trip.update.admin');
+            Route::delete('/{currency}', [TripController::class, 'delete'])->name('trip.delete.admin');
 
         });
 
@@ -88,7 +88,7 @@ Route::group(['prefix' => 'v1'], function () {
 
 
         Route::group(['prefix' => 'cities'], function () {
-           
+
             Route::post('/', [CityController::class, 'create'])->name('cities.store');
             Route::get('/{city}', [CityController::class, 'find'])->name('cities.find');
             Route::put('/{city}', [CityController::class, 'update'])->name('cities.update');
@@ -143,7 +143,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'customer'], function () {
 
-        Route::get('/setting', [SettingController::class, 'getAll'])->name('setting');   
+        Route::get('/setting', [SettingController::class, 'getAll'])->name('setting');
 
         Route::group(['prefix' => 'favorite', 'middleware' => 'auth:customer'], function () {
 
@@ -212,6 +212,11 @@ Route::group(['prefix' => 'v1'], function () {
             Route::get('/', [BannerController::class, 'getAll']);
         });
 
+        Route::group(['prefix' => 'trip'], function () {
+            Route::get('/', [TripController::class, 'getAll'])->name('trip.index.customer');;
+            Route::get('/{trip}', [TripController::class, 'find'])->name('trip.show.customer');;
+        });
+
         Route::group(['prefix' => 'stories'], function () {
             Route::get('/', [StoryController::class, 'getAll']);
         });
@@ -225,7 +230,7 @@ Route::group(['prefix' => 'v1'], function () {
         });
 
         Route::group(['prefix' => 'config'], function () {
-            Route::get('/home-page', [ConfigController::class, 'getAppHomePageData']);
+            Route::get('/home-page', [ConfigController::class, 'getAppHomePageData'])->name('app.home.page');
         });
 
         Route::group(['prefix' => 'config'], function () {
@@ -251,7 +256,7 @@ Route::group(['prefix' => 'v1'], function () {
 // });
 
 Route::group([
-    'prefix' => '/trips',
+    'prefix'     => '/trips',
     'controller' => TripController::class,
     // 'middleware' => ''
 ], function () {

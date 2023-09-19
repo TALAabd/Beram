@@ -77,13 +77,25 @@ class HotelService
     public function getRoomsByhotel($request)
     {
         DB::beginTransaction();
-            if($request->id == null)
-            {
-                 $rooms = Room::get();
-            }else{
-                $hotel = $this->hotelRepository->find($request->id);
-                $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel);
-            }
+        if ($request->id == null) {
+            $rooms = Room::get();
+        } else {
+            $hotel = $this->hotelRepository->find($request->id);
+            $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel);
+        }
+        DB::commit();
+        return $rooms;
+    }
+
+    public function getRooms($hotelId)
+    {
+        DB::beginTransaction();
+        if ($hotelId == null) {
+            $rooms = Room::get();
+        } else {
+            $hotel = $this->hotelRepository->find($hotelId);
+            $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel);
+        }
         DB::commit();
         return $rooms;
     }

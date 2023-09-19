@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\FeatureRequest;
 use App\Http\Resources\FeatureResource;
 use App\Services\FeatureService;
+use Illuminate\Http\Request;
 
 class FeatureController extends Controller
 {
@@ -13,18 +14,18 @@ class FeatureController extends Controller
     {
     }
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        $features = $this->featureService->getAll();
+        $features = $this->featureService->getAll($request);
         return $this->successResponse(
             $this->resource($features, FeatureResource::class),
             'dataFetchedSuccessfully'
         );
     }
 
-    public function find($featureId)
+    public function find($featureId, Request $request)
     {
-        $feature = $this->featureService->find($featureId);
+        $feature = $this->featureService->find($featureId, $request);
 
         return $this->successResponse(
             $this->resource($feature, FeatureResource::class),

@@ -39,13 +39,19 @@ class HotelRoomsBookingService
 
         // Assign booking to hotel
         $hotel->bookings()->save($booking);
-
         // Create room bookings
         $roomBookings = [];
-        foreach ($validatedData['rooms'] as $room) {
-            $roomBooking = $this->hotelRoomsBookingRepository->create($room);
+        $roomData = [
+            'room_id'     => $validatedData['room_id'],
+            'start_date'  => $validatedData['check_in_date'],
+            'end_date'    => $validatedData['check_out_date'],
+            'max_guests'  => $validatedData['max_guests'],
+            'rooms_count' => $validatedData['rooms_count'],
+        ];
+        // foreach ($validatedData['rooms'] as $room) {
+            $roomBooking = $this->hotelRoomsBookingRepository->create($roomData);
             $roomBookings[] = $roomBooking;
-        }
+        // }
 
         // Assign room bookings to booking user
         $booking->roomBookings()->saveMany($roomBookings);

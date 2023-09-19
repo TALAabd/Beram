@@ -30,6 +30,10 @@ class CustomerAuthService
         if (!$token = Auth::guard('customer')->attempt($validatedData)) {
             throw new Exception(__('messages.incorrect_password'), 401);
         }
+
+        if ($customer->status != 1) {
+            throw new Exception(__('messages.blockedUser'), 401);
+        }
         return $token;
     }
     public function login2($validatedData)

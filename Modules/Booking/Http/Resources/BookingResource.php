@@ -29,6 +29,7 @@ class BookingResource extends JsonResource
             'last_name'       => $this->last_name,
             'phone'           => $this->phone,
             'customer_notes'  => $this->customer_notes,
+            'booking_notes'   => $this->booking_notes,
             'status'          => $this->status,
             'total_price'     => $this->total_price,
             'is_confirmed'    => $this->is_confirmed,

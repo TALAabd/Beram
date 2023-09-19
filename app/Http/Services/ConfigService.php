@@ -7,6 +7,7 @@ use App\Http\Services\StoryService;
 use App\Http\Services\CityService;
 use App\Http\Services\BannerService;
 use App\Models\Banner;
+use App\Services\TripService;
 use Illuminate\Support\Facades\Cache;
 use Modules\Hotels\Http\Services\HotelService;
 use Modules\Hotels\Http\Services\RoomService;
@@ -23,6 +24,7 @@ class ConfigService
         private BannerService  $bannerService,
         private BookingService $bookingService,
         private RoomService    $roomService,
+        private TripService    $tripService,
     ) {
     }
 
@@ -34,6 +36,7 @@ class ConfigService
                 'banner2'        => $this->bannerService->banner2(),
                 'topRatedHotels' => $this->hotelService->getTopRatedHotels(),
                 'recentlyHotels' => $this->hotelService->recentlyHotels(),
+                'recentlyTrips'  => $this->tripService->recentlyTrips(),
             ];
         // });
     }

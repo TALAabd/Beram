@@ -24,8 +24,9 @@ class CoreAttributeRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
+            'name'     => ['required', 'string', 'max:255'],
             'position' => ['required', 'integer', 'max:255'],
+            'icon'     => ['string', 'max:255'],
         ];
 
         switch ($this->method()) {

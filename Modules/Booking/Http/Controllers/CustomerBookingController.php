@@ -17,11 +17,23 @@ class CustomerBookingController extends Controller
     ) {
     }
 
-    public function getAllByCustomer($status)
+    public function getAllByCustomerStatus($status)
     {
-        $bookings = $this->bookingService->getAllByCustomer($status);
+        $bookings = $this->bookingService->getAllByCustomerStatus($status);
         return $this->successResponse(
             $this->resource($bookings, BookingResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
+
+    public function getAllByCustomer()
+    {
+        $bookings = $this->bookingService->getAllByCustomer();
+        $bookings['Pending']   = $this->resource($bookings['Pending'], BookingResource::class);
+        $bookings['Confirmed'] = $this->resource($bookings['Confirmed'], BookingResource::class);
+        $bookings['Cancelled'] = $this->resource($bookings['Cancelled'], BookingResource::class);
+        return $this->successResponse(
+            $bookings,
             'dataFetchedSuccessfully'
         );
     }
@@ -36,8 +48,9 @@ class CustomerBookingController extends Controller
             );
         else
             return $this->successResponse(
-                null// $this->resource($booking->tableBookings, BookingResource::class),
-                ,'dataFetchedSuccessfully'
+                null // $this->resource($booking->tableBookings, BookingResource::class),
+                ,
+                'dataFetchedSuccessfully'
             );
     }
 

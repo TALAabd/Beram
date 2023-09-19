@@ -28,10 +28,11 @@ class CoreAttributeResource extends JsonResource
     {
         $locale = app()->getLocale();
         return [
-            'lang' => $locale,
-            'id' => $this->id,
-            'name' => $this->getTranslation('name', $locale) ?? '',
-            'position' => $this->position,
+            'lang'       => $locale,
+            'id'         => $this->id,
+            'name'       => $this->getTranslation('name', $locale) ?? '',
+            'position'   => $this->position,
+            'icon'       => $this->icon,
             'created_at' => $this->created_at
         ];
     }
@@ -44,6 +45,7 @@ class CoreAttributeResource extends JsonResource
             'id'         => $this->id,
             'name'       => $this->getTranslation('name', $locale) ?? '',
             'position'   => $this->position,
+            'icon'       => $this->icon,
             'created_at' => $this->created_at,
             'core_terms' => $this->resource($this->core_terms, CoreTermResource::class),
         ];

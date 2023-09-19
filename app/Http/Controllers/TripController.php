@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\TripRequest;
 use App\Http\Resources\TripResource;
 use App\Services\TripService;
+use Illuminate\Http\Request;
 
 class TripController extends Controller
 {
@@ -13,9 +14,9 @@ class TripController extends Controller
     {
     }
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        $trips = $this->tripService->getAll();
+        $trips = $this->tripService->getAll($request);
         return $this->successResponse(
             $this->resource($trips, TripResource::class),
             'dataFetchedSuccessfully'
@@ -39,8 +40,11 @@ class TripController extends Controller
         if ($request->file('image') && $request->file('image')->isValid()) {
             $trip->addMedia($request->file('image'))->toMediaCollection('trip');
         }
-        return $trip;
-        
+        return $this->successResponse(
+            $this->resource($trip, TripResource::class),
+            'dataAddedSuccessfully'
+        );
+
     }
 
     public function update(TripRequest $request, $tripId)
