@@ -9,12 +9,14 @@ use App\Http\Controllers\Controller;
 use Modules\Booking\Http\Requests\BookingRequest;
 use Modules\Booking\Http\Requests\HotelRoomsBookingRequest;
 use Modules\Booking\Http\Services\HotelRoomsBookingService;
+use Modules\Booking\Http\Services\TripBookingService;
 
 class CustomerBookingController extends Controller
 {
     public function __construct(
         private BookingService $bookingService,
-        private HotelRoomsBookingService $hotelRoomsBookingService
+        private HotelRoomsBookingService $hotelRoomsBookingService,
+        private TripBookingService $tripBookingService,
     ) {
     }
 
@@ -78,6 +80,16 @@ class CustomerBookingController extends Controller
     {
         $validatedData = $request->validated();
         $this->hotelRoomsBookingService->create($validatedData);
+        return $this->successResponse(
+            null,
+            'bookingSuccessfully'
+        );
+    }
+
+    public function createTripBooking(BookingRequest $request)
+    {
+        $validatedData = $request->validated();
+        $this->tripBookingService->create($validatedData);
         return $this->successResponse(
             null,
             'bookingSuccessfully'

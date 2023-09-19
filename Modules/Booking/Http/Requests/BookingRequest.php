@@ -26,6 +26,7 @@ class BookingRequest extends FormRequest
             'update' => $this->update(),
             'search' => $this->search(),
             'changeStatusBooking' => $this->changeStatusBooking(),
+            'createTripBooking' => $this->createTripBooking(),
             'DELETE' => $this->destroy(),
             default => []
         };
@@ -39,6 +40,15 @@ class BookingRequest extends FormRequest
             'total_price' => 'required|numeric',
             'total_guests' => 'required|numeric',
             'booking_notes' => 'required|string',
+        ];
+    }
+
+    public function createTripBooking()
+    {
+        return [
+            'trip_id'        => 'required|integer|exists:trips,id',
+            'total_guests'   => 'required|numeric',
+            'customer_notes' => 'nullable|string',
         ];
     }
 

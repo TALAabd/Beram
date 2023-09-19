@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Booking\Models\Booking;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
@@ -52,6 +53,11 @@ class Trip extends Model implements HasMedia
     {
         return $this->belongsToMany(Feature::class, 'trip_features', 'trip_id', 'feature_id')
             ->withPivot('id');
+    }
+    
+    public function bookings()
+    {
+        return $this->morphMany(Booking::class, 'bookable');
     }
 
     public function getMediaUrlsAttribute()

@@ -2,6 +2,7 @@
 
 namespace Modules\Booking\Models;
 
+use App\Models\Trip;
 use Modules\Authentication\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -75,6 +76,11 @@ class Booking extends Model
     public function roomBookings()
     {
         return $this->hasMany(HotelRoomsBooking::class);
+    }
+
+    public function trip()
+    {
+        return $this->hasMany(Trip::class);
     }
 
     public function tableBookings()
