@@ -36,7 +36,7 @@ class HotelRoomsBookingService
 
         // Create booking
         $booking = $this->bookingRepository->create($validatedData);
-
+    
         // Assign booking to hotel
         $hotel->bookings()->save($booking);
         // Create room bookings
@@ -58,7 +58,7 @@ class HotelRoomsBookingService
 
         DB::commit();
 
-        return $booking->roomBookings;
+        return $booking->booking_code;
     }
 
     public function update($validatedData, $hotel_rooms_bookingId)

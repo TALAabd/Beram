@@ -57,6 +57,7 @@ class BookingRequest extends FormRequest
         return [
             'booking_code' => 'required',
             'last_name'    => 'required',
+            'first_name'   => 'required',
         ];
     }
 
