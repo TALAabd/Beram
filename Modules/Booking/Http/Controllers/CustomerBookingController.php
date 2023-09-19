@@ -77,9 +77,9 @@ class CustomerBookingController extends Controller
     public function createHotelBooking(HotelRoomsBookingRequest $request)
     {
         $validatedData = $request->validated();
-        $this->hotelRoomsBookingService->create($validatedData);
+        $data = $this->hotelRoomsBookingService->create($validatedData);
         return $this->successResponse(
-            null,
+            $data,
             'bookingSuccessfully'
         );
     }
