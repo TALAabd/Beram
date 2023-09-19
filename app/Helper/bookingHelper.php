@@ -15,7 +15,8 @@ class bookingHelper
 
     public static function generateBookingCode(): int
     {
-        $booking_id = 100000 + Booking::all()->count() + 1;
+        $booking_id = 10000000 + Booking::all()->count() + 1;
+
         if (Booking::find($booking_id)) {
             $booking_id = Booking::orderBy('id', 'DESC')->first()->id + 1;
         }
