@@ -132,7 +132,7 @@ class HotelsController extends Controller
         $media = $this->hotelService->getAllMedia($id);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 
@@ -140,9 +140,9 @@ class HotelsController extends Controller
     public function addMedia(Request $request, $id)
     {
         DB::beginTransaction();
-        // Check if the request has file(s)
+
         if ($request->file('media') && $request->file('media')->isValid()) {
-            $this->hotelRepository->createMedia($id, $request->file('media'));
+            $this->hotelRepository->createMedia($id, $request->file('media'), $request->type);
         }
         DB::commit();
         return $this->successResponse(
@@ -163,7 +163,7 @@ class HotelsController extends Controller
 
     public function getRooms($hotelId)
     {
-       
+
         $rooms = $this->hotelService->getRooms($hotelId);
         return $this->successResponse(
             $this->resource($rooms, RoomResource::class),
@@ -200,6 +200,4 @@ class HotelsController extends Controller
             'dataUpdatedSuccessfully'
         );
     }
-
-
 }

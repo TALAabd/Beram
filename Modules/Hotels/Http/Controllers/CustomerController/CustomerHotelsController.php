@@ -16,7 +16,7 @@ use Modules\Hotels\Http\Services\RoomService;
 
 class CustomerHotelsController extends Controller
 {
-    public function __construct(private HotelService $hotelService ,private RoomService $roomService)
+    public function __construct(private HotelService $hotelService, private RoomService $roomService)
     {
     }
 
@@ -62,7 +62,7 @@ class CustomerHotelsController extends Controller
         $media = $this->hotelService->getAllMedia($hotelId);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 
@@ -71,7 +71,7 @@ class CustomerHotelsController extends Controller
         $media = $this->roomService->getAllMedia($roomId);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 

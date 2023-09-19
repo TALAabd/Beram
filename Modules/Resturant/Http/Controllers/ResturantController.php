@@ -105,7 +105,7 @@ class ResturantController extends Controller
         $media = $this->resturantService->getAllMedia($id);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 

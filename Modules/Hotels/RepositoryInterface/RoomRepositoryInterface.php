@@ -12,7 +12,7 @@ interface RoomRepositoryInterface
     public function update(Room $room, $attributes);
     public function find($roomId);
     public function delete($roomId);
-    public function createMedia(Room $room,$mediaFile);
+    public function createMedia(Room $room, $mediaFile, $type);
     public function getAllMedia($id);
     public function deleteMediaForId($roomId,$mediaId);
     public function updateTermsByRoom(Room $room,$termIds);

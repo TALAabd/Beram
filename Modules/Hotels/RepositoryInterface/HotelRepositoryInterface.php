@@ -11,7 +11,7 @@ interface HotelRepositoryInterface
     public function update(Hotel $hotel, $attributes);
     public function find($hotelId);
     public function delete($hotelId);
-    public function createMedia(Hotel $hotel,$mediaFile);
+    public function createMedia(Hotel $hotel,$mediaFile, $type);
     public function allFeatured();
     public function allTopRated();
     public function recentlyHotels();

@@ -75,7 +75,7 @@ class RoomService
     {
         DB::beginTransaction();
         if ($request->file('media')->isValid()) {
-            $this->roomRepository->createMedia($roomId, $request->file('media'));
+            $this->roomRepository->createMedia($roomId, $request->file('media'), $request->type);
         }
         DB::commit();
         return true;

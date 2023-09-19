@@ -8,6 +8,7 @@ use App\Models\Trip;
 use App\Models\TripFeature;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\TripRepository;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TripService
 {
@@ -144,7 +145,7 @@ class TripService
             $cityTrip = CityTrip::where('trip_id', $trip->id)->where('city_id', $city['city_id'])->first();
             if ($cityTrip){
                 $cityTrip->setTranslation('dis', $validatedData['lang'], $city['value']);
-                $cityTrip->save(); 
+                $cityTrip->save();
             }
         }
         DB::commit();
@@ -162,6 +163,40 @@ class TripService
 
         DB::commit();
 
+        return true;
+    }
+
+    public function createMedia($hotelId, $mediaFile, $type = 'media')
+    {
+        $hotel = $this->find($hotelId);
+        if ($type == 'main') {
+            $hotel->clearMediaCollection('trip');
+            $hotel->addMedia($mediaFile)->toMediaCollection('trip');
+        } elseif ($type == 'media') {
+            $hotel->addMedia($mediaFile)->toMediaCollection('trips-media');
+        }
+    }
+
+    public function getAllMedia($id)
+    {
+        $hotel = $this->find($id);
+        $media = $hotel->getMedia('trips-media');
+        $thumbnails = $media->map(function ($item) {
+            return [
+                'id'  => $item->id,
+                'url' => $item->getFullUrl()
+            ];
+        });
+        return $thumbnails;
+    }
+
+
+    public function deleteMediaForId($hotelId, $mediaId)
+    {
+        $hotel = $this->find($hotelId);
+        $media = Media::where('id', $mediaId)->first();
+        $mediaItem = $hotel->getMedia($media->collection_name)->firstWhere('id', $mediaId);
+        $mediaItem->delete();
         return true;
     }
 }

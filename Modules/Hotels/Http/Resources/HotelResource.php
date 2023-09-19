@@ -71,6 +71,13 @@ class HotelResource extends JsonResource
 
     public function allData($request)
     {
+        $media = $this->getMedia('hotels-media');
+        $sub_media_urls = $media->map(function ($item) {
+            return [
+                'url' => $item->getFullUrl()
+            ];
+        });
+
         $locale = app()->getLocale();
         $currencyDetails = $this->currencyConvert($request->currencySymbol);
         $data = [];
@@ -102,6 +109,7 @@ class HotelResource extends JsonResource
                     'fax'                   => $hotel->fax,
                     'phone'                 => $hotel->phone,
                     'media_urls'            => $hotel->media_urls,
+                    'sub_media_urls'        => $sub_media_urls,
                     'likes'                 => $hotel->likes->count(),
                     'numberOfReviews'       => $hotel->numberOfReviews(),
                     'numberOfRatings'       => $hotel->numberOfRatings()
@@ -134,6 +142,7 @@ class HotelResource extends JsonResource
                 'fax'                 => $this->fax,
                 'phone'               => $this->phone,
                 'media_urls'          => $this->media_urls,
+                'sub_media_urls'        => $sub_media_urls,
                 'provider_id'         => (int)$this->user_id,
                 'likes'               => $this->likes->count(),
                 'numberOfReviews'     => $this->numberOfReviews(),

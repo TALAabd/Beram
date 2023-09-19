@@ -84,7 +84,7 @@ class MenuController extends Controller
         $media = $this->menuService->getAllMedia($menuId);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 

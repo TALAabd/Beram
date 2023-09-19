@@ -76,7 +76,7 @@ class TableController extends Controller
         $media = $this->tableService->getAllMedia($tableId);
         return $this->successResponse(
             $media,
-            'MediaFetchedSuccessfully'
+            'mediaFetchedSuccessfully'
         );
     }
 

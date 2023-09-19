@@ -28,6 +28,14 @@ class HotelAttributeTermsResource extends JsonResource
                 ];
             }
         }
+
+        $media = $this->getMedia('hotels-media');
+        $sub_media_urls = $media->map(function ($item) {
+            return [
+                'url' => $item->getFullUrl()
+            ];
+        });
+
         $locale = app()->getLocale();
         return [
             'lang'                 => $locale,
@@ -46,6 +54,7 @@ class HotelAttributeTermsResource extends JsonResource
             'check_out_time'       => $this->check_out_time,
             'web'                  => $this->web,
             'media_urls'           => $this->media_urls,
+            'sub_media_urls'       => $sub_media_urls,
             'numberOfReviews'      => $this->numberOfReviews(),
             'numberOfRatings'      => $this->numberOfRatings(),
             'attributes_and_terms' =>  $data,
