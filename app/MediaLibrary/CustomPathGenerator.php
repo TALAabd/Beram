@@ -33,43 +33,43 @@ class CustomPathGenerator implements PathGenerator
     {
         switch ($media->model_type) {
             case Hotel::class:
-                return Hotel::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Hotel::PATH . '/' . $media->id . '/';
                 break;
             case User::class:
-                return User::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return User::PATH . '/' . $media->id . '/';
                 break;
             case Room::class:
-                return Room::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Room::PATH . '/' . $media->id . '/';
                 break;
             case Resturant::class:
-                return Resturant::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Resturant::PATH . '/' . $media->id . '/';
                 break;
             case Table::class:
-                return Table::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Table::PATH . '/' . $media->id . '/';
                 break;
             case Menu::class:
-                return Menu::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Menu::PATH . '/' . $media->id . '/';
                 break;
             case Meal::class:
-                return Meal::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Meal::PATH . '/' . $media->id . '/';
                 break;
             case City::class:
-                return City::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return City::PATH . '/' . $media->id . '/';
                 break;
             case Banner::class:
-                return Banner::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Banner::PATH . '/' . $media->id . '/';
                 break;
             case Story::class:
-                return Story::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return Story::PATH . '/' . $media->id . '/';
                 break;
             case StoryItem::class:
-                return StoryItem::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return StoryItem::PATH . '/' . $media->id . '/';
                 break;
             case BusinessSetting::class:
-                return BusinessSetting::PATH . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+                return BusinessSetting::PATH . '/' . $media->id . '/';
                 break;
             default:
-                return $media->id . DIRECTORY_SEPARATOR;
+                return $media->id . '/';
         }
     }
 

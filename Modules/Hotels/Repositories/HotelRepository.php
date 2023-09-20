@@ -123,7 +123,8 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function getAllRoomsByhotel(Hotel $hotel)
     {
-        return $hotel->rooms()->filter(request()->filter)->get();
+        return $hotel->rooms()->filter(request()->filter);
+        // return $hotel->rooms()->filter(request()->filter)->get();
         // return $hotel->rooms;
     }
 

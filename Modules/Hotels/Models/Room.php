@@ -88,54 +88,65 @@ class Room extends Model implements HasMedia
         if (Auth::guard('customer')->check()) {
             $user = Customer::where('id', Auth::guard('customer')->user()->id)->first();
             if ($user->nationality == 'Syrian') {
-                $query->when(isset($filter['min_price']) && isset($filter['max_price']), function ($query) use ($filter) {
-                    $query->whereBetween('syrian_price', [$filter['min_price'], $filter['max_price']]);
-                });
+                $query->when(
+                    isset($filter['min_price']) && isset($filter['max_price']) &&
+                        $filter['min_price'] != null && $filter['max_price'] != null,
+                    function ($query) use ($filter) {
+                        $query->whereBetween('syrian_price', [$filter['min_price'], $filter['max_price']]);
+                    }
+                );
             } else {
-                $query->when(isset($filter['min_price']) && isset($filter['max_price']), function ($query) use ($filter) {
-                    $query->whereBetween('foreign_price', [$filter['min_price'], $filter['max_price']]);
-                });
+                $query->when(
+                    isset($filter['min_price']) && isset($filter['max_price']) &&
+                        $filter['min_price'] != null && $filter['max_price'] != null,
+                    function ($query) use ($filter) {
+                        $query->whereBetween('foreign_price', [$filter['min_price'], $filter['max_price']]);
+                    }
+                );
             }
         }
-        $query->when(isset($filter['adults']), function ($query) use ($filter) {
-            $query->where('adults', '>=', $filter['adults']);
+        $query->when(isset($filter['adults']) && $filter['adults'] != null, function ($query) use ($filter) {
+            $query->where('adults', '=', $filter['adults']);
         });
-        $query->when(isset($filter['children']), function ($query) use ($filter) {
-            $query->where('children', '>=', $filter['children']);
+        $query->when(isset($filter['children']) && $filter['children'] != null, function ($query) use ($filter) {
+            $query->where('children', '=', $filter['children']);
         });
-        $query->when(isset($filter['beds']), function ($query) use ($filter) {
-            $query->where('beds', '>=', $filter['beds']);
+        $query->when(isset($filter['beds']) && $filter['beds'] != null, function ($query) use ($filter) {
+            $query->where('beds', '=', $filter['beds']);
         });
-        $query->when(isset($filter['baths']), function ($query) use ($filter) {
-            $query->where('baths', '>=', $filter['baths']);
+        $query->when((isset($filter['baths']) && $filter['baths'] != null), function ($query) use ($filter) {
+            $query->where('baths', '=', $filter['baths']);
         });
-        $query->when(request()->city, function ($query) {
-            $city = request()->city;
+        $query->when((isset($filter['city']) && $filter['city'] != null), function ($query) use ($filter) {
+            $city = $filter['city'];
             $query->whereHas('hotel', function ($query) use ($city) {
                 $query->where('location_id', $city);
             });
         });
-        $query->when(isset($filter['checkin_date']) && isset($filter['checkout_date']), function ($query) use ($filter) {
-            $query->whereBetween('', [$filter[''], $filter['']]);
-        });
 
-        $query->withSum(['bookings' => function ($query) use ($filter) {
-            $query->where('start_date', '<=', $filter['checkout_date'])
-                ->where('end_date', '>=', $filter['checkin_date'])
-                ->whereHas('booking', function ($query) {
-                    $query->where('status', 'Confirmed');
+        if (
+            isset($filter['checkin_date']) && isset($filter['checkout_date']) &&
+            $filter['checkin_date'] != null && $filter['checkout_date'] != null
+        ) {
+            $query->withSum(['bookings' => function ($query) use ($filter) {
+                $query->whereHas('booking', function ($query)  use ($filter) {
+                    $query
+                        ->whereBetween('check_in_date',    [$filter['checkin_date'], $filter['checkout_date']])
+                        ->orWhereBetween('check_out_date', [$filter['checkin_date'], $filter['checkout_date']])
+                        ->where('status', 'Confirmed');
                 });
-        }], 'rooms_count');
+            }], 'rooms_count');
 
-        // dd($query);
-        $ids = [];
-        foreach ($query as $q) {
-            if ($q->bookings_sum_rooms_count < $q->number) {
-                $ids[] = $q->id;
-            };
+            $test = $query->get();
+            $ids = [];
+            foreach ($test as $q) {
+                if ($q->bookings_sum_rooms_count < $q->number || $q->bookings_sum_rooms_count == null) {
+                    $ids[] = $q->id;
+                };
+            }
+            $query->whereIn('id', $ids);
         }
-        // dd($ids);
-        $query->whereIn('id', $ids);
-        return $query;
+
+        return $query->get();
     }
 }

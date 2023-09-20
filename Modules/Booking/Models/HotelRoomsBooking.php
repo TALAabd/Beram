@@ -10,7 +10,7 @@ class HotelRoomsBooking extends Model
 {
     use HasFactory;
 
-    protected $table         = 'hotel_rooms_bookings';
+    protected $table = 'hotel_rooms_bookings';
 
     protected $fillable = [
         'id',
@@ -51,5 +51,4 @@ class HotelRoomsBooking extends Model
     {
         return $this->belongsTo(Room::class);
     }
-
 }

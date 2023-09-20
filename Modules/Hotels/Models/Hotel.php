@@ -31,7 +31,7 @@ class Hotel extends Model implements HasMedia
 
     protected $table         = 'hotels';
     protected $slugField     = 'slug';
-    protected $slugFromField = 'title';
+    protected $slugFromField = 'name';
     protected $seo_type      = 'hotel';
     public    $type          = 'hotel';
     const PATH = 'hotels';
@@ -117,21 +117,28 @@ class Hotel extends Model implements HasMedia
                 $query->whereBetween('min_price', [$filter['min_price'], $filter['max_price']])
                     ->orWhereBetween('max_price', [$filter['min_price'], $filter['max_price']]);
             });
-        }//name
+        } //name
         if (isset($filter['name']))
             $query->where('name', 'like', '%' . $filter['name'] . '%');
         //rate
         if (isset($filter['star_rate']))
             $query->where('star_rate', $filter['star_rate']);
-        if (isset($filter['location_id']))//city
+        if (isset($filter['location_id'])) //city
             $query->where('location_id', $filter['location_id']);
 
         if (isset($filter['star_rate']))
             $query->where('star_rate', $filter['star_rate']);
-        if (isset($filter['top_rated'])&& $filter['top_rated']==1)
+        if (isset($filter['top_rated']) && $filter['top_rated'] == 1)
             $query->where('star_rate', 5);
         if (isset($filter['location_id']))
             $query->where('location_id', $filter['location_id']);
+
+        if (isset($filter['terms']) && count($filter['terms']) != 0) {
+            $terms = $filter['terms'];
+            $query->whereHas('terms', function ($query) use ($terms) {
+                $query->whereIn('hotel_term.core_term_id', $terms);
+            });
+        }
 
         if (!isset($user)) return $query;
         if ($user->role == "administrator") {

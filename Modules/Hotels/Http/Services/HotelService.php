@@ -78,7 +78,8 @@ class HotelService
     {
         DB::beginTransaction();
         if ($request->id == null) {
-            $rooms = Room::filter($request)->get();
+            // $rooms = Room::filter($request)->get();
+            $rooms = Room::filter($request);
         } else {
             $hotel = $this->hotelRepository->find($request->id);
             $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel);

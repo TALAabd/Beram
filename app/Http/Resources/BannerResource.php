@@ -21,10 +21,15 @@ class BannerResource extends JsonResource
     }
     public function getAppHomePage()
     {
+        $media_urls =  $this->getMedia($this->banner_type)->map(function ($media) {
+            return $media->getFullUrl();
+        });
+
         $locale = app()->getLocale();
         return [
             'id'          => $this->id,
             'url_link'    => $this->url_link,
+            'media_urls'  => $media_urls[0] ? $media_urls[0] : null,
         ];
     }
     public function allData()
