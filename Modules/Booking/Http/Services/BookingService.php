@@ -43,11 +43,11 @@ class BookingService
         return $this->bookingRepository->getAllByUserStatus($status);
     }
 
-    public function getAllByCustomer()
+    public function getAllByCustomer($type)
     {
-
-        return $this->bookingRepository->getAllByCustomer();
+        return $this->bookingRepository->getAllByCustomer($type);
     }
+
 
 
     public function getBookingDetails($bookingId)

@@ -20,9 +20,11 @@ class BookingResource extends JsonResource
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
             'getAllByCustomer' => $this->getAllByCustomer($request),
+            'getAllTripsByCustomer' => $this->getAllTripsByCustomer($request),
             default            => $this->allData($request),
         };
     }
+
     public function getAllByCustomer($request)
     {
 
@@ -42,9 +44,30 @@ class BookingResource extends JsonResource
             'room_id'         => $this->roomBookings[0]->room->id,
             'room_name'       => $this->roomBookings[0]->room->title,
             'status'          => $this->status,
-            
+
         ];
     }
+
+    public function getAllTripsByCustomer($request)
+    {
+
+        return [
+            'id'              => $this->id,
+            'booking_code'    => $this->booking_code,
+            'check_in_date'   => $this->bookable->date,
+            'period'          => $this->bookable->period,
+            'customer_notes'  => $this->customer_notes,
+            'booking_notes'   => $this->booking_notes,
+            'status'          => $this->status,
+            'total_price'     => $this->total_price,
+            'is_confirmed'    => $this->is_confirmed,
+            'created_at'      => $this->created_at,
+            'trip_id'         => $this->bookable->id,
+            'trip_name'       => $this->bookable->name,
+            'status'          => $this->status,
+        ];
+    }
+
     public function allData($request)
     {
         return [

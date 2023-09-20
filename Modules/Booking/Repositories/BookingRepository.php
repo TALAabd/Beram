@@ -25,15 +25,16 @@ class BookingRepository
         return $customer->bookings()->where('status', $status)->get();
     }
 
-    public function getAllByCustomer()
+    public function getAllByCustomer($type)
     {
         $customer = Auth::guard('customer')->user();
         $customer = Customer::where('email', $customer->email)->orWhere('phone', $customer->phone)->first();
-        $bookings['Pending'] =  $customer->bookings()->where('status', 'Pending')->get();
-        $bookings['Cancelled'] =  $customer->bookings()->where('status', 'Cancelled')->get();
-        $bookings['Confirmed'] =  $customer->bookings()->where('status', 'Confirmed')->get();
+        $bookings['Pending']   =  $customer->bookings()->where('service_type', $type)->where('status', 'Pending')->get();
+        $bookings['Cancelled'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Cancelled')->get();
+        $bookings['Confirmed'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Confirmed')->get();
         return $bookings;
     }
+
 
     public function search($request)
     {
@@ -56,6 +57,7 @@ class BookingRepository
         $validatedData['first_name'] = $customer->first_name;
         $validatedData['last_name'] = $customer->last_name;
         $validatedData['phone'] = $customer->phone;
+        $validatedData['total_price'] = $customer->total_price;
         $booking = new Booking($validatedData);
         $booking->customer_id = Auth::guard('customer')->user()->id;
         $booking->save();
@@ -68,10 +70,11 @@ class BookingRepository
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "trip";
         $validatedData['total_guests'] = $customer->total_guests;
-        $validatedData['email']      = $customer->email;
-        $validatedData['first_name'] = $customer->first_name;
-        $validatedData['last_name']  = $customer->last_name;
-        $validatedData['phone']      = $customer->phone;
+        $validatedData['email']       = $customer->email;
+        $validatedData['first_name']  = $customer->first_name;
+        $validatedData['last_name']   = $customer->last_name;
+        $validatedData['phone']       = $customer->phone;
+        $validatedData['total_price'] = $customer->total_price;
         $booking = new Booking($validatedData);
         $booking->customer_id = Auth::guard('customer')->user()->id;
         $booking->save();

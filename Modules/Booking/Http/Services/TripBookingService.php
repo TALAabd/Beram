@@ -3,6 +3,7 @@
 namespace Modules\Booking\Http\Services;
 
 use App\Models\Trip;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Booking\Repositories\HotelRoomsBookingRepository;
 use Modules\Hotels\Repositories\HotelRepository;
@@ -33,7 +34,7 @@ class TripBookingService
         DB::beginTransaction();
 
         $trip = Trip::find($validatedData['trip_id']);
-
+        $validatedData['total_price'] = $trip->foreign_price * $validatedData['total_guests'];
         // Create booking
         $booking = $this->bookingRepository->tripCreate($validatedData);
 

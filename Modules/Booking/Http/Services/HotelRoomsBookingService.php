@@ -2,10 +2,12 @@
 
 namespace Modules\Booking\Http\Services;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Booking\Repositories\HotelRoomsBookingRepository;
 use Modules\Hotels\Repositories\HotelRepository;
 use Modules\Booking\Repositories\BookingRepository;
+use Modules\Hotels\Models\Room;
 
 class HotelRoomsBookingService
 {
@@ -30,15 +32,18 @@ class HotelRoomsBookingService
     public function create($validatedData)
     {
         DB::beginTransaction();
+        $customer = Auth::guard('customer')->user();
 
         // Find hotel for booking user
         $hotel = $this->hotelRepository->find($validatedData['hotel_id']);
-
+        $room  = Room::where('id',$validatedData['room_id'] )->first();
         // Create booking
+        $validatedData['total_price'] = $customer->nationality == 'Syrian' ? $room->syrian_price : $room->foreign_price;
         $booking = $this->bookingRepository->create($validatedData);
-    
+
         // Assign booking to hotel
         $hotel->bookings()->save($booking);
+
         // Create room bookings
         $roomBookings = [];
         $roomData = [

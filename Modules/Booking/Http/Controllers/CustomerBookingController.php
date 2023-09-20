@@ -6,6 +6,8 @@ use Modules\Booking\Http\Resources\BookingResource;
 use Modules\Booking\Http\Resources\HotelRoomsBookingResource;
 use Modules\Booking\Http\Services\BookingService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Modules\Booking\Http\Requests\BookingRequest;
 use Modules\Booking\Http\Requests\HotelRoomsBookingRequest;
 use Modules\Booking\Http\Services\HotelRoomsBookingService;
@@ -39,9 +41,26 @@ class CustomerBookingController extends Controller
             'dataFetchedSuccessfully'
         );
     }
-    public function getAllByCustomer()
+
+    public function getAllByCustomer(Request $request)
     {
-        $bookings = $this->bookingService->getAllByCustomer();
+        App::setlocale($request->lang);
+        $type = 'hotel';
+        $bookings = $this->bookingService->getAllByCustomer($type);
+        $bookings['Pending']   = $this->resource($bookings['Pending'], BookingResource::class);
+        $bookings['Confirmed'] = $this->resource($bookings['Confirmed'], BookingResource::class);
+        $bookings['Cancelled'] = $this->resource($bookings['Cancelled'], BookingResource::class);
+        return $this->successResponse(
+            $bookings,
+            'dataFetchedSuccessfully'
+        );
+    }
+
+    public function getAllTripsByCustomer(Request $request)
+    {
+        App::setlocale($request->lang);
+        $type = 'trip';
+        $bookings = $this->bookingService->getAllByCustomer($type);
         $bookings['Pending']   = $this->resource($bookings['Pending'], BookingResource::class);
         $bookings['Confirmed'] = $this->resource($bookings['Confirmed'], BookingResource::class);
         $bookings['Cancelled'] = $this->resource($bookings['Cancelled'], BookingResource::class);
