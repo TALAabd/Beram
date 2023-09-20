@@ -115,21 +115,19 @@ class Room extends Model implements HasMedia
                 $query->where('location_id', $city);
             });
         });
-        $query->when(isset($filter['checkin_date']) && isset($filter['checkout_date']), function ($query) use ($filter) {
-            $query->whereBetween('', [$filter[''], $filter['']]);
-        });
+    
 
         $query->withSum(['bookings' => function ($query) use ($filter) {
-            $query->where('start_date', '<=', $filter['checkout_date'])
-                ->where('end_date', '>=', $filter['checkin_date'])
+            $query->where('start_date','<=', $filter['checkout_date'])
+                ->where('end_date','>=', $filter['checkin_date'])
                 ->whereHas('booking', function ($query) {
                     $query->where('status', 'Confirmed');
                 });
         }], 'rooms_count');
 
-        // dd($query);
         $ids = [];
         foreach ($query as $q) {
+            dd($q->number);
             if ($q->bookings_sum_rooms_count < $q->number) {
                 $ids[] = $q->id;
             };
