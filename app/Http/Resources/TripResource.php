@@ -153,9 +153,7 @@ class TripResource extends JsonResource
 
         $media = $this->getMedia('trips-media');
         $sub_media_urls = $media->map(function ($item) {
-            return [
-                'url' => $item->getFullUrl()
-            ];
+            return $item->getFullUrl();
         });
 
         return [

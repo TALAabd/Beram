@@ -60,6 +60,7 @@ Route::group(['prefix' => 'v1'], function () {
         ############################################
         Route::group(['prefix' => 'bookings',], function () {
             Route::get('/', [CustomerBookingController::class, 'getAllByCustomer']);
+            Route::get('/trips', [CustomerBookingController::class, 'getAllTripsByCustomer']);
             Route::get('/{status}', [CustomerBookingController::class, 'getAllByCustomerStatus']);
 
             Route::prefix('{booking}')->group(function () {

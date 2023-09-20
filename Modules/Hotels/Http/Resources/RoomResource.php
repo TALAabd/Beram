@@ -22,9 +22,7 @@ class RoomResource extends JsonResource
         {
             $media = $this->getMedia('rooms-media');
             $sub_media_urls = $media->map(function ($item) {
-                return [
-                    'url' => $item->getFullUrl()
-                ];
+                return $item->getFullUrl();
             });
             $user = Customer::where('id',Auth::guard('customer')->user()->id)->first();
             $price=null;
