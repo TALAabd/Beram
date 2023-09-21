@@ -77,13 +77,15 @@ class HotelService
     public function getRoomsByhotel($request)
     {
         DB::beginTransaction();
-        if ($request->id == null) {
+        // if ($request->id == null) {
             // $rooms = Room::filter($request)->get();
             $rooms = Room::filter($request);
-        } else {
-            $hotel = $this->hotelRepository->find($request->id);
-            $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel);
-        }
+        // } 
+        // else {
+        //     $hotel = $this->hotelRepository->find($request->id);
+        //     $rooms$hotel->rooms()->filter(request()->filter);
+        //     $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel,$request);
+        // }
         DB::commit();
         return $rooms;
     }
@@ -93,10 +95,11 @@ class HotelService
         DB::beginTransaction();
         if ($hotelId == null) {
             $rooms = Room::get();
-        } else {
-            $hotel = $this->hotelRepository->find($hotelId);
-            $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel);
         }
+        //  else {
+        //     $hotel = $this->hotelRepository->find($hotelId);
+        //     $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel, $request);
+        // }
         DB::commit();
         return $rooms;
     }

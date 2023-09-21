@@ -17,11 +17,14 @@ class HotelResource extends JsonResource
      */
     public function toArray($request)
     {
+        if (request()->routeIs('appWishlist')) {
+            return $this->getAppHomePage($request);
+        } 
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
             'getAppHomePageData' => $this->getAppHomePage($request),
-            'getAllHotels'      => $this->getAppHomePage($request),
-            default             => $this->allData($request),
+            'getAllHotels'       => $this->getAppHomePage($request),
+            default              => $this->allData($request),
         };
     }
 

@@ -20,6 +20,14 @@ class WishlistController extends Controller
             'dataFetchedSuccessfully'
         );
     }
+    public function appWishlist()
+    {
+        $hotels = $this->wishListService->getAll();
+        return $this->successResponse(
+            $this->resource($hotels, HotelResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
 
     public function favorite()
     {
@@ -29,6 +37,15 @@ class WishlistController extends Controller
             'dataFetchedSuccessfully'
         );
     }
+    public function appFavorite()
+    {
+        $trips = $this->wishListService->get();
+        return $this->successResponse(
+            $this->resource($trips, TripResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
+
 
     public function favoriteAdd($hotelId)
     {

@@ -8,6 +8,7 @@ use Modules\Hotels\RepositoryInterface\HotelRepositoryInterface;
 use Modules\Hotels\Models\Hotel;
 use Illuminate\Support\Str;
 use App\Traits\ModelHelper;
+use Illuminate\Http\Request;
 use Modules\Authentication\Models\User;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -121,11 +122,11 @@ class HotelRepository implements HotelRepositoryInterface
     }
 
 
-    public function getAllRoomsByhotel(Hotel $hotel)
+    public function getAllRoomsByhotel(Hotel $hotel, Request $request)
     {
+        // dd($request->filter);
         return $hotel->rooms()->filter(request()->filter);
-        // return $hotel->rooms()->filter(request()->filter)->get();
-        // return $hotel->rooms;
+
 
     }
 

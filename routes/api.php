@@ -163,12 +163,14 @@ Route::group(['prefix' => 'v1'], function () {
 
             Route::group(['prefix' => 'hotel'], function () {
                 Route::get('/get', [WishlistController::class, 'wishlist']);
+                Route::get('/get-app', [WishlistController::class, 'appWishlist'])->name('appWishlist');
                 Route::delete('/{hotel}/remove', [WishlistController::class, 'favoriteRemove']);
                 Route::post('/{hotel}/add', [WishlistController::class, 'favoriteAdd']);
             });
 
             Route::group(['prefix' => 'trip'], function () {
                 Route::get('/get', [WishlistController::class, 'favorite']);
+                Route::get('/get-app', [WishlistController::class, 'appFavorite']);
                 Route::delete('/{trip}/remove', [WishlistController::class, 'RemoveTripFavorite']);
                 Route::post('/{trip}/add', [WishlistController::class, 'AddTripFavorite']);
             });

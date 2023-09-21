@@ -25,6 +25,8 @@ class TripResource extends JsonResource
             return $this->getDataForApp($request);
         } elseif (request()->routeIs('trip.show.customer')) {
             return $this->allDataForApp($request);
+        }elseif (request()->routeIs('appFavorite')) {
+            return $this->getAppHomePage($request);
         }
 
         $actionMethod = $request->route()->getActionMethod();
