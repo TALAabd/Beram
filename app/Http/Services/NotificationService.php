@@ -76,7 +76,7 @@ class NotificationService
             'description'   =>  __('messages.' . "SorryYouCannotChangeTheBookingStatus"),
             'booking_code'  =>  $booking->booking_code,
             'from_type'     => 'customer',
-            'to_id'   => $customer->id,
+            'to_id'         => $customer->id,
             'image'         =>  '',
             'payload'       =>  '',
         ];

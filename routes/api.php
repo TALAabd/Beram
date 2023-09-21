@@ -233,8 +233,9 @@ Route::group(['prefix' => 'v1'], function () {
         });
 
         Route::group(['prefix' => 'trip'], function () {
-            Route::get('/', [TripController::class, 'getAll'])->name('trip.index.customer');;
-            Route::get('/{trip}', [TripController::class, 'find'])->name('trip.show.customer');;
+            Route::get('/', [TripController::class, 'getAll'])->name('trip.index.customer');
+            Route::get('/{trip}', [TripController::class, 'find'])->name('trip.show.customer');
+            Route::get('/top/get', [TripController::class, 'topTrip']);
         });
 
         Route::group(['prefix' => 'stories'], function () {
