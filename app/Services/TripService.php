@@ -22,7 +22,11 @@ class TripService
         $per_page = 5;
 
         return $trips = (isset($page)) ? Trip::query()->filters()->simplePaginate($per_page) :  Trip::query()->filters()->orderBy('id','Desc')->get();
+    }
 
+    public function topTrip()
+    {
+        return Trip::take(6)->orderBy('id','Desc')->get();
     }
 
     public function recentlyTrips()

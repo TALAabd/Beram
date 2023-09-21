@@ -17,6 +17,7 @@ class CreateBannerTable extends Migration
             $table->id();
             $table->enum('banner_type',['section_1','section_2','section_3','website']);
             $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->text('url_link')->nullable();
             $table->enum('service',['hotel','restaurant'])->nullable();
             $table->bigInteger('provider_id')->nullable();

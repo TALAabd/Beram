@@ -17,7 +17,7 @@ class BannerResource extends JsonResource
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
             'getAppHomePageData' => $this->getAppHomePage(),
-            default => $this->allData(),
+            default              => $this->allData(),
         };
     }
     public function getAppHomePage()
@@ -32,6 +32,8 @@ class BannerResource extends JsonResource
                 'id'          => $this->id,
                 'url_link'    => $this->url_link,
                 'media_urls'  => array_slice($media_urls, 0, 3),
+                'description' => $this->description ?? '',
+              
             ];
         } else {
             $media_urls =  $this->getMedia($this->banner_type)->map(function ($media) {
@@ -44,6 +46,7 @@ class BannerResource extends JsonResource
                 'media_urls'  => $media_urls[0],
             ];
         }
+
     }
     public function allData()
     {
