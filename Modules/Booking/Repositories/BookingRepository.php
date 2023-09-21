@@ -14,7 +14,7 @@ class BookingRepository
 
     public function getAll($status)
     {
-        $bookings = Booking::bookings()->where('service_type', 'hotel')->where('status', $status)->get();
+        $bookings = Booking::bookings()->where('service_type', 'hotel')->orderBy('id','Desc')->where('status', $status)->get();
         return $bookings;
     }
 
@@ -32,6 +32,7 @@ class BookingRepository
         $bookings =  $customer->bookings()->where('service_type', $type)->where('status', $status)->orderBy('id', 'desc')->get();
         // $bookings['Cancelled'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Cancelled')->get();
         // $bookings['Confirmed'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Confirmed')->get();
+
         return $bookings;
     }
 

@@ -28,19 +28,30 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::group(['prefix' => 'admin/cities'], function () {
-             Route::get('/', [CityController::class, 'getAll'])->name('cities.index');
+        Route::get('/', [CityController::class, 'getAll'])->name('cities.index');
     });
-
+    Route::group([
+        'prefix' => 'admin/abouts','controller' => AboutController::class, ], function () {
+        Route::get('/', 'getAll');
+    });
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 
-       //Routes BY Currencies
+        //Routes BY Currencies
         Route::group(['prefix' => 'currencies'], function () {
             Route::get('/', [CurrencyController::class, 'getAll'])->name('currencies.index');
             Route::post('/', [CurrencyController::class, 'create'])->name('currencies.store');
             Route::get('/{currency}', [CurrencyController::class, 'find'])->name('currencies.show');
             Route::put('/{currency}', [CurrencyController::class, 'update'])->name('currencies.update');
             Route::delete('/{currency}', [CurrencyController::class, 'delete'])->name('currencies.destroy');
+        });
 
+        Route::group([
+            'prefix' => '/abouts','controller' => AboutController::class, ], function () {
+            // Route::get('/', 'getAll');
+            Route::get('/{id}', 'find');
+            Route::post('/', 'create');
+            Route::post('/{id}', 'update');
+            Route::delete('/{id}', 'delete');
         });
 
         Route::group(['prefix' => 'feature'], function () {
@@ -49,7 +60,6 @@ Route::group(['prefix' => 'v1'], function () {
             Route::get('/{currency}', [FeatureController::class, 'find']);
             Route::post('/{currency}', [FeatureController::class, 'update']);
             Route::delete('/{currency}', [FeatureController::class, 'delete']);
-
         });
         Route::group(['prefix' => 'trip'], function () {
             Route::get('/', [TripController::class, 'getAll'])->name('trip.index.admin');
@@ -62,7 +72,6 @@ Route::group(['prefix' => 'v1'], function () {
                 Route::post('media', [TripController::class, 'addMedia'])->name('trip.addMedia');
                 Route::delete('media/{mediaId}', [TripController::class, 'deleteMedia'])->name('trip.deleteMedia');
             });
-
         });
 
         //Routes BY Attributes
@@ -158,6 +167,12 @@ Route::group(['prefix' => 'v1'], function () {
                 Route::post('/{hotel}/add', [WishlistController::class, 'favoriteAdd']);
             });
 
+            Route::group(['prefix' => 'trip'], function () {
+                Route::get('/get', [WishlistController::class, 'favorite']);
+                Route::delete('/{trip}/remove', [WishlistController::class, 'RemoveTripFavorite']);
+                Route::post('/{trip}/add', [WishlistController::class, 'AddTripFavorite']);
+            });
+            
             Route::group(['prefix' => 'restaurant'], function () {
                 //
             });

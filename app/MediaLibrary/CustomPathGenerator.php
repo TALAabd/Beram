@@ -2,6 +2,7 @@
 
 namespace App\MediaLibrary;
 
+use App\Models\About;
 use App\Models\Banner;
 use App\Models\BusinessSetting;
 use Modules\Authentication\Models\User;
@@ -13,6 +14,7 @@ use Modules\Resturant\Models\Menu;
 use App\Models\City;
 use App\Models\Story;
 use App\Models\StoryItem;
+use App\Models\Trip;
 use Modules\Resturant\Models\Meal;
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -67,6 +69,12 @@ class CustomPathGenerator implements PathGenerator
                 break;
             case BusinessSetting::class:
                 return BusinessSetting::PATH . '/' . $media->id . '/';
+                break;
+            case Trip::class:
+                return Trip::PATH . '/' . $media->id . '/';
+                break;
+            case About::class:
+                return About::PATH . '/' . $media->id . '/';
                 break;
             default:
                 return $media->id . '/';

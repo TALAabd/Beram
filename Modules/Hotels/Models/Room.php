@@ -124,6 +124,7 @@ class Room extends Model implements HasMedia
             });
         });
 
+
         if (
             isset($filter['checkin_date']) && isset($filter['checkout_date']) &&
             $filter['checkin_date'] != null && $filter['checkout_date'] != null
@@ -147,6 +148,6 @@ class Room extends Model implements HasMedia
             $query->whereIn('id', $ids);
         }
 
-        return $query->get();
+        return $query->orderBy('id','Desc')->get();
     }
 }

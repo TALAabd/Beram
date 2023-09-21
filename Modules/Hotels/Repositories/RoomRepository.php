@@ -33,6 +33,7 @@ class RoomRepository implements RoomRepositoryInterface
         $room->foreign_price = $attributes['foreign_price'];
         $room->syrian_price = $attributes['syrian_price'];
         $room->number = $attributes['number'];
+        $room->baths = $attributes['baths'];
         $room->beds = $attributes['beds'];
         $room->size = $attributes['size'];
         $room->adults = $attributes['adults'];

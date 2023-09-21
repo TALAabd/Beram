@@ -2,6 +2,7 @@
 
 namespace Modules\Authentication\Models;
 
+use App\Models\Trip;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -112,6 +113,10 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function hotels()
     {
         return $this->hasMany(Hotel::class);
+    }
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
     }
 
     public function resturants()
