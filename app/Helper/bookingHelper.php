@@ -10,7 +10,7 @@ class bookingHelper
 
     public function __construct(string $apiKey)
     {
-        $this->apiKey = 'AAAAD__YhWU:APA91bFZ7iokain0nxw-mRlsz0zBz-9q_1JdrX3wHAic74XmdhCIZ5whnTl60kuql2LhoZ7UNj5-qDyDXpG4qP8ek1MzIlWVT8nRmy6SdomovEbf6UxkOe6ZfzpB4qU1JZW3PxCgrgdp';
+        $this->apiKey = 'AAAAFzqaGyo:APA91bGiwtetjyrQ5O4JfXa1-yLuc1GPXdszSo-5FpZ3ht2LPpp9Y7zYernTFddAi2EZPPsCjXJCIVTAeC-_XgR_JXlIwx6v3j-RxUhivHQvyL7FxT5YppNIuqi13tOAp2iViifyJaLA';
     }
 
     public static function generateBookingCode(): int
@@ -53,7 +53,7 @@ class bookingHelper
     public static function sendPushNotificationToDevice(string $fcmToken, array $data): string
     {
         $url = "https://fcm.googleapis.com/fcm/send";
-        $apiKey='AAAAD__YhWU:APA91bFZ7iokain0nxw-mRlsz0zBz-9q_1JdrX3wHAic74XmdhCIZ5whnTl60kuql2LhoZ7UNj5-qDyDXpG4qP8ek1MzIlWVT8nRmy6SdomovEbf6UxkOe6ZfzpB4qU1JZW3PxCgrgdp';
+        $apiKey='AAAAFzqaGyo:APA91bGiwtetjyrQ5O4JfXa1-yLuc1GPXdszSo-5FpZ3ht2LPpp9Y7zYernTFddAi2EZPPsCjXJCIVTAeC-_XgR_JXlIwx6v3j-RxUhivHQvyL7FxT5YppNIuqi13tOAp2iViifyJaLA';
         $header = [
             "authorization: key=" . $apiKey,
             "content-type: application/json",
@@ -73,14 +73,14 @@ class bookingHelper
 
         $response = curl_exec($ch);
         curl_close($ch);
-
+// dd($response);
         return $response;
     }
 
     public static function sendPushNotificationToTopic(string $topic, array $data): string
     {
         $url = "https://fcm.googleapis.com/fcm/send";
-        $apiKey='AAAAD__YhWU:APA91bFZ7iokain0nxw-mRlsz0zBz-9q_1JdrX3wHAic74XmdhCIZ5whnTl60kuql2LhoZ7UNj5-qDyDXpG4qP8ek1MzIlWVT8nRmy6SdomovEbf6UxkOe6ZfzpB4qU1JZW3PxCgrgdp';
+        $apiKey='AAAAFzqaGyo:APA91bGiwtetjyrQ5O4JfXa1-yLuc1GPXdszSo-5FpZ3ht2LPpp9Y7zYernTFddAi2EZPPsCjXJCIVTAeC-_XgR_JXlIwx6v3j-RxUhivHQvyL7FxT5YppNIuqi13tOAp2iViifyJaLA';
         $header = [
             "authorization: key=" . $apiKey,
             "content-type: application/json",

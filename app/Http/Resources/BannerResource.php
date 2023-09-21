@@ -16,7 +16,7 @@ class BannerResource extends JsonResource
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
             'getAppHomePageData' => $this->getAppHomePage(),
-            default => $this->allData(),
+            default              => $this->allData(),
         };
     }
     public function getAppHomePage()
@@ -30,6 +30,7 @@ class BannerResource extends JsonResource
             'id'          => $this->id,
             'url_link'    => $this->url_link,
             'media_urls'  => $media_urls[0] ? $media_urls[0] : null,
+            'description' => $this->description ?? '',
         ];
     }
     public function allData()
