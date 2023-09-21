@@ -34,6 +34,7 @@ class RoomRequest extends FormRequest
             'syrian_price' => ['required', 'numeric'],
             'foreign_price' => ['required', 'numeric'],
             'number' => ['required', 'numeric'],
+            'baths' => ['required', 'numeric'],
             'beds' => ['required', 'numeric'],
             'size' => ['required', 'numeric'],
             'adults' => ['required', 'numeric'],

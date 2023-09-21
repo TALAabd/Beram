@@ -30,7 +30,10 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'admin/cities'], function () {
         Route::get('/', [CityController::class, 'getAll'])->name('cities.index');
     });
-
+    Route::group([
+        'prefix' => 'admin/abouts','controller' => AboutController::class, ], function () {
+        Route::get('/', 'getAll');
+    });
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 
         //Routes BY Currencies
@@ -44,7 +47,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::group([
             'prefix' => '/abouts','controller' => AboutController::class, ], function () {
-            Route::get('/', 'getAll');
+            // Route::get('/', 'getAll');
             Route::get('/{id}', 'find');
             Route::post('/', 'create');
             Route::post('/{id}', 'update');
@@ -164,6 +167,12 @@ Route::group(['prefix' => 'v1'], function () {
                 Route::post('/{hotel}/add', [WishlistController::class, 'favoriteAdd']);
             });
 
+            Route::group(['prefix' => 'trip'], function () {
+                Route::get('/get', [WishlistController::class, 'favorite']);
+                Route::delete('/{trip}/remove', [WishlistController::class, 'RemoveTripFavorite']);
+                Route::post('/{trip}/add', [WishlistController::class, 'AddTripFavorite']);
+            });
+            
             Route::group(['prefix' => 'restaurant'], function () {
                 //
             });

@@ -13,7 +13,7 @@ class UserRepository implements UserRepositoryInterface
     use ModelHelper;
     public function getUsers()
     {
-        return User::with('roles')->where('role','!=','employee')->get();
+        return User::with('roles')->where('role','!=','employee')->orderBy('id','Desc')->get();
     }
 
     public function createUser($attributes)

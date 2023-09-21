@@ -26,6 +26,7 @@ class TripRequest extends FormRequest
         return [
             'lang' => '',
             'name' => '',
+            'provider_id' => '',
             'description' => '',
             'period' => '',
             'starting_city_id' => '',

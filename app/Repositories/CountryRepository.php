@@ -11,7 +11,7 @@ class CountryRepository
 
     public function getAll()
     {
-        return Country::all();
+        return Country::orderBy('id','Desc')->get();
     }
 
     public function find($countryId)
