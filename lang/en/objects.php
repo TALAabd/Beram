@@ -13,5 +13,6 @@ return [
     'table' => 'table',
     'menu_type' => 'menu_type',
     'meal' => 'meal',
-    'image' => 'image'
+    'image' => 'image',
+    'trip' => 'trip'
 ];

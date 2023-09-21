@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Resources;
+
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BannerResource extends JsonResource
@@ -21,16 +22,28 @@ class BannerResource extends JsonResource
     }
     public function getAppHomePage()
     {
-        $media_urls =  $this->getMedia($this->banner_type)->map(function ($media) {
-            return $media->getFullUrl();
-        });
-
         $locale = app()->getLocale();
-        return [
-            'id'          => $this->id,
-            'url_link'    => $this->url_link,
-            'media_urls'  => $media_urls[0] ? $media_urls[0] : null,
-        ];
+        if ($this->banner_type == 'section_2') {
+            $media_urls =  $this->getMedia($this->banner_type)->map(function ($media) {
+                return $media->getFullUrl();
+            })->toArray();
+
+            return [
+                'id'          => $this->id,
+                'url_link'    => $this->url_link,
+                'media_urls'  => array_slice($media_urls, 0, 3),
+            ];
+        } else {
+            $media_urls =  $this->getMedia($this->banner_type)->map(function ($media) {
+                return $media->getFullUrl();
+            });
+
+            return [
+                'id'          => $this->id,
+                'url_link'    => $this->url_link,
+                'media_urls'  => $media_urls[0],
+            ];
+        }
     }
     public function allData()
     {
@@ -46,5 +59,4 @@ class BannerResource extends JsonResource
             'provider_id' => $this->provider_id
         ];
     }
-
 }

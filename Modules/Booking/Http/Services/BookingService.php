@@ -27,9 +27,9 @@ class BookingService
         $this->roomRepository = $roomRepository;
     }
 
-    public function getAll($status)
+    public function getAll($type, $status)
     {
-        return $this->bookingRepository->getAll($status);
+        return $this->bookingRepository->getAll($type, $status);
     }
 
     public function search($request)
