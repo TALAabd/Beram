@@ -110,6 +110,10 @@ class Room extends Model implements HasMedia
             $query->where('adults', '=', $filter['adults']);
         });
 
+        $query->when(isset($filter['id']) && $filter['id'] != null, function ($query) use ($filter) {
+            $query->where('hotel_id', '=', $filter['id']);
+        });
+
         $query->when(isset($filter['children']) && $filter['children'] != null, function ($query) use ($filter) {
             $query->where('children', '=', $filter['children']);
         });

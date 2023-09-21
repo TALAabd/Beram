@@ -1,6 +1,8 @@
 <?php
 
 namespace Modules\Hotels\RepositoryInterface;
+
+use Illuminate\Http\Request;
 use Modules\Hotels\Models\Hotel;
 
 interface HotelRepositoryInterface
@@ -17,7 +19,7 @@ interface HotelRepositoryInterface
     public function recentlyHotels();
     public function getAllMedia($id);
     public function deleteMediaForId($hotelId,$mediaId);
-    public function getAllRoomsByhotel(Hotel $hotel);
+    public function getAllRoomsByhotel(Hotel $hotel, Request $request);
     public function getAllRoomsByhotelAvailability(Hotel $hotel);
     public function updateTermsByhotel(Hotel $hotel,$termIds);
     public function getAttributesTermsByHotelStatus(Hotel $hotel);
