@@ -6,6 +6,7 @@ use Modules\Booking\Http\Requests\BookingRequest;
 use Modules\Booking\Http\Resources\BookingResource;
 use Modules\Booking\Http\Services\BookingService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Modules\Booking\Http\Resources\HotelRoomsBookingResource;
 
 class BookingController extends Controller
@@ -15,18 +16,26 @@ class BookingController extends Controller
         $this->middleware('permission:bookings_manager', ['only' => ['getAll', 'getBookingDetails', 'find', 'update', 'changeStatusBooking']]);
     }
 
-    public function getBookings($status)
+    public function getBookings(Request $request, $status)
     {
-        $bookings = $this->bookingService->getAll($status);
+        $type = 'hotel';
+        if (isset($request->type))
+            $type = $request->type;
+
+        $bookings = $this->bookingService->getAll($type, $status);
         return $this->successResponse(
             $this->resource($bookings, BookingResource::class),
             'dataFetchedSuccessfully'
         );
     }
 
-    public function getAllByCustomer($status)   //get id
+    public function getAllByCustomer(Request $request, $status)   //get id
     {
-        $bookings = $this->bookingService->getAllByCustomer($status);
+        $type = 'hotel';
+        if (isset($request->type))
+            $type = $request->type;
+
+        $bookings = $this->bookingService->getAllByCustomer($type, $status);
         return $this->successResponse(
             $this->resource($bookings, BookingResource::class),
             'dataFetchedSuccessfully'

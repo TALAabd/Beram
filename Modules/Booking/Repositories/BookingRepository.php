@@ -12,9 +12,9 @@ class BookingRepository
 {
     use ModelHelper;
 
-    public function getAll($status)
+    public function getAll($type = 'hotel', $status)
     {
-        $bookings = Booking::bookings()->where('service_type', 'hotel')->orderBy('id','Desc')->where('status', $status)->get();
+        $bookings = Booking::bookings()->where('service_type', $type)->where('status', $status)->orderBy('id','Desc')->get();
         return $bookings;
     }
 
@@ -58,7 +58,6 @@ class BookingRepository
         $validatedData['first_name'] = $customer->first_name;
         $validatedData['last_name'] = $customer->last_name;
         $validatedData['phone'] = $customer->phone;
-        $validatedData['total_price'] = $customer->total_price;
         $booking = new Booking($validatedData);
         $booking->customer_id = Auth::guard('customer')->user()->id;
         $booking->save();
@@ -70,12 +69,10 @@ class BookingRepository
         $customer = Auth::guard('customer')->user();
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "trip";
-        $validatedData['total_guests'] = $customer->total_guests;
         $validatedData['email']       = $customer->email;
         $validatedData['first_name']  = $customer->first_name;
         $validatedData['last_name']   = $customer->last_name;
         $validatedData['phone']       = $customer->phone;
-        $validatedData['total_price'] = $customer->total_price;
         $booking = new Booking($validatedData);
         $booking->customer_id = Auth::guard('customer')->user()->id;
         $booking->save();
