@@ -105,18 +105,23 @@ class Room extends Model implements HasMedia
                 );
             }
         }
+
         $query->when(isset($filter['adults']) && $filter['adults'] != null, function ($query) use ($filter) {
             $query->where('adults', '=', $filter['adults']);
         });
+
         $query->when(isset($filter['children']) && $filter['children'] != null, function ($query) use ($filter) {
             $query->where('children', '=', $filter['children']);
         });
+
         $query->when(isset($filter['beds']) && $filter['beds'] != null, function ($query) use ($filter) {
             $query->where('beds', '=', $filter['beds']);
         });
+
         $query->when((isset($filter['baths']) && $filter['baths'] != null), function ($query) use ($filter) {
             $query->where('baths', '=', $filter['baths']);
         });
+        
         $query->when((isset($filter['city']) && $filter['city'] != null), function ($query) use ($filter) {
             $city = $filter['city'];
             $query->whereHas('hotel', function ($query) use ($city) {
