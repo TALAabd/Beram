@@ -45,13 +45,17 @@ class CustomerBookingController extends Controller
     public function getAllByCustomer(Request $request)
     {
         App::setlocale($request->lang);
-        $type = 'hotel';
-        $bookings = $this->bookingService->getAllByCustomer($type);
-        $bookings['Pending']   = $this->resource($bookings['Pending'], BookingResource::class);
-        $bookings['Confirmed'] = $this->resource($bookings['Confirmed'], BookingResource::class);
-        $bookings['Cancelled'] = $this->resource($bookings['Cancelled'], BookingResource::class);
+        if (!isset($request->type) || $request->type == null)
+            $type = 'hotel';
+        else
+            $type = $request->type;
+
+        $bookings = $this->bookingService->getAllByCustomer($type, $request->status);
+        // $bookings['Pending']   = $this->resource($bookings['Pending'], BookingResource::class);
+        // $bookings['Confirmed'] = $this->resource($bookings['Confirmed'], BookingResource::class);
+        // $bookings['Cancelled'] = $this->resource($bookings['Cancelled'], BookingResource::class);
         return $this->successResponse(
-            $bookings,
+            $this->resource($bookings, BookingResource::class),
             'dataFetchedSuccessfully'
         );
     }
@@ -60,12 +64,12 @@ class CustomerBookingController extends Controller
     {
         App::setlocale($request->lang);
         $type = 'trip';
-        $bookings = $this->bookingService->getAllByCustomer($type);
-        $bookings['Pending']   = $this->resource($bookings['Pending'], BookingResource::class);
-        $bookings['Confirmed'] = $this->resource($bookings['Confirmed'], BookingResource::class);
-        $bookings['Cancelled'] = $this->resource($bookings['Cancelled'], BookingResource::class);
+        $bookings = $this->bookingService->getAllByCustomer($type, $request->status);
+        // $bookings['Pending']   = $this->resource($bookings['Pending'], BookingResource::class);
+        // $bookings['Confirmed'] = $this->resource($bookings['Confirmed'], BookingResource::class);
+        // $bookings['Cancelled'] = $this->resource($bookings['Cancelled'], BookingResource::class);
         return $this->successResponse(
-            $bookings,
+            $this->resource($bookings, BookingResource::class),
             'dataFetchedSuccessfully'
         );
     }

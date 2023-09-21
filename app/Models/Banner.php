@@ -42,7 +42,7 @@ class Banner extends Model implements HasMedia
     ];
 
     protected $hidden = [
-        'deleted_at','updated_at'
+        'deleted_at', 'updated_at'
     ];
 
     protected $appends = ['media_urls'];
@@ -65,5 +65,4 @@ class Banner extends Model implements HasMedia
         }
         return $attributes;
     }
-
 }

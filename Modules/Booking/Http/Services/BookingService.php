@@ -43,9 +43,9 @@ class BookingService
         return $this->bookingRepository->getAllByUserStatus($status);
     }
 
-    public function getAllByCustomer($type)
+    public function getAllByCustomer($type, $status)
     {
-        return $this->bookingRepository->getAllByCustomer($type);
+        return $this->bookingRepository->getAllByCustomer($type, $status);
     }
 
 

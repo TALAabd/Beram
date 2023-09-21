@@ -16,7 +16,8 @@ class RoomRepository implements RoomRepositoryInterface
 
     public function allByHotel(Hotel $hotel)
     {
-        $rooms = $hotel->rooms()->filter(request()->filter)->orderBy('id','Desc')->get();
+        $rooms = $hotel->rooms()->filter(request()->filter);
+        // $rooms = $hotel->rooms()->filter(request()->filter)->get();
         if (isset($rooms))
             return $rooms;
         else
