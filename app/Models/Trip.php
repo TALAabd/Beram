@@ -11,9 +11,15 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Maize\Markable\Markable;
+use Maize\Markable\Models\Bookmark;
+use Maize\Markable\Models\Favorite;
+use Maize\Markable\Models\Like;
+use Modules\Authentication\Models\User;
 
 class Trip extends Model implements HasMedia
 {
+    use Markable;
     use HasFactory;
     use HasTranslations;
     use InteractsWithMedia;
@@ -28,7 +34,7 @@ class Trip extends Model implements HasMedia
     public $translatable = ['name', 'description'];
 
     protected $fillable = [
-        'id',
+        'id','provider_id',
         'description', 'starting_city_id',
         'period', 'date', 'price', 'contact', 'name'
     ];
@@ -37,7 +43,17 @@ class Trip extends Model implements HasMedia
         'deleted_at', 'updated_at'
     ];
 
+    protected static $marks = [
+        Favorite::class,
+        Like::class,
+        Bookmark::class,
+    ];
     // protected $appends = ['iamge'];
+
+    public function provider()
+    {
+        return $this->belongsTo(User::class,'provider_id');
+    }
 
     public function city()
     {

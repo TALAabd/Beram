@@ -104,7 +104,9 @@ class TripResource extends JsonResource
         }
 
         return [
+            // dd($this->provider->first_name),
             'id'          => $this->id,
+            'provider'    => $this->provider ? $this->provider->first_name : null,
             'name'        => $this->name,
             'description' => $this->description,
             'period'      => $this->period,

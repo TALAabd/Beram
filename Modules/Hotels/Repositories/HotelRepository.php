@@ -17,7 +17,7 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function all($page = null, $per_page = 5)
     {
-        $hotels = (isset($page)) ? Hotel::hotels(request()->filter)->simplePaginate($per_page) :  Hotel::hotels(request()->filter)->get();
+        $hotels = (isset($page)) ? Hotel::hotels(request()->filter)->simplePaginate($per_page) :  Hotel::hotels(request()->filter)->orderBy('id','Desc')->get();
         return $hotels;
     }
 
@@ -28,11 +28,11 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function allTopRated()
     {
-        return Hotel::where('star_rate', [4, 5])->get();
+        return Hotel::where('star_rate', [4, 5])->orderBy('id','Desc')->get();
     }
     public function recentlyHotels()
     {
-        return Hotel::orderBy('created_at', 'asc')->get();
+        return Hotel::orderBy('created_at', 'asc')->orderBy('id','Desc')->get();
     }
 
 
@@ -123,8 +123,7 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function getAllRoomsByhotel(Hotel $hotel)
     {
-        return $hotel->rooms()->filter(request()->filter)->get();
-        // return $hotel->rooms;
+        return $hotel->rooms()->filter(request()->filter)->orderBy('id','Desc')->get();
     }
 
 

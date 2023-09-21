@@ -21,13 +21,13 @@ class TripService
         $page = (isset($request->page)) ? $request->page :  null;
         $per_page = 5;
 
-        return $trips = (isset($page)) ? Trip::query()->filters()->simplePaginate($per_page) :  Trip::query()->filters()->get();
+        return $trips = (isset($page)) ? Trip::query()->filters()->simplePaginate($per_page) :  Trip::query()->filters()->orderBy('id','Desc')->get();
 
     }
 
     public function recentlyTrips()
     {
-        return Trip::orderBy('created_at','desc')->take(10)->get();
+        return Trip::orderBy('created_at','desc')->take(10)->orderBy('id','Desc')->get();
     }
 
     public function find($tripId)

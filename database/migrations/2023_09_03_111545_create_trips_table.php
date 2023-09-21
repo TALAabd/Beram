@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('provider_id')->nullable();
             $table->longText('description');
             $table->string('period');
             $table->integer('price');

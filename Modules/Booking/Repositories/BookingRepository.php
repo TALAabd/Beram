@@ -14,7 +14,7 @@ class BookingRepository
 
     public function getAll($status)
     {
-        $bookings = Booking::bookings()->where('status', $status)->get();
+        $bookings = Booking::bookings()->where('status', $status)->orderBy('id','Desc')->get();
         return $bookings;
     }
 
@@ -22,16 +22,16 @@ class BookingRepository
     {
         $customer = Auth::guard('customer')->user();
         $customer = Customer::where('email', $customer->email)->orWhere('phone', $customer->phone)->first();
-        return $customer->bookings()->where('status', $status)->get();
+        return $customer->bookings()->where('status', $status)->orderBy('id','Desc')->get();
     }
 
     public function getAllByCustomer($type)
     {
         $customer = Auth::guard('customer')->user();
         $customer = Customer::where('email', $customer->email)->orWhere('phone', $customer->phone)->first();
-        $bookings['Pending']   =  $customer->bookings()->where('service_type', $type)->where('status', 'Pending')->get();
-        $bookings['Cancelled'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Cancelled')->get();
-        $bookings['Confirmed'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Confirmed')->get();
+        $bookings['Pending']   =  $customer->bookings()->where('service_type', $type)->where('status', 'Pending')->orderBy('id','Desc')->get();
+        $bookings['Cancelled'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Cancelled')->orderBy('id','Desc')->get();
+        $bookings['Confirmed'] =  $customer->bookings()->where('service_type', $type)->where('status', 'Confirmed')->orderBy('id','Desc')->get();
         return $bookings;
     }
 

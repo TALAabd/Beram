@@ -13,7 +13,7 @@ class CustomerRepository implements CustomersRepositoryInterface
     use ModelHelper;
     public function getCustomers()
     {
-        $customers = Customer::get();
+        $customers = Customer::orderBy('id','Desc')->get();
         return $customers;
     }
 
