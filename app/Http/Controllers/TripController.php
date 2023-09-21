@@ -24,6 +24,15 @@ class TripController extends Controller
         );
     }
 
+    public function topTrip()
+    {
+        $trips = $this->tripService->topTrip();
+        return $this->successResponse(
+            $this->resource($trips, TripResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
+
     public function find($tripId)
     {
         $trip = $this->tripService->find($tripId);
