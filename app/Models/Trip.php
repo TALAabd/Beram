@@ -34,7 +34,7 @@ class Trip extends Model implements HasMedia
     public $translatable = ['name', 'description'];
 
     protected $fillable = [
-        'id','provider_id',
+        'id', 'provider_id',
         'description', 'starting_city_id',
         'period', 'date', 'price', 'contact', 'name'
     ];
@@ -52,7 +52,7 @@ class Trip extends Model implements HasMedia
 
     public function provider()
     {
-        return $this->belongsTo(User::class,'provider_id');
+        return $this->belongsTo(User::class, 'provider_id');
     }
 
     public function city()
@@ -70,7 +70,7 @@ class Trip extends Model implements HasMedia
         return $this->belongsToMany(Feature::class, 'trip_features', 'trip_id', 'feature_id')
             ->withPivot('id');
     }
-    
+
     public function bookings()
     {
         return $this->morphMany(Booking::class, 'bookable');
@@ -101,7 +101,9 @@ class Trip extends Model implements HasMedia
 
     public function scopeFilters($query)
     {
-        $user = Auth::guard('customer')->user();
+
+
+        // $user = Auth::guard('customer')->user();
 
         if (isset(request()->min_price) && isset(request()->max_price)) {
             $query->where(function ($query) {
@@ -125,17 +127,28 @@ class Trip extends Model implements HasMedia
         if (isset(request()->date))
             $query->where('date', request()->date);
 
-        if (!isset($user)) return $query;
+        $user = Auth::guard('user')->user();
+
+        $newQuery = $query;
+        if (!isset($user))
+            $newQuery = $query;
         if ($user->role == "administrator") {
-            return $query;
-        }
-        // elseif ($user->role == "employee") {
-        //     return $query->whereIn('id', $user->parent->hotels->pluck('id'));
-        // }
-        elseif ($user->role == "provider") {
-            return $query->whereIn('id', $user->hotels->pluck('id'));
+            $newQuery = $query;
+        } elseif ($user->role == "employee") {
+            $newQuery = $query->whereIn('id', $user->parent->trips->pluck('id'));
+        } elseif ($user->role == "provider") {
+            $newQuery = $query->whereIn('id', $user->trips->pluck('id'));
+        } elseif ($user->role == "Trip_provider") {
+            $newQuery = $query->whereIn('id', $user->trips->pluck('id'));
         } else {
-            return $query;
+            $newQuery = $query;
         }
+
+        if (request()->skip_count != null && request()->max_count != null) {
+            $skipCount = request()->skip_count;
+            $maxCount  = request()->max_count;
+            $newQuery  = $newQuery->skip($skipCount)->take($maxCount);
+        }
+        return $newQuery;
     }
 }

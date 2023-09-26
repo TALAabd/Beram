@@ -3,9 +3,12 @@
 namespace App\Http\Resources;
 
 use App\Models\FeatureValue;
+use App\Models\Trip;
 use App\Traits\CurrencyConvert;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class TripResource extends JsonResource
 {
@@ -20,12 +23,13 @@ class TripResource extends JsonResource
     public function toArray($request)
     {
         if (request()->routeIs('app.home.page')) {
-            return $this->getAppHomePage($request);
+            return $this->allDataForApp($request);
         } elseif (request()->routeIs('trip.index.customer')) {
             return $this->getDataForApp($request);
         } elseif (request()->routeIs('trip.show.customer')) {
             return $this->allDataForApp($request);
-        }elseif (request()->routeIs('appFavorite')) {
+        }
+        elseif (request()->routeIs('app.favorite')) {
             return $this->getAppHomePage($request);
         }
 
@@ -38,6 +42,17 @@ class TripResource extends JsonResource
     public function getAppHomePage($request)
     {
         $locale = app()->getLocale();
+
+        $fav = 0;
+        if (Auth::guard('customer')->id()) {
+            $fav = DB::table('markable_favorites')->select('markable_favorites.*')->where([
+                ['customer_id', '=', Auth::guard('customer')->id()],
+                ['markable_id', '=', $this->id],
+                ['markable_type', '=', get_class(new Trip())]
+            ])->count();
+        }
+
+
         $currencyDetails = $this->currencyConvert($request->currencySymbol);
         $data = [];
         if (isset($request->page) && (is_numeric($request->page) && is_numeric($request->per_page))) {    //for pagination
@@ -48,11 +63,11 @@ class TripResource extends JsonResource
                     'id'         => $trip->id,
                     'media_urls' => $trip->media_urls,
                     'name'       => $trip->getTranslation('name', $locale) ?? '',
-                    'price'      => $trip->price * $currencyDetails['exchange_rate'],
+                    'price'      => $trip->price,
                     'period'     => $trip->period,
                     'contact'    => $trip->contact,
                     'date'       => $trip->date,
-                    'favorite'   => Auth::guard('customer')->user() ? ($trip->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
+                    'favorite'   => $fav,
                     'starting_city_id' => $trip->starting_city_id,
                     'starting_city'    => $trip->startingCity ? $trip->startingCity->name : null,
                 ];
@@ -63,11 +78,11 @@ class TripResource extends JsonResource
                 'id'         => $this->id,
                 'media_urls' => $this->media_urls,
                 'name'       => $this->getTranslation('name', $locale) ?? '',
-                'price'      => $this->price * $currencyDetails['exchange_rate'],
+                'price'      => $this->price ,
                 'period'     => $this->period,
                 'contact'    => $this->contact,
                 'date'       => $this->date,
-                'favorite'   => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
+                'favorite'   => $fav,
                 'starting_city_id' => $this->starting_city_id,
                 'starting_city'    => $this->startingCity ? $this->startingCity->name : null,
             ];
@@ -76,6 +91,16 @@ class TripResource extends JsonResource
     }
     public function allData($request)
     {
+        $fav = 0;
+        if (Auth::guard('customer')->id()) {
+            $fav = DB::table('markable_favorites')->select('markable_favorites.*')->where([
+                ['customer_id', '=', Auth::guard('customer')->id()],
+                ['markable_id', '=', $this->id],
+                ['markable_type', '=', get_class(new Trip())]
+            ])->count();
+        }
+
+
         $locale = app()->getLocale();
         $featureValuesByFeature = [];
         foreach ($this->feature as $key => $feature) {
@@ -121,11 +146,20 @@ class TripResource extends JsonResource
             'featurevalue' => $featureValuesByFeature,
             'city'        => $cities,
             'starting_city_id' => $this->starting_city_id,
-            'favorite'         => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
+            'favorite'         => $fav,
         ];
     }
     public function allDataForApp($request)
     {
+        $fav = 0;
+        if (Auth::guard('customer')->id()) {
+            $fav = DB::table('markable_favorites')->select('markable_favorites.*')->where([
+                ['customer_id', '=', Auth::guard('customer')->id()],
+                ['markable_id', '=', $this->id],
+                ['markable_type', '=', get_class(new Trip())]
+            ])->count();
+        }
+
         $locale = app()->getLocale();
         $featureValuesByFeature = [];
         foreach ($this->feature as $key => $feature) {
@@ -175,12 +209,22 @@ class TripResource extends JsonResource
             'featurevalue' => $featureValuesByFeature,
             'city'        => $cities,
             'starting_city_id' => $this->starting_city_id,
-            'favorite'         => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
+            'favorite'         => $fav,
         ];
     }
     public function getDataForApp($request)
     {
         $locale = app()->getLocale();
+        $fav = 0;
+        if (Auth::guard('customer')->id()) {
+            $fav = DB::table('markable_favorites')->select('markable_favorites.*')->where([
+                ['customer_id', '=', Auth::guard('customer')->id()],
+                ['markable_id', '=', $this->id],
+                ['markable_type', '=', get_class(new Trip())]
+            ])->count();
+        }
+
+
         // $featureValuesByFeature = [];
         // foreach ($this->feature as $key => $feature) {
         //     $featureValues = [];
@@ -223,7 +267,7 @@ class TripResource extends JsonResource
             // 'featurevalue' => $featureValuesByFeature,
             // 'city'        => $cities,
             'starting_city_id' => $this->starting_city_id,
-            'favorite'         => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
+            'favorite'         => $fav,
         ];
     }
 }
