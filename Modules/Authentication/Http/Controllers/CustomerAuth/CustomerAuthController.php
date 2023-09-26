@@ -31,7 +31,7 @@ class CustomerAuthController extends Controller
         $validatedData = $request->validated();
         $token = $this->customerAuthService->login2($validatedData);
         $user  = Auth::guard('customer')->user();
-        $user->token = $token; 
+        $user->token = $token;
         return $this->successResponse(
             $this->resource($user, CustomerResource::class),
             'userSuccessfullySignedIn',
@@ -44,12 +44,12 @@ class CustomerAuthController extends Controller
         $validator = $request->validated();
         $token = $this->customerAuthService->SiteRegister($validator);
         $user  = Auth::guard('customer')->user();
-        $user->token = $token; 
+        $user->token = $token;
         return $this->successResponse(
             $this->resource($user, CustomerResource::class),
             'userSuccessfullyRegistered',
             200
-           
+
         );
     }
     public function register(CustomerAuthRequest $request)
@@ -64,7 +64,7 @@ class CustomerAuthController extends Controller
             $token
         );
     }
-    
+
     public function logout(CustomerAuthRequest $request)
     {
         $this->customerAuthService->logout();

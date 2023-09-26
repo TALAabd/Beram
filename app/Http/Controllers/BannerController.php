@@ -10,7 +10,7 @@ class BannerController extends Controller
 {
     public function __construct(private BannerService $bannerService)
     {
-        $this->middleware('permission:banners_manager', ['only' => ['find', 'create', 'update', 'deleteMedia','delete']]);
+        $this->middleware('permission:banners_manager', ['only' => ['find', 'create', 'update', 'deleteMedia', 'delete']]);
     }
 
     public function getAll()
@@ -37,7 +37,7 @@ class BannerController extends Controller
         $validatedData = $request->validated();
         $banner = $this->bannerService->create($validatedData);
         foreach ($request->images as $image) {
-                $banner->addMedia($image['name'])->toMediaCollection($banner->banner_type);
+            $banner->addMedia($image['name'])->toMediaCollection($banner->banner_type);
         }
         return $this->successResponse(
             $this->resource($banner, BannerResource::class),
@@ -48,9 +48,8 @@ class BannerController extends Controller
     public function update(BannerRequest $request, $bannerId)
     {
         $validatedData = $request->validated();
-        $banner= $this->bannerService->update($validatedData, $bannerId);
-        if(isset($request->images))
-        {
+        $banner = $this->bannerService->update($validatedData, $bannerId);
+        if (isset($request->images)) {
             foreach ($request->images as $image) {
                 $banner->addMedia($image['name'])->toMediaCollection($banner->banner_type);
             }
@@ -72,7 +71,7 @@ class BannerController extends Controller
 
     public function getBannersSection()
     {
-        $bannersSection=$this->bannerService->getBannersSection();
+        $bannersSection = $this->bannerService->getBannersSection();
         return $this->successResponse(
             $bannersSection,
             'dataFetchedSuccessfully'

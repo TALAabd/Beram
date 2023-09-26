@@ -27,6 +27,8 @@ return [
     'Unauthenticated'                => 'الرجاء تسجيل الدخول اولاً',
     'blockedUser'                    => 'المستخدم محظور',
 
+    'requestedSuccessfully'          => 'تم الطلب بنجاح',
+
 
     // General msgs
     'dataAddedSuccessfully'          => 'تمت إضافة البيانات بنجاح',

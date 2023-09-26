@@ -27,7 +27,7 @@ class UserAuthController extends Controller
             $details['token']
         );
     }
-    
+
 
     public function userPermissions(UserAuthRequest $request)
     {
