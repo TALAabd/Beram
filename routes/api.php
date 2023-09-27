@@ -64,7 +64,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'trip'], function () {
             Route::get('/', [TripController::class, 'getAll'])->name('trip.index.admin');
             Route::post('/', [TripController::class, 'create'])->name('trip.store.admin');
-            Route::get('/{trip}', [TripController::class, 'find'])->name('trip.shoe.admin');
+            Route::get('/{trip}', [TripController::class, 'find'])->name('trip.show.admin');
             Route::post('/{trip}', [TripController::class, 'update'])->name('trip.update.admin');
             Route::delete('/{trip}', [TripController::class, 'delete'])->name('trip.delete.admin');
             Route::prefix('{trip}')->group(function () {
@@ -174,7 +174,7 @@ Route::group(['prefix' => 'v1'], function () {
                 Route::delete('/{trip}/remove', [WishlistController::class, 'RemoveTripFavorite']);
                 Route::post('/{trip}/add', [WishlistController::class, 'AddTripFavorite']);
             });
-            
+
             Route::group(['prefix' => 'restaurant'], function () {
                 //
             });

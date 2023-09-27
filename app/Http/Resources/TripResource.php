@@ -42,7 +42,7 @@ class TripResource extends JsonResource
     public function getAppHomePage($request)
     {
         $locale = app()->getLocale();
-        
+
         $fav = 0;
         if (Auth::guard('customer')->id()) {
             $fav = DB::table('markable_favorites')->select('markable_favorites.*')->where([

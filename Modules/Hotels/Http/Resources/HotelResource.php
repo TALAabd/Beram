@@ -5,6 +5,8 @@ namespace Modules\Hotels\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\CurrencyConvert;
+use Illuminate\Support\Facades\DB;
+use Modules\Hotels\Models\Hotel;
 
 class HotelResource extends JsonResource
 {
@@ -30,6 +32,15 @@ class HotelResource extends JsonResource
 
     public function getAppHomePage($request)
     {
+        $fav = 0;
+        if (Auth::guard('customer')->id()) {
+            $fav = DB::table('markable_favorites')->select('markable_favorites.*')->where([
+                ['customer_id', '=', Auth::guard('customer')->id()],
+                ['markable_id', '=', $this->id],
+                ['markable_type', '=', get_class(new Hotel())]
+            ])->count();
+        }
+
         $locale = app()->getLocale();
         $currencyDetails = $this->currencyConvert($request->currencySymbol);
         $data = [];
@@ -53,8 +64,8 @@ class HotelResource extends JsonResource
                     'phone'               => $hotel->phone,
                     'numberOfReviews'     => $hotel->numberOfReviews(),
                     'numberOfRatings'     => $hotel->numberOfRatings(),
-                    // 'favorite'            => Auth::guard('customer')->user() ? ($hotel->whereHasFavorite(Auth::guard('customer')->user()) ? 1 : 0) : 0,
-                    'favorite'            => $favorite,
+                    'favorite'            => $fav,
+
                 ];
             }
         } else {
@@ -72,8 +83,9 @@ class HotelResource extends JsonResource
                 'phone'               => $this->phone,
                 'numberOfReviews'     => $this->numberOfReviews(),
                 'numberOfRatings'     => $this->numberOfRatings(),
-                // 'favorite'            => Auth::guard('customer')->user() ? ($this->whereHasFavorite(Auth::guard('customer')->user())->count() > 0 ? 1 : 0) : 0,
-                'favorite'            => $favorite,
+
+                'favorite'            => $fav,
+
             ];
         }
         return $data;

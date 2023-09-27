@@ -157,6 +157,12 @@ class Room extends Model implements HasMedia
             $query->whereIn('id', $ids);
         }
 
+        if (request()->skip_count != null && request()->max_count != null) {
+            $skipCount = request()->skip_count;
+            $maxCount  = request()->max_count;
+            $query  = $query->skip($skipCount)->take($maxCount);
+        }
+
         return $query->orderBy('id','Desc')->get();
     }
 }

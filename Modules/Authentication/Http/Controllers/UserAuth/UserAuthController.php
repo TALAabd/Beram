@@ -27,7 +27,7 @@ class UserAuthController extends Controller
            ''
         );
     }
-    
+
 
     public function userPermissions(UserAuthRequest $request)
     {

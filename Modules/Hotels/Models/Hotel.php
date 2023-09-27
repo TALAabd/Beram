@@ -111,13 +111,18 @@ class Hotel extends Model implements HasMedia
 
     public function scopeHotels($query, $filter)
     {
-        $user = Auth::guard('customer')->user();
+
+
+        // $user = Auth::guard('customer')->user();
+
         if (isset($filter['min_price']) && isset($filter['max_price'])) {
             $query->where(function ($query) use ($filter) {
                 $query->whereBetween('min_price', [$filter['min_price'], $filter['max_price']])
                     ->orWhereBetween('max_price', [$filter['min_price'], $filter['max_price']]);
             });
-        } //name
+        }
+
+        //name
         if (isset($filter['name']))
             $query->where('name', 'like', '%' . $filter['name'] . '%');
         //rate
@@ -140,16 +145,30 @@ class Hotel extends Model implements HasMedia
             });
         }
 
-        if (!isset($user)) return $query;
+        $user = Auth::guard('user')->user();
+
+        $newQuery = $query;
+        if (!isset($user))
+            $newQuery = $query;
         if ($user->role == "administrator") {
-            return $query;
+            $newQuery = $query;
         } elseif ($user->role == "employee") {
-            return $query->whereIn('id', $user->parent->hotels->pluck('id'));
+            $newQuery = $query->whereIn('id', $user->parent->hotels->pluck('id'));
         } elseif ($user->role == "provider") {
-            return $query->whereIn('id', $user->hotels->pluck('id'));
+            $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
+        } elseif ($user->role == "Hotel_provider") {
+            $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
         } else {
-            return $query;
+            $newQuery = $query;
         }
+
+        if (request()->skip_count != null && request()->max_count != null) {
+            $skipCount = request()->skip_count;
+            $maxCount  = request()->max_count;
+            $newQuery  = $newQuery->skip($skipCount)->take($maxCount);
+        }
+
+        return $newQuery;
     }
 
     public function updateFeatured(): bool

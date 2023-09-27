@@ -14,7 +14,7 @@ class CoreAttributeRepository implements CoreAttributeRepositoryInterface
     public function getAttributes()
     {
         if (isset(request()->filter['service'])) {
-            return CoreAttribute::where('service',request()->filter['service'])->get();
+            return CoreAttribute::where('service', request()->filter['service'])->get();
         }
         return CoreAttribute::get();
     }
@@ -27,7 +27,8 @@ class CoreAttributeRepository implements CoreAttributeRepositoryInterface
         $coreAttribute->position = $attributes['position'];
         $coreAttribute->slug = Str::slug($attributes['name'] . '-' . Str::random(6));
         $coreAttribute->service = $attributes['service'];
-        $coreAttribute->icon = $attributes['icon'];
+        if (isset($attributes['icon']))
+            $coreAttribute->icon = $attributes['icon'];
         $coreAttribute->save();
         return $coreAttribute;
     }
@@ -47,13 +48,13 @@ class CoreAttributeRepository implements CoreAttributeRepositoryInterface
 
     public function findAttributeById($CoreAttributeId)
     {
-        return $this->findByIdOrFail(CoreAttribute::class,'coreAttribute', $CoreAttributeId);
+        return $this->findByIdOrFail(CoreAttribute::class, 'coreAttribute', $CoreAttributeId);
     }
 
 
     public function deleteAttribute($CoreAttributeId)
     {
-        $CoreAttribute =$this->findAttributeById($CoreAttributeId);
+        $CoreAttribute = $this->findAttributeById($CoreAttributeId);
         $CoreAttribute->delete();
         return true;
     }
@@ -61,6 +62,6 @@ class CoreAttributeRepository implements CoreAttributeRepositoryInterface
 
     public function getAllTermsByAttribute(CoreAttribute $attribute)
     {
-         return $attribute->core_terms;
+        return $attribute->core_terms;
     }
 }

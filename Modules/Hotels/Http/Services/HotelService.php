@@ -80,7 +80,7 @@ class HotelService
         // if ($request->id == null) {
             // $rooms = Room::filter($request)->get();
             $rooms = Room::filter($request);
-        // } 
+        // }
         // else {
         //     $hotel = $this->hotelRepository->find($request->id);
         //     $rooms$hotel->rooms()->filter(request()->filter);

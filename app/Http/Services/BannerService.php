@@ -88,7 +88,7 @@ class BannerService
     public function getBannersSection()
     {
         DB::beginTransaction();
-        $bannersSection = ['section_1', 'section_2', 'section_3', 'website'];
+        $bannersSection = ['section_1', 'section_2', 'website'];
         $banners = $this->bannerRepository->getAll();
         foreach ($banners as $banner) {
             if ($banner->banner_type && in_array($banner->banner_type, $bannersSection)) {
