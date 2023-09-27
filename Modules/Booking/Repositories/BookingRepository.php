@@ -14,7 +14,16 @@ class BookingRepository
 
     public function getAll($type = 'hotel', $status)
     {
-        $bookings = Booking::bookings()->where('service_type', $type)->where('status', $status)->orderBy('id','Desc')->get();
+        $bookings = Booking::bookings()->where('service_type', $type)->where('status', $status)->orderBy('id', 'Desc')->get();
+        return $bookings;
+    }
+
+    public function getRecentBookings($request)
+    {
+        if (isset($request->lang)) {
+            app()->setLocale($request->lang);
+        }
+        $bookings = Booking::bookings()->orderBy('id', 'Desc')->take(6)->get();
         return $bookings;
     }
 

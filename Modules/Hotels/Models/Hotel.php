@@ -150,16 +150,18 @@ class Hotel extends Model implements HasMedia
         $newQuery = $query;
         if (!isset($user))
             $newQuery = $query;
-        if ($user->role == "administrator") {
-            $newQuery = $query;
-        } elseif ($user->role == "employee") {
-            $newQuery = $query->whereIn('id', $user->parent->hotels->pluck('id'));
-        } elseif ($user->role == "provider") {
-            $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
-        } elseif ($user->role == "Hotel_provider") {
-            $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
-        } else {
-            $newQuery = $query;
+        else {
+            if ($user->role == "administrator") {
+                $newQuery = $query;
+            } elseif ($user->role == "employee") {
+                $newQuery = $query->whereIn('id', $user->parent->hotels->pluck('id'));
+            } elseif ($user->role == "provider") {
+                $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
+            } elseif ($user->role == "Hotel_provider") {
+                $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
+            } else {
+                $newQuery = $query;
+            }
         }
 
         if (request()->skip_count != null && request()->max_count != null) {

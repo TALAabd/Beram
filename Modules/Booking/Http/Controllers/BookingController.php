@@ -13,7 +13,7 @@ class BookingController extends Controller
 {
     public function __construct(private BookingService $bookingService)
     {
-        $this->middleware('permission:bookings_manager', ['only' => ['getAll', 'getBookingDetails', 'find', 'update', 'changeStatusBooking']]);
+        // $this->middleware('permission:bookings_manager', ['only' => ['getAll', 'getRecentBookings', 'getBookingDetails', 'find', 'update', 'changeStatusBooking']]);
     }
 
     public function getBookings(Request $request, $status)
@@ -23,6 +23,16 @@ class BookingController extends Controller
             $type = $request->type;
 
         $bookings = $this->bookingService->getAll($type, $status);
+        return $this->successResponse(
+            $this->resource($bookings, BookingResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
+
+    public function getRecentBookings(Request $request)
+    {
+
+        $bookings = $this->bookingService->getRecentBookings($request);
         return $this->successResponse(
             $this->resource($bookings, BookingResource::class),
             'dataFetchedSuccessfully'

@@ -132,16 +132,18 @@ class Trip extends Model implements HasMedia
         $newQuery = $query;
         if (!isset($user))
             $newQuery = $query;
-        if ($user->role == "administrator") {
-            $newQuery = $query;
-        } elseif ($user->role == "employee") {
-            $newQuery = $query->whereIn('id', $user->parent->trips->pluck('id'));
-        } elseif ($user->role == "provider") {
-            $newQuery = $query->whereIn('id', $user->trips->pluck('id'));
-        } elseif ($user->role == "Trip_provider") {
-            $newQuery = $query->whereIn('id', $user->trips->pluck('id'));
-        } else {
-            $newQuery = $query;
+        else {
+            if ($user->role == "administrator") {
+                $newQuery = $query;
+            } elseif ($user->role == "employee") {
+                $newQuery = $query->whereIn('id', $user->parent->trips->pluck('id'));
+            } elseif ($user->role == "provider") {
+                $newQuery = $query->whereIn('id', $user->trips->pluck('id'));
+            } elseif ($user->role == "Trip_provider") {
+                $newQuery = $query->whereIn('id', $user->trips->pluck('id'));
+            } else {
+                $newQuery = $query;
+            }
         }
 
         if (request()->skip_count != null && request()->max_count != null) {
