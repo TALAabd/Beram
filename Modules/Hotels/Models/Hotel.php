@@ -128,6 +128,10 @@ class Hotel extends Model implements HasMedia
         //rate
         if (isset($filter['star_rate']))
             $query->where('star_rate', $filter['star_rate']);
+
+        if (isset($filter['status']))
+            $query->where('status', $filter['status']);
+
         if (isset($filter['location_id'])) //city
             $query->where('location_id', $filter['location_id']);
 

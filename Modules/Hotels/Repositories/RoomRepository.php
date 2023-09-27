@@ -30,11 +30,11 @@ class RoomRepository implements RoomRepositoryInterface
         $room = new Room;
         $room->setTranslation('title', $lang, $attributes['title']);
         $room->setTranslation('content', $lang, $attributes['content']);
-        $room->foreign_price = $attributes['foreign_price'];
+        // $room->foreign_price = $attributes['foreign_price'];
         $room->syrian_price = $attributes['syrian_price'];
         $room->number = $attributes['number'];
-        $room->baths = $attributes['baths'];
-        $room->beds = $attributes['beds'];
+        // $room->baths = $attributes['baths'];
+        // $room->beds = $attributes['beds'];
         $room->size = $attributes['size'];
         $room->adults = $attributes['adults'];
         $room->children = $attributes['children'];
@@ -49,10 +49,10 @@ class RoomRepository implements RoomRepositoryInterface
         $lang = app()->getLocale();
         $room->setTranslation('title', $lang, $attributes['title']);
         $room->setTranslation('content', $lang, $attributes['content']);
-        $room->foreign_price = $attributes['foreign_price'];
+        // $room->foreign_price = $attributes['foreign_price'];
         $room->syrian_price = $attributes['syrian_price'];
         $room->number = $attributes['number'];
-        $room->beds = $attributes['beds'];
+        // $room->beds = $attributes['beds'];
         $room->size = $attributes['size'];
         $room->adults = $attributes['adults'];
         $room->children = $attributes['children'];

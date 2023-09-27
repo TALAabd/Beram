@@ -26,13 +26,13 @@ class RoomResource extends JsonResource
             });
             $user = Customer::where('id',Auth::guard('customer')->user()->id)->first();
             $price=null;
-            if($user->nationality =='Syrian')
-            {
+            // if($user->nationality =='Syrian')
+            // {
               $price = $this->syrian_price;
 
-            }else{
-              $price = $this->foreign_price;
-            }
+            // }else{
+            //   $price = $this->foreign_price;
+            // }
             return [
                 'lang'      => $locale,
                 'id'        => $this->id,

@@ -49,6 +49,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'rooms'], function () {
             Route::post('/', [RoomsController::class, 'store'])->name('rooms.store');
             Route::get('/{room}', [RoomsController::class, 'show'])->name('rooms.show');
+            Route::put('/{room}/update-price', [RoomsController::class, 'updatePrice'])->name('rooms.update.price');
             Route::put('/{room}', [RoomsController::class, 'update'])->name('rooms.update');
             Route::delete('/{room}', [RoomsController::class, 'destroy'])->name('rooms.destroy');
             Route::prefix('{room}')->group(function () {

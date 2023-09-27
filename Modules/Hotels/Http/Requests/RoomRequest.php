@@ -27,15 +27,21 @@ class RoomRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->route()->getActionMethod() == 'updatePrice') {
+            return $rules = [
+                'syrian_price' => ['required', 'numeric'],
+            ];
+        }
+
 
         $rules = [
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string', 'max:255'],
             'syrian_price' => ['required', 'numeric'],
-            'foreign_price' => ['required', 'numeric'],
+            // 'foreign_price' => ['required', 'numeric'],
             'number' => ['required', 'numeric'],
-            'baths' => ['required', 'numeric'],
-            'beds' => ['required', 'numeric'],
+            // 'baths' => ['required', 'numeric'],
+            // 'beds' => ['required', 'numeric'],
             'size' => ['required', 'numeric'],
             'adults' => ['required', 'numeric'],
             'children' => ['required', 'numeric'],
@@ -45,7 +51,7 @@ class RoomRequest extends FormRequest
             case 'POST': {
                     $rules += [
                         'hotel_id' => ['required', 'numeric'],
-                        'image' => ['file','required'],
+                        'image' => ['file', 'required'],
                     ];
                     return $rules;
                 }
@@ -61,5 +67,4 @@ class RoomRequest extends FormRequest
                 break;
         }
     }
-
 }

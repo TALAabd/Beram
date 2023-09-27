@@ -73,6 +73,16 @@ class RoomsController extends Controller
         );
     }
 
+    public function updatePrice(RoomRequest $request, $roomId)
+    {
+        $validatedData = $request->validated();
+        $room = $this->roomService->updatePrice($roomId, $validatedData);
+        return $this->successResponse(
+            $this->resource($room, RoomResource::class),
+            'dataUpdatedSuccessfully'
+        );
+    }
+
 
 
     /**

@@ -152,6 +152,7 @@ class BookingResource extends JsonResource
                 'total_price'     => $this->total_price,
                 'is_confirmed'    => $this->is_confirmed,
                 'created_at'      => $this->created_at,
+                'service_id'      => $this->bookable_id,
                 'service_name'    => $this->bookable->name,
             ];
         } elseif ($this->service_type == 'trip') {
@@ -171,6 +172,7 @@ class BookingResource extends JsonResource
                 'total_price'     => $this->total_price,
                 'is_confirmed'    => $this->is_confirmed,
                 'created_at'      => $this->created_at,
+                'service_id'      => $this->bookable_id,
                 'service_name'    => $this->bookable->name,
             ];
         }
