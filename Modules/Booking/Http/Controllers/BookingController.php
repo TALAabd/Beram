@@ -76,6 +76,15 @@ class BookingController extends Controller
             'dataUpdatedSuccessfully'
         );
     }
+    public function updateTrip(BookingRequest $request, $bookingId)
+    {
+        $validatedData = $request->validated();
+        $this->bookingService->updateTrip($validatedData, $bookingId);
+        return $this->successResponse(
+            null,
+            'dataUpdatedSuccessfully'
+        );
+    }
 
     public function changeStatusBooking(BookingRequest $request, $bookingId)
     {

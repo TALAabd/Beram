@@ -59,7 +59,8 @@ class BannerResource extends JsonResource
             'service'     => $this->service,
             'created_at'  => $this->created_at,
             'media_urls'  => $this->media_urls,
-            'provider_id' => $this->provider_id
+            'provider_id' => $this->provider_id,
+            'description' => $this->description ?? '',
         ];
     }
 }

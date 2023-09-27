@@ -21,10 +21,10 @@ class UserAuthController extends Controller
         $validatedData = $request->validated();
         $details = $this->userAuthService->login($validatedData);
         return $this->successResponse(
-            ['roles' => $details['roles']],
+            ['roles' => $details],
             'userSuccessfullySignedIn',
             200,
-            $details['token']
+           ''
         );
     }
 

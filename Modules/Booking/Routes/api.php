@@ -32,6 +32,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::get('/get/{status}', [BookingController::class, 'getBookings']);
             Route::get('/{booking}', [BookingController::class, 'find']);
             Route::put('/{booking}', [BookingController::class, 'update']);
+            Route::put('/trip/{booking}', [BookingController::class, 'updateTrip']);
 
             Route::prefix('{booking}')->group(function () {
                 Route::get('/details', [BookingController::class, 'getBookingDetails']);

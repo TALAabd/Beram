@@ -34,7 +34,8 @@ class TripBookingService
         DB::beginTransaction();
 
         $trip = Trip::find($validatedData['trip_id']);
-        $validatedData['total_price'] = $trip->price * $validatedData['total_guests'];
+        $validatedData['total_price']   = $trip->price * $validatedData['total_guests'];
+        $validatedData['check_in_date'] = $trip->date;
         // Create booking
         $booking = $this->bookingRepository->tripCreate($validatedData);
 

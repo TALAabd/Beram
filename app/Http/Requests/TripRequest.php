@@ -23,19 +23,26 @@ class TripRequest extends FormRequest
      */
     public function rules()
     {
+        return match ($this->getFunctionName()) {
+            'update' => $this->update(),
+            'create' => $this->destroy(),
+            default => []
+        };
+    }
+    public function update()
+    {
         return [
-            'lang' => '',
-            'name' => '',
-            'provider_id' => '',
+            'name'        => 'required|string|max:255',
+            'provider_id' => 'required|exists:users,id',
             'description' => '',
-            'period' => '',
-            'starting_city_id' => '',
-            'price' => '',
+            'period'      => 'required',
+            'starting_city_id' => 'required|exists:cities,id',
+            'price' => 'required',
             'image' => '',
-            'contact' => '',
-            'date' => '',
-            'cities'=>'',
-            'feature'=>''
+            'contact' => 'required',
+            'date' => 'required',
+            'cities' => '',
+            'feature' => ''
         ];
     }
 }

@@ -30,7 +30,7 @@ class TripResource extends JsonResource
             return $this->allDataForApp($request);
         }
         elseif (request()->routeIs('app.favorite')) {
-            return $this->getAppHomePage($request);
+            return $this->getDataForApp($request);
         }
 
         $actionMethod = $request->route()->getActionMethod();
@@ -63,7 +63,7 @@ class TripResource extends JsonResource
                     'id'         => $trip->id,
                     'media_urls' => $trip->media_urls,
                     'name'       => $trip->getTranslation('name', $locale) ?? '',
-                    'price'      => $trip->price,
+                    'price'      => (int)$trip->price,
                     'period'     => $trip->period,
                     'contact'    => $trip->contact,
                     'date'       => $trip->date,
@@ -78,7 +78,7 @@ class TripResource extends JsonResource
                 'id'         => $this->id,
                 'media_urls' => $this->media_urls,
                 'name'       => $this->getTranslation('name', $locale) ?? '',
-                'price'      => $this->price ,
+                'price'      => (int)$this->price ,
                 'period'     => $this->period,
                 'contact'    => $this->contact,
                 'date'       => $this->date,

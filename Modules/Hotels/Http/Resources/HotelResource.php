@@ -44,40 +44,48 @@ class HotelResource extends JsonResource
         $locale = app()->getLocale();
         $currencyDetails = $this->currencyConvert($request->currencySymbol);
         $data = [];
+        $favorite = 0;
+        if (Auth::guard('customer')->user() && $this->whereHasFavorite(Auth::guard('customer')->user())->count() > 0) {
+            $favorite = 1;
+        }
         if (isset($request->page) && (is_numeric($request->page) && is_numeric($request->per_page))) {    //for pagination
             foreach ($this->items() as $hotel) {
-
                 $data[] = [
+
                     'lang'                => $locale,
                     'id'                  => $hotel->id,
                     'media_urls'          => $hotel->media_urls,
                     'name'                => $hotel->getTranslation('name', $locale) ?? '',
                     'address'             => $hotel->getTranslation('address', $locale) ?? '',
-                    'min_price'           => $hotel->min_price * $currencyDetails['exchange_rate'],
-                    'max_price'           => $hotel->max_price * $currencyDetails['exchange_rate'],
+                    'min_price'           => (int)$hotel->min_price,
+                    'max_price'           => (int)$hotel->max_price ,
                     'star_rate'           => $hotel->star_rate,
                     'email'               => $hotel->email,
                     'phone'               => $hotel->phone,
                     'numberOfReviews'     => $hotel->numberOfReviews(),
                     'numberOfRatings'     => $hotel->numberOfRatings(),
                     'favorite'            => $fav,
+
                 ];
             }
         } else {
             $data = [
+
                 'lang'                => $locale,
                 'id'                  => $this->id,
                 'media_urls'          => $this->media_urls,
                 'name'                => $this->getTranslation('name', $locale) ?? '',
                 'address'             => $this->getTranslation('address', $locale) ?? '',
-                'min_price'           => $this->min_price * $currencyDetails['exchange_rate'],
-                'max_price'           => $this->max_price * $currencyDetails['exchange_rate'],
+                'min_price'           => (int)$this->min_price ,
+                'max_price'           => (int)$this->max_price ,
                 'star_rate'           => $this->star_rate,
                 'email'               => $this->email,
                 'phone'               => $this->phone,
                 'numberOfReviews'     => $this->numberOfReviews(),
                 'numberOfRatings'     => $this->numberOfRatings(),
+
                 'favorite'            => $fav,
+
             ];
         }
         return $data;
@@ -113,8 +121,8 @@ class HotelResource extends JsonResource
                     'check_in_time'         => $hotel->check_in_time,
                     'check_out_time'        => $hotel->check_out_time,
                     'status'                => $hotel->status,
-                    'min_price'             => $hotel->min_price * $currencyDetails['exchange_rate'],
-                    'max_price'             => $hotel->max_price * $currencyDetails['exchange_rate'],
+                    'min_price'             => (int)$hotel->min_price,
+                    'max_price'             => (int)$hotel->max_price,
                     'symbol_price'          => $currencyDetails['symbol'],
                     'web'                   => $hotel->web,
                     'email'                 => $hotel->email,
@@ -146,8 +154,8 @@ class HotelResource extends JsonResource
                 'check_in_time'       => $this->check_in_time,
                 'check_out_time'      => $this->check_out_time,
                 'status'              => $this->status,
-                'min_price'           => $this->min_price * $currencyDetails['exchange_rate'],
-                'max_price'           => $this->max_price * $currencyDetails['exchange_rate'],
+                'min_price'           => (int)$this->min_price ,
+                'max_price'           => (int)$this->max_price ,
                 'symbol_price'        => $currencyDetails['symbol'],
                 'web'                 => $this->web,
                 'email'               => $this->email,

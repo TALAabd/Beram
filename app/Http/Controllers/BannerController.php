@@ -21,7 +21,15 @@ class BannerController extends Controller
             'dataFetchedSuccessfully'
         );
     }
-
+    public function webBanner()
+    {
+        $banners = $this->bannerService->webBanner();
+        return $this->successResponse(
+            $this->resource($banners, BannerResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
+    
     public function find($bannerId)
     {
         $banner = $this->bannerService->find($bannerId);
