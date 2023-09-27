@@ -24,18 +24,18 @@ class TripController extends Controller
         );
     }
 
-    public function topTrip()
+    public function topTrip(Request $request)
     {
-        $trips = $this->tripService->topTrip();
+        $trips = $this->tripService->topTrip($request);
         return $this->successResponse(
             $this->resource($trips, TripResource::class),
             'dataFetchedSuccessfully'
         );
     }
 
-    public function find($tripId)
+    public function find($tripId, Request $request)
     {
-        $trip = $this->tripService->find($tripId);
+        $trip = $this->tripService->find($tripId, $request);
 
         return $this->successResponse(
             $this->resource($trip, TripResource::class),
