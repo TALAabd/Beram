@@ -38,7 +38,8 @@ class HotelRoomsBookingService
         $hotel = $this->hotelRepository->find($validatedData['hotel_id']);
         $room  = Room::where('id', $validatedData['room_id'])->first();
         // Create booking
-        $validatedData['total_price'] = $customer->nationality == 'Syrian' ? $room->syrian_price * $validatedData['rooms_count'] : $room->foreign_price * $validatedData['rooms_count'];
+        // $validatedData['total_price'] = $customer->nationality == 'Syrian' ? $room->syrian_price * $validatedData['rooms_count'] : $room->foreign_price * $validatedData['rooms_count'];
+        $validatedData['total_price'] = $room->syrian_price * $validatedData['rooms_count'];
         $validatedData['total_guests']  = $validatedData['max_guests'];
         $booking = $this->bookingRepository->create($validatedData);
 

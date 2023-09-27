@@ -46,6 +46,16 @@ class RoomService
         return $room;
     }
 
+    public function updatePrice($roomId, $validatedRequest)
+    {
+        DB::beginTransaction();
+        $room = $this->roomRepository->find($roomId);
+        $room->syrian_price = $validatedRequest['syrian_price'];
+        $room->save();
+        DB::commit();
+        return $room;
+    }
+
     public function delete($roomId)
     {
         DB::beginTransaction();

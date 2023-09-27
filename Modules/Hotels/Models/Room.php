@@ -85,29 +85,33 @@ class Room extends Model implements HasMedia
 
     public function scopeFilter($query, $filter)
     {
-        if (Auth::guard('customer')->check()) {
-            $user = Customer::where('id', Auth::guard('customer')->user()->id)->first();
-            if ($user->nationality == 'Syrian') {
-                $query->when(
-                    isset($filter['min_price']) && isset($filter['max_price']) &&
-                        $filter['min_price'] != null && $filter['max_price'] != null,
-                    function ($query) use ($filter) {
-                        $query->whereBetween('syrian_price', [$filter['min_price'], $filter['max_price']]);
-                    }
-                );
-            } else {
-                $query->when(
-                    isset($filter['min_price']) && isset($filter['max_price']) &&
-                        $filter['min_price'] != null && $filter['max_price'] != null,
-                    function ($query) use ($filter) {
-                        $query->whereBetween('foreign_price', [$filter['min_price'], $filter['max_price']]);
-                    }
-                );
+        // if (Auth::guard('customer')->check()) {
+        //     $user = Customer::where('id', Auth::guard('customer')->user()->id)->first();
+        //     if ($user->nationality == 'Syrian') {
+        $query->when(
+            isset($filter['min_price']) && isset($filter['max_price']) &&
+                $filter['min_price'] != null && $filter['max_price'] != null,
+            function ($query) use ($filter) {
+                $query->whereBetween('syrian_price', [$filter['min_price'], $filter['max_price']]);
             }
-        }
+        );
+        // } else {
+        //     $query->when(
+        //         isset($filter['min_price']) && isset($filter['max_price']) &&
+        //             $filter['min_price'] != null && $filter['max_price'] != null,
+        //         function ($query) use ($filter) {
+        //             $query->whereBetween('foreign_price', [$filter['min_price'], $filter['max_price']]);
+        //         }
+        //     );
+        // }
+        // }
 
         $query->when(isset($filter['adults']) && $filter['adults'] != null, function ($query) use ($filter) {
             $query->where('adults', '=', $filter['adults']);
+        });
+
+        $query->when(isset($filter['status']) && $filter['status'] != null, function ($query) use ($filter) {
+            $query->where('status', '=', $filter['status']);
         });
 
         $query->when(isset($filter['id']) && $filter['id'] != null, function ($query) use ($filter) {
@@ -163,6 +167,6 @@ class Room extends Model implements HasMedia
             $query  = $query->skip($skipCount)->take($maxCount);
         }
 
-        return $query->orderBy('id','Desc')->get();
+        return $query->orderBy('syrian_price', 'asc')->get();
     }
 }

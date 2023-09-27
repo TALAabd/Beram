@@ -20,6 +20,7 @@ class BookingResource extends JsonResource
     {
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
+            'getRecentBookings' => $this->getRecentBookings($request),
             'getAllByCustomer' => $this->getAllByCustomer($request),
             'getAllTripsByCustomer' => $this->getAllTripsByCustomer($request),
             default            => $this->allData($request),
@@ -127,6 +128,52 @@ class BookingResource extends JsonResource
                 'is_confirmed'    => $this->is_confirmed,
                 'created_at'      => $this->created_at,
                 'trip_details'   => $this->resource($this->bookable, TripResource::class),
+            ];
+        }
+    }
+
+    public function getRecentBookings($request)
+    {
+        if ($this->service_type == 'hotel') {
+            return [
+                'id'              => $this->id,
+                'booking_code'    => $this->booking_code,
+                'service_type'    => __('objects.' . $this->service_type),
+                'check_in_date'   => $this->check_in_date,
+                // 'check_out_date'  => $this->check_out_date,
+                'total_guests'    => $this->total_guests,
+                'email'           => $this->email,
+                'first_name'      => $this->first_name,
+                'last_name'       => $this->last_name,
+                'phone'           => $this->phone,
+                'customer_notes'  => $this->customer_notes,
+                'booking_notes'   => $this->booking_notes,
+                'status'          => $this->status,
+                'total_price'     => $this->total_price,
+                'is_confirmed'    => $this->is_confirmed,
+                'created_at'      => $this->created_at,
+                'service_id'      => $this->bookable_id,
+                'service_name'    => $this->bookable->name,
+            ];
+        } elseif ($this->service_type == 'trip') {
+            return [
+                'id'              => $this->id,
+                'booking_code'    => $this->booking_code,
+                'service_type'    => __('objects.' . $this->service_type),
+                'check_in_date'   => $this->bookable->date,
+                'total_guests'    => $this->total_guests,
+                'email'           => $this->email,
+                'first_name'      => $this->first_name,
+                'last_name'       => $this->last_name,
+                'phone'           => $this->phone,
+                'customer_notes'  => $this->customer_notes,
+                'booking_notes'   => $this->booking_notes,
+                'status'          => $this->status,
+                'total_price'     => $this->total_price,
+                'is_confirmed'    => $this->is_confirmed,
+                'created_at'      => $this->created_at,
+                'service_id'      => $this->bookable_id,
+                'service_name'    => $this->bookable->name,
             ];
         }
     }

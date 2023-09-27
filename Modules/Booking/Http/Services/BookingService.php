@@ -31,6 +31,10 @@ class BookingService
     {
         return $this->bookingRepository->getAll($type, $status);
     }
+    public function getRecentBookings($request)
+    {
+        return $this->bookingRepository->getRecentBookings($request);
+    }
 
     public function search($request)
     {

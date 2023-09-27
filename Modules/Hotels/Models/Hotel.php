@@ -128,6 +128,10 @@ class Hotel extends Model implements HasMedia
         //rate
         if (isset($filter['star_rate']))
             $query->where('star_rate', $filter['star_rate']);
+
+        if (isset($filter['status']))
+            $query->where('status', $filter['status']);
+
         if (isset($filter['location_id'])) //city
             $query->where('location_id', $filter['location_id']);
 
@@ -150,16 +154,18 @@ class Hotel extends Model implements HasMedia
         $newQuery = $query;
         if (!isset($user))
             $newQuery = $query;
-        if ($user->role == "administrator") {
-            $newQuery = $query;
-        } elseif ($user->role == "employee") {
-            $newQuery = $query->whereIn('id', $user->parent->hotels->pluck('id'));
-        } elseif ($user->role == "provider") {
-            $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
-        } elseif ($user->role == "Hotel_provider") {
-            $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
-        } else {
-            $newQuery = $query;
+        else {
+            if ($user->role == "administrator") {
+                $newQuery = $query;
+            } elseif ($user->role == "employee") {
+                $newQuery = $query->whereIn('id', $user->parent->hotels->pluck('id'));
+            } elseif ($user->role == "provider") {
+                $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
+            } elseif ($user->role == "Hotel_provider") {
+                $newQuery = $query->whereIn('id', $user->hotels->pluck('id'));
+            } else {
+                $newQuery = $query;
+            }
         }
 
         if (request()->skip_count != null && request()->max_count != null) {
