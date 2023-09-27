@@ -18,13 +18,14 @@ class About extends Model implements HasMedia
 
     const PATH = 'abouts';
 
-    public $translatable = ['title','content'];
+    public $translatable = ['title','content','privacy'];
 
     protected $fillable = [
         'id',
         'title',
         'content',
         'image',
+        'privacy'
     ];
 
     protected $appends = ['media_urls'];

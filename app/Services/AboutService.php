@@ -14,6 +14,11 @@ class AboutService
         App::setlocale($request->lang);
         return About::first();
     }
+    public function getPrivacy($request)
+    {
+        App::setlocale($request->lang);
+        return About::first();
+    }
 
     public function find($aboutId)
     {
@@ -45,7 +50,20 @@ class AboutService
 
         return $about;
     }
+    public function updatePrivacy($validatedData)
+    {
+        $about = About::first();
 
+        DB::beginTransaction();
+
+        $about->setTranslation('privacy', $validatedData['lang'], $validatedData['privacy']);
+        $about->save();
+
+        DB::commit();
+
+        return $about;
+    }
+    
     public function delete($aboutId)
     {
         $about = $this->aboutRepository->find($aboutId);

@@ -41,8 +41,8 @@ class HotelRequest extends FormRequest
             'fax'            => 'nullable|string|max:20',
             'email'          => 'nullable|email|max:255',
             'phone'          => 'nullable|string|max:20',
-            'min_price'      => 'required|numeric',
-            'max_price'      => 'required|numeric',
+            'min_price'      => '',
+            'max_price'      => '',
         ];
         switch ($this->method()) {
             case 'POST': {
