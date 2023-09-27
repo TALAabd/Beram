@@ -18,30 +18,39 @@ class TripService
 
     public function getAll($request)
     {
+        if (isset($request->lang)) {
+            app()->setlocale($request->lang);
+        }
         $page = (isset($request->page)) ? $request->page :  null;
         $per_page = 5;
 
-        return $trips = (isset($page)) ? Trip::query()->filters()->simplePaginate($per_page) :  Trip::query()->filters()->orderBy('id','Desc')->get();
+        return $trips = (isset($page)) ? Trip::query()->filters()->simplePaginate($per_page) :  Trip::query()->filters()->orderBy('id', 'Desc')->get();
     }
 
-    public function topTrip()
+    public function topTrip($request)
     {
-        return Trip::take(6)->orderBy('id','Desc')->get();
+        if (isset($request->lang)) {
+            app()->setlocale($request->lang);
+        }
+        return Trip::take(6)->orderBy('id', 'Desc')->get();
     }
 
     public function recentlyTrips()
     {
-        return Trip::orderBy('created_at','desc')->take(10)->orderBy('id','Desc')->get();
+        return Trip::orderBy('created_at', 'desc')->take(10)->orderBy('id', 'Desc')->get();
     }
 
-    public function find($tripId)
+    public function find($tripId, $request)
     {
+        if (isset($request->lang)) {
+            app()->setlocale($request->lang);
+        }
         return Trip::find($tripId);
     }
 
     public function create($validatedData)
     {
-        if (!isset($validatedData['lang'])){
+        if (!isset($validatedData['lang'])) {
             $validatedData['lang'] = app()->getLocale();
         }
         DB::beginTransaction();
@@ -90,7 +99,7 @@ class TripService
     public function update($validatedData, $tripId)
     {
         $trip = Trip::find($tripId);
-        if (!isset($validatedData['lang'])){
+        if (!isset($validatedData['lang'])) {
             $validatedData['lang'] = app()->getLocale();
         }
 
@@ -144,12 +153,17 @@ class TripService
         // }
 
         //update cities
-        foreach ($validatedData['cities'] as $city) {
-            $trip->city()->sync($city['city_id']);
-            $cityTrip = CityTrip::where('trip_id', $trip->id)->where('city_id', $city['city_id'])->first();
-            if ($cityTrip){
-                $cityTrip->setTranslation('dis', $validatedData['lang'], $city['value']);
-                $cityTrip->save();
+        if (isset($validatedData['cities'])) {
+            $cityIds = array_map(function ($item) {
+                return $item["city_id"];
+            }, $validatedData['cities']);
+            $trip->city()->sync($cityIds);
+            foreach ($validatedData['cities'] as $city) {
+                $cityTrip = CityTrip::where('trip_id', $trip->id)->where('city_id', $city['city_id'])->first();
+                if ($cityTrip) {
+                    $cityTrip->setTranslation('dis', $validatedData['lang'], $city['value']);
+                    $cityTrip->save();
+                }
             }
         }
         DB::commit();
@@ -170,9 +184,9 @@ class TripService
         return true;
     }
 
-    public function createMedia($hotelId, $mediaFile, $type = 'media')
+    public function createMedia($tripId, $mediaFile, $type = 'media')
     {
-        $hotel = $this->find($hotelId);
+        $hotel = Trip::find($tripId);
         if ($type == 'main') {
             $hotel->clearMediaCollection('trip');
             $hotel->addMedia($mediaFile)->toMediaCollection('trip');
@@ -183,7 +197,7 @@ class TripService
 
     public function getAllMedia($id)
     {
-        $hotel = $this->find($id);
+        $hotel = Trip::find($id);
         $media = $hotel->getMedia('trips-media');
         $thumbnails = $media->map(function ($item) {
             return [
@@ -195,9 +209,9 @@ class TripService
     }
 
 
-    public function deleteMediaForId($hotelId, $mediaId)
+    public function deleteMediaForId($tripId, $mediaId)
     {
-        $hotel = $this->find($hotelId);
+        $hotel = Trip::find($tripId);
         $media = Media::where('id', $mediaId)->first();
         $mediaItem = $hotel->getMedia($media->collection_name)->firstWhere('id', $mediaId);
         $mediaItem->delete();
