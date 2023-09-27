@@ -23,8 +23,9 @@ class BookingRequest extends FormRequest
     public function rules()
     {
         return match ($this->getFunctionName()) {
-            'update' => $this->update(),
-            'search' => $this->search(),
+            'update'     => $this->update(),
+            'updateTrip' => $this->updateTrip(),
+            'search'     => $this->search(),
             'changeStatusBooking' => $this->changeStatusBooking(),
             'createTripBooking' => $this->createTripBooking(),
             'DELETE' => $this->destroy(),
@@ -40,6 +41,15 @@ class BookingRequest extends FormRequest
             'total_price' => 'required|numeric',
             'total_guests' => 'required|numeric',
             'booking_notes' => 'required|string',
+        ];
+    }
+    public function updateTrip()
+    {
+        return [
+            'total_price'   => 'required|numeric',
+            'total_guests'  => 'required|numeric',
+            'booking_notes' => 'required|string',
+            'date'          => ''
         ];
     }
 

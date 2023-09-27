@@ -93,9 +93,9 @@ class HotelService
     public function getRooms($hotelId)
     {
         DB::beginTransaction();
-        if ($hotelId == null) {
+        // if ($hotelId == null) {
             $rooms = Room::get();
-        }
+        // }
         //  else {
         //     $hotel = $this->hotelRepository->find($hotelId);
         //     $rooms = $this->hotelRepository->getAllRoomsByhotel($hotel, $request);

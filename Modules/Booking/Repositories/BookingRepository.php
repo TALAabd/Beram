@@ -69,17 +69,21 @@ class BookingRepository
         $customer = Auth::guard('customer')->user();
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "trip";
-        $validatedData['email']       = $customer->email;
-        $validatedData['first_name']  = $customer->first_name;
-        $validatedData['last_name']   = $customer->last_name;
-        $validatedData['phone']       = $customer->phone;
+        $validatedData['email']        = $customer->email;
+        $validatedData['first_name']   = $customer->first_name;
+        $validatedData['last_name']    = $customer->last_name;
+        $validatedData['phone']        = $customer->phone;
         $booking = new Booking($validatedData);
-        $booking->customer_id = Auth::guard('customer')->user()->id;
+        $booking->customer_id   = Auth::guard('customer')->user()->id;
         $booking->save();
         return $booking;
     }
 
     public function update($validatedData, Booking $booking)
+    {
+        return $booking->update($validatedData);
+    }
+    public function updateTrip($validatedData, Booking $booking)
     {
         return $booking->update($validatedData);
     }

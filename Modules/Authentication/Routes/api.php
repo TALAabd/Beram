@@ -46,8 +46,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group([
         'middleware' => 'auth:user'
     ], function () {
-        Route::get('employees/permissions', [EmployeeController::class, 'getEmployeePermissions']);
         Route::resource('employees', EmployeeController::class)->except(['create', 'edit']);
+        Route::get('employees/permissions', [EmployeeController::class, 'getEmployeePermissions']);
     });
 
 

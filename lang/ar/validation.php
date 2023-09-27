@@ -127,7 +127,7 @@ return [
     'unique' => 'قيمة الحقل (:attribute) مُستخدمة من قبل',
     'uniqueF' => '(:attribute) موجودة مسبقاً',
     'uploaded' => 'فشل في تحميل الـ (:attribute)',
-    'url' => 'صيغة الرابط (:attribute) غير صحيحة',
+    'url' => '(:attribute) صيغة الرابط غير صحيحة',
     'uuid' => 'الحقل (:attribute) يجب ان ايكون رقم UUID صحيح',
 
     /*

@@ -169,7 +169,7 @@ Route::group(['prefix' => 'v1'], function () {
             });
 
             Route::group(['prefix' => 'trip'], function () {
-                Route::get('/get', [WishlistController::class, 'favorite']);
+                Route::get('/get', [WishlistController::class, 'favorite'])->name('app.favorite');
                 Route::get('/get-app', [WishlistController::class, 'appFavorite']);
                 Route::delete('/{trip}/remove', [WishlistController::class, 'RemoveTripFavorite']);
                 Route::post('/{trip}/add', [WishlistController::class, 'AddTripFavorite']);
@@ -232,6 +232,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::group(['prefix' => 'banners'], function () {
             Route::get('/', [BannerController::class, 'getAll']);
+            Route::get('/web-banner', [BannerController::class, 'webBanner']);
         });
 
         Route::group(['prefix' => 'trip'], function () {

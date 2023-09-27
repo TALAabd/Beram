@@ -13,6 +13,10 @@ class BannerRepository
     {
         return Banner::get();
     }
+    public function webBanner()
+    {
+        return Banner::where('banner_type','website')->get();
+    }
     public function banner1()
     {
         return Banner::where('banner_type','section_1')->get();

@@ -30,9 +30,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'rooms_manager',
         'bookings_manager',
         'employees_manager',
-        'resturants_manager',
-        'tables_manager',
-        'menus_manager'
     ];
 
     protected $table         = 'users';

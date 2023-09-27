@@ -15,6 +15,11 @@ class BannerService
     {
         return $this->bannerRepository->getAll();
     }
+    public function webBanner()
+    {
+        return $this->bannerRepository->webBanner();
+    }
+    
     public function banner1()
     {
         return $this->bannerRepository->banner1();

@@ -111,6 +111,18 @@ class BookingService
         return true;
     }
 
+    public function updateTrip($validatedData, $bookingId)
+    {
+        $booking = $this->bookingRepository->find($bookingId);
+        DB::beginTransaction();
+
+        $validatedData['check_in_date'] = $booking->check_in_date;
+        $this->bookingRepository->updateTrip($validatedData, $booking);
+
+        DB::commit();
+
+        return true;
+    }
 
     public function delete($bookingId)
     {

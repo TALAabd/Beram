@@ -18,10 +18,10 @@ class NotificationResource extends JsonResource
             'id'           => $this->id,
             'title'        => $this->title,
             'description'  => $this->description,
-            'payload'      => $this->payload,
-            'from_type'    => $this->from_type,
-            'to_id'        => $this->to_id,
-            'created_at'   => $this->created_at
+            // 'payload'      => $this->payload,
+            // 'from_type'    => $this->from_type,
+            // 'to_id'        => $this->to_id,
+            // 'created_at'   => $this->created_at
         ];
     }
 }
