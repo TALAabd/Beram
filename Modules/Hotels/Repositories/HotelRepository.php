@@ -18,7 +18,7 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function all($page = null, $per_page = 5)
     {
-        $hotels = (isset($page)) ? Hotel::hotels(request()->filter)->simplePaginate($per_page) :  Hotel::hotels(request()->filter)->orderBy('id','Desc')->get();
+        $hotels = (isset($page)) ? Hotel::hotels(request()->filter)->simplePaginate($per_page) :  Hotel::hotels(request()->filter)->orderBy('id', 'Desc')->get();
         return $hotels;
     }
 
@@ -29,11 +29,11 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function allTopRated()
     {
-        return Hotel::where('star_rate', [4, 5])->orderBy('id','Desc')->get();
+        return Hotel::where('star_rate', [4, 5])->orderBy('id', 'Desc')->get();
     }
     public function recentlyHotels()
     {
-        return Hotel::orderBy('created_at', 'asc')->orderBy('id','Desc')->get();
+        return Hotel::orderBy('created_at', 'asc')->orderBy('id', 'Desc')->get();
     }
 
 
@@ -126,8 +126,6 @@ class HotelRepository implements HotelRepositoryInterface
     {
         // dd($request->filter);
         return $hotel->rooms()->filter(request()->filter);
-
-
     }
 
 
@@ -152,7 +150,7 @@ class HotelRepository implements HotelRepositoryInterface
     {
         $hotelsTerms = $hotel->terms->pluck('id')->toArray();
         $attributesWithHotelTerms = CoreAttribute::with(['core_terms' => function ($query) use ($hotelsTerms) {
-            $query->whereIn('id', $hotelsTerms)->select('id', 'name', 'core_attribute_id');
+            $query->whereIn('id', $hotelsTerms)->select('id', 'name', 'core_attribute_id', 'price');
         }])->where('service', 'hotel')->get();
         return $attributesWithHotelTerms;
     }

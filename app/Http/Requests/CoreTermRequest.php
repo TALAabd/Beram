@@ -27,6 +27,7 @@ class CoreTermRequest extends FormRequest
             'name'      => ['required','string', 'max:255'],
             'content'   => ['required','string', 'max:255'],
             'icon_name' => ['nullable','string', 'max:255'],
+            'price'     => 'nullable|numeric|min:0'
         ];
 
         switch ($this->method()) {
