@@ -89,6 +89,15 @@ class BookingRepository
         $booking->save();
         return $booking;
     }
+    public function createGuestBooking($validatedData)
+    {
+        $validatedData['booking_code'] = bookingHelper::generateBookingCode();
+        $validatedData['service_type'] = "trip";
+        $booking = new Booking($validatedData);
+        //$booking->customer_id   = Auth::guard('customer')->user()->id;
+        $booking->save();
+        return $booking;
+    }
 
     public function update($validatedData, Booking $booking)
     {

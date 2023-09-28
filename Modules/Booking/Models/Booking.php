@@ -2,6 +2,7 @@
 
 namespace Modules\Booking\Models;
 
+use App\Models\PaymentMethod;
 use App\Models\Trip;
 use Modules\Authentication\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,6 +45,7 @@ class Booking extends Model
         'nationality',
         'is_confirmed',
         'create_user',
+        'payment_id'
     ];
 
     protected $hidden = [
@@ -63,7 +65,10 @@ class Booking extends Model
         'zip_code' => 'integer',
         'booking_code' => 'integer',
     ];
-
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class,'payment_id','id');
+    }
     public function bookable()
     {
         return $this->morphTo();

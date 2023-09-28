@@ -29,6 +29,7 @@ return new class extends Migration
             $table->tinyInteger('is_confirmed')->default(false);
             $table->enum('status',['Pending','Confirmed','Cancelled'])->default('Pending');
             $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('payment_id');
             $table->integer('bookable_id')->nullable();
             $table->string('bookable_type', 255)->nullable();
             $table->text('booking_notes')->nullable();

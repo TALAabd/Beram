@@ -46,7 +46,23 @@ class TripBookingService
 
         return $booking->roomBookings;
     }
+    public function createGuestBooking($validatedData)
+    {
+        DB::beginTransaction();
 
+        $trip = Trip::find($validatedData['trip_id']);
+        $validatedData['total_price']   = $trip->price * $validatedData['total_guests'];
+        $validatedData['check_in_date'] = $trip->date;
+        // Create booking
+        $booking = $this->bookingRepository->tripCreate($validatedData);
+
+        // Assign booking to hotel
+        $trip->bookings()->save($booking);
+
+        DB::commit();
+
+        return $booking->roomBookings;
+    }
     public function update($validatedData, $hotel_rooms_bookingId)
     {
         $hotel_rooms_booking = $this->hotelRoomsBookingRepository->find($hotel_rooms_bookingId);

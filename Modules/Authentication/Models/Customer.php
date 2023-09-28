@@ -42,6 +42,7 @@ class Customer extends Authenticatable implements JWTSubject, HasMedia
         'zip_code',
         'bio',
         'fcm_token',
+        'nationality'
     ];
 
     protected $hidden=[
