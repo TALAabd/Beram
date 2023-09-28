@@ -49,7 +49,7 @@ class BookingRepository
     public function search($request)
     {
         $bookings = Booking::where('booking_code', $request['booking_code'])
-            ->where('last_name', $request['last_name'])->where('first_name', $request['first_name'])->where('service_type', 'hotel')->get();
+            ->where('last_name', $request['last_name'])->where('first_name', $request['first_name'])->get();
         return  $bookings;
     }
 

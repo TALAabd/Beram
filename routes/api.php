@@ -21,6 +21,7 @@ use App\Http\Controllers\SettingController;
 
 Route::group(['prefix' => 'v1'], function () {
 
+    Route::get('/privacy', [AboutController::class, 'getPrivacy'])->name('privacy');
     //Roles
     Route::middleware('auth:user')->group(function () {
         Route::resource('roles', RoleController::class)->except(['create', 'show', 'destroy']);
@@ -32,10 +33,13 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group([
         'prefix' => 'admin/abouts','controller' => AboutController::class, ], function () {
-        Route::get('/', 'getAll');
+        Route::get('/', 'getAll')->name('about');
+        
     });
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 
+        Route::post('/update-privacy', [AboutController::class, 'updatePrivacy'])->name('update-privacy');
+        
         //Routes BY Currencies
         Route::group(['prefix' => 'currencies'], function () {
             Route::get('/', [CurrencyController::class, 'getAll'])->name('currencies.index');
@@ -50,7 +54,7 @@ Route::group(['prefix' => 'v1'], function () {
             // Route::get('/', 'getAll');
             Route::get('/{id}', 'find');
             Route::post('/', 'create');
-            Route::post('/{id}', 'update');
+            Route::post('/{id}', 'update')->name('update');
             Route::delete('/{id}', 'delete');
         });
 

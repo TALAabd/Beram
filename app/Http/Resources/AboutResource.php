@@ -14,11 +14,26 @@ class AboutResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        $actionMethod = $request->route()->getActionMethod();
+        return match ($actionMethod) {
+            'getPrivacy' => $this->getPrivacy($request),
+            default      => $this->allData($request),
+        };
+    }
+    public function allData($request)
+    {
         return [
             'id'         => $this->id ?? null,
             'title'      => $this->title ?? null,
             'content'    => $this->content ?? null,
             'image'      => $this->media_urls ?? null,
+        ];
+    }
+    public function getPrivacy($request)
+    {
+        return [
+            'privacy' => $this->privacy ?? null,
         ];
     }
 }

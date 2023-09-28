@@ -23,13 +23,32 @@ class AboutRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
+        if (request()->routeIs('update')) {
+            return $this->update();
+        } elseif (request()->routeIs('update-privacy')) {
+            return $this->updatePrivacy();
+        }
+        return match ($this->getFunctionName()) {
+            'update'        => $this->update(),
+            'updatePrivacy' => $this->updatePrivacy(),
+            default => []
+        };
+    }
+    public function update()
+    {
+      return [
             'id'       => 'requered',
             'title'    => 'required',
             'content'  => 'required',
             'lang'     => 'required',
             'image'    => 'image',
         ];
-        return $rules;
+    }
+    public function updatePrivacy()
+    {
+      return [
+            'lang'     => 'required',
+            'privacy'  => 'required',
+        ];
     }
 }

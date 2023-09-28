@@ -22,7 +22,14 @@ class AboutController extends Controller
             'dataFetchedSuccessfully'
         );
     }
-
+    public function getPrivacy(Request $request)
+    {
+        $abouts = $this->aboutService->getPrivacy($request);
+        return $this->successResponse(
+            $this->resource($abouts, AboutResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
     public function find($aboutId)
     {
         $about = $this->aboutService->find($aboutId);
@@ -49,10 +56,20 @@ class AboutController extends Controller
         $validatedData = $request->validated();
         $about = $this->aboutService->update($validatedData, $aboutId);
 
-        if(isset($validatedData['image'])){
+        if (isset($validatedData['image'])) {
             $about->clearMediaCollection('about');
             $about->addMedia($validatedData['image'])->toMediaCollection('about');
         }
+        return $this->successResponse(
+            null,
+            'dataUpdatedSuccessfully'
+        );
+    }
+    public function updatePrivacy(AboutRequest $request)
+    {
+        $validatedData = $request->validated();
+        $about = $this->aboutService->updatePrivacy($validatedData);
+
         return $this->successResponse(
             null,
             'dataUpdatedSuccessfully'
