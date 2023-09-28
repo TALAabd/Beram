@@ -8,10 +8,12 @@ use App\Models\Trip;
 use App\Models\TripFeature;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\TripRepository;
+use App\Traits\ModelHelper;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TripService
 {
+    use ModelHelper;
     // public function __construct(private TripRepository $tripRepository)
     // {
     // }
@@ -45,7 +47,7 @@ class TripService
         if (isset($request->lang)) {
             app()->setlocale($request->lang);
         }
-        return Trip::find($tripId);
+        return $this->findByIdOrFail(Trip::class,'trip', $tripId);
     }
 
     public function create($validatedData)
@@ -98,10 +100,11 @@ class TripService
 
     public function update($validatedData, $tripId)
     {
-        $trip = Trip::find($tripId);
+        
         if (!isset($validatedData['lang'])) {
             $validatedData['lang'] = app()->getLocale();
         }
+        $trip =  $this->findByIdOrFail(Trip::class,'trip', $tripId);
 
         DB::beginTransaction();
 
@@ -173,7 +176,8 @@ class TripService
 
     public function delete($tripId)
     {
-        $trip = Trip::find($tripId);
+        $trip = $this->findByIdOrFail(Trip::class,'trip', $tripId);
+
 
         DB::beginTransaction();
 
@@ -186,7 +190,8 @@ class TripService
 
     public function createMedia($tripId, $mediaFile, $type = 'media')
     {
-        $hotel = Trip::find($tripId);
+        $hotel =    $this->findByIdOrFail(Trip::class,'trip', $tripId);
+
         if ($type == 'main') {
             $hotel->clearMediaCollection('trip');
             $hotel->addMedia($mediaFile)->toMediaCollection('trip');
@@ -197,7 +202,8 @@ class TripService
 
     public function getAllMedia($id)
     {
-        $hotel = Trip::find($id);
+        $hotel =  $this->findByIdOrFail(Trip::class,'trip', $id);
+
         $media = $hotel->getMedia('trips-media');
         $thumbnails = $media->map(function ($item) {
             return [
@@ -211,7 +217,8 @@ class TripService
 
     public function deleteMediaForId($tripId, $mediaId)
     {
-        $hotel = Trip::find($tripId);
+        $hotel = $this->findByIdOrFail(Trip::class,'trip', $tripId);
+
         $media = Media::where('id', $mediaId)->first();
         $mediaItem = $hotel->getMedia($media->collection_name)->firstWhere('id', $mediaId);
         $mediaItem->delete();

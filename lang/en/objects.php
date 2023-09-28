@@ -14,5 +14,6 @@ return [
     'menu_type' => 'menu_type',
     'meal' => 'meal',
     'image' => 'image',
-    'trip' => 'trip'
+    'trip' => 'trip',
+    'payment_method' => 'payment method'
 ];

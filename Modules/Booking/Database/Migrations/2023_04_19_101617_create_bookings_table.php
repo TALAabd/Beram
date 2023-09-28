@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('first_name', 255);
             $table->string('last_name', 255);
             $table->integer('phone');
+            $table->enum('nationality',['Syrian', 'Foreign'])->nullable();
             $table->text('customer_notes')->nullable();
             $table->tinyInteger('is_confirmed')->default(false);
             $table->enum('status',['Pending','Confirmed','Cancelled'])->default('Pending');

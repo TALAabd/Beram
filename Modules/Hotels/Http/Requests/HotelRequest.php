@@ -26,7 +26,7 @@ class HotelRequest extends FormRequest
     {
         $rules = [
             'name'           => 'required|string|max:255',
-            'title'          => 'required|string|max:255',
+            'title'          => '',
             'content'        => 'required|string',
             'location_id'    => 'required|integer|exists:cities,id',
             'address'        => 'required|string|max:255',

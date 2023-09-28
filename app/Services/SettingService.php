@@ -7,17 +7,20 @@ use App\Repositories\SettingRepository;
 use App\Http\Resources\SettingResource;
 use App\Models\Setting;
 use App\Models\Country;
+use App\Models\PaymentMethod;
 
 class SettingService
 {
 
     public function getAll()
     {
-        $rangs   = Setting::get();
-        $country = Country::with('cities')->get();
+        $rangs          = Setting::get();
+        $country        = Country::with('cities')->get();
+        $paymentMethods = PaymentMethod::get();
         return [
-            'rangs'   => $rangs,
-            'country' => $country
+            'rangs'          => $rangs,
+            'country'        => $country,
+            'payment_method' => $paymentMethods,
             ];
     }
          

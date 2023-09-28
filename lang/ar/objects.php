@@ -14,6 +14,8 @@ return [
     'menu_type' => 'نوع القائمة',
     'meal' => 'الوجبة',
     'image' => 'صورة',
-    'trip' => 'رحلة'
+    'trip' => 'رحلة',
+    'payment_method' => 'طرق الدفع'
+
 
 ];

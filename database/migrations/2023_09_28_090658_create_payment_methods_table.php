@@ -13,15 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('abouts')){
-        Schema::create('abouts', function (Blueprint $table) {
+        Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->text('content')->nullable();
-            $table->text('privacy')->nullable();
+            $table->string('name')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
-    }
     }
 
     /**
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('abouts');
+        Schema::dropIfExists('payment_methods');
     }
 };

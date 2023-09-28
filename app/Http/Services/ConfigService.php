@@ -45,9 +45,9 @@ class ConfigService
     {
         return Cache::remember('control_panel_statistics', now()->addMinutes(10), function () {
             return [
-                'hotelsCount' => $this->hotelService->count(),
-                'bookingsCount' => $this->bookingService->count(),
-                'roomsCount' => $this->roomService->count(),
+                'hotelsCount'        => $this->hotelService->count(),
+                'bookingsCount'      => $this->bookingService->count(),
+                'roomsCount'         => $this->roomService->count(),
                 'bestLocationsCount' => $this->cityService->count(),
             ];
         });

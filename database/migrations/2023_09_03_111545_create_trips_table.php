@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        if(!Schema::hasTable('trips')){
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('starting_city_id')->nullable();
             $table->timestamps();
         });
+    }
     }
 
     /**

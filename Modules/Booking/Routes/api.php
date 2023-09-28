@@ -85,6 +85,7 @@ Route::group(['prefix' => 'v1'], function () {
             ############################################
             Route::group(['prefix' => 'trip'], function () {
                 Route::post('/create-booking',  [CustomerBookingController::class, 'createTripBooking']);
+                Route::post('/create-guest-booking',  [CustomerBookingController::class, 'createTripBooking']);
             });
         });
     });
