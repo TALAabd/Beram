@@ -16,7 +16,6 @@ class HotelAttributeTermsResource extends JsonResource
     public function toArray($request)
     {
         $data = array();
-        // $data = array();
         if (isset($this->attributes)) {
             foreach ($this->attributes as $attributes) {
                 $data[] = [

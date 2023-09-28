@@ -20,6 +20,7 @@ class CoreTermResource extends JsonResource
             'name'              => $this->getTranslation('name', $locale) ?? '',
             'content'           => $this->getTranslation('content', $locale) ?? '',
             'core_attribute_id' => $this->core_attribute_id,
+            'price'             => $this->price,
             'slug'              => $this->slug,
             'icon_name'         => $this->icon_name,
             'created_at'        => $this->created_at,

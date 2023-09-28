@@ -24,6 +24,7 @@ class CoreTermRepository implements CoreTermRepositoryInterface
         $coreTerm->setTranslation('content', $lang, $validatedData['content']);
         $coreTerm->slug = Str::slug($validatedData['name'] . '-' . Str::random(6));
         $coreTerm->core_attribute_id = $validatedData['core_attribute_id'];
+        $coreTerm->price = $validatedData['price'];
         $coreTerm->save();
         return $coreTerm;
     }
@@ -35,6 +36,7 @@ class CoreTermRepository implements CoreTermRepositoryInterface
         $core_term->setTranslation('content', $lang, $validatedData['content']);
         $core_term->slug = Str::slug($validatedData['name'] . '-' . Str::random(6));
         $core_term->core_attribute_id = $validatedData['core_attribute_id'] ?? $core_term->core_attribute_id;
+        $core_term->price = $validatedData['price'];
         $core_term->save();
         return $core_term;
     }

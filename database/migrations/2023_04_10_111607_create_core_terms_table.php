@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('slug',255)->nullable();
             $table->unsignedBigInteger('core_attribute_id');
             $table->text('icon_name')->nullable();
+            $table->float('price')->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('core_attribute_id')->references('id')->on('core_attributes')->onDelete('cascade');

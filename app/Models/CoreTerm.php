@@ -32,7 +32,8 @@ class CoreTerm extends Model
         'content',
         'slug',
         'core_attribute_id',
-        'icon_name'
+        'icon_name',
+        'price'
     ];
 
     protected $hidden = ['slug', 'core_attribute_id'];
