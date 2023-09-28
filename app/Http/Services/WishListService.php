@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Models\Trip;
 use App\Services\TripService;
+use App\Traits\ModelHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maize\Markable\Models\Favorite;
@@ -12,6 +13,7 @@ use Modules\Hotels\Models\Hotel;
 
 class WishListService
 {
+    use ModelHelper;
     public function __construct(private HotelService $hotelService,private TripService $tripService)
     {
     }
@@ -43,7 +45,7 @@ class WishListService
     {
         DB::beginTransaction();
 
-        $tripId = $this->tripService->find($tripId);
+        $tripId = $this->findByIdOrFail(Trip::class,'trip', $tripId);
         $user = Auth::guard('customer')->user();
         Favorite::add($tripId, $user);
 
@@ -64,7 +66,7 @@ class WishListService
     {
         DB::beginTransaction();
 
-        $tripId = $this->tripService->find($tripId);
+        $tripId =  $this->findByIdOrFail(Trip::class,'trip', $tripId);
         $user = Auth::guard('customer')->user();
         Favorite::remove($tripId, $user);
         

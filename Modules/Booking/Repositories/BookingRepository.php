@@ -63,10 +63,11 @@ class BookingRepository
         $customer = Auth::guard('customer')->user();
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "hotel";
-        $validatedData['email'] = $customer->email;
-        $validatedData['first_name'] = $customer->first_name;
-        $validatedData['last_name'] = $customer->last_name;
-        $validatedData['phone'] = $customer->phone;
+        $validatedData['email']        = $customer->email;
+        $validatedData['first_name']   = $customer->first_name;
+        $validatedData['last_name']    = $customer->last_name;
+        $validatedData['phone']        = $customer->phone;
+        $validatedData['nationality']  = $customer->nationality;
         $booking = new Booking($validatedData);
         $booking->customer_id = Auth::guard('customer')->user()->id;
         $booking->save();
@@ -82,6 +83,7 @@ class BookingRepository
         $validatedData['first_name']   = $customer->first_name;
         $validatedData['last_name']    = $customer->last_name;
         $validatedData['phone']        = $customer->phone;
+        $validatedData['nationality']  = $customer->nationality;
         $booking = new Booking($validatedData);
         $booking->customer_id   = Auth::guard('customer')->user()->id;
         $booking->save();

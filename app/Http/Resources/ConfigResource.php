@@ -22,13 +22,15 @@ class ConfigResource extends JsonResource
     {
         if (request()->routeIs('setting')) {
             return [
-                'ranges'    => SettingResource::collection($this->resource['rangs']),
-                'country'   => CountryResource::collection($this->resource['country']),
+                'ranges'         => SettingResource::collection($this->resource['rangs']),
+                'country'        => CountryResource::collection($this->resource['country']),
+                'payment_method' => PaymentMethodResource::collection($this->resource['payment_method']),
+
             ];
         }
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
-            'getAppHomePageData' => $this->getAppHomePageData(),
+            'getAppHomePageData'        => $this->getAppHomePageData(),
             'getControlPanelStatistics' => $this->getControlPanelStatistics(),
             default => []
         };

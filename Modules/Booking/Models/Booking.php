@@ -41,6 +41,7 @@ class Booking extends Model
         'first_name',
         'last_name',
         'phone',
+        'nationality',
         'is_confirmed',
         'create_user',
     ];

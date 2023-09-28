@@ -32,14 +32,17 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/', [CityController::class, 'getAll'])->name('cities.index');
     });
     Route::group([
-        'prefix' => 'admin/abouts','controller' => AboutController::class, ], function () {
+        'prefix' => 'admin/abouts', 'controller' => AboutController::class,
+    ], function () {
         Route::get('/', 'getAll')->name('about');
-        
     });
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 
         Route::post('/update-privacy', [AboutController::class, 'updatePrivacy'])->name('update-privacy');
-        
+
+        Route::group(['prefix' => '/payment_methods'], function () {
+            Route::post('{payment_methods}', [PaymentMethodController::class, 'updateStatus']);
+        });
         //Routes BY Currencies
         Route::group(['prefix' => 'currencies'], function () {
             Route::get('/', [CurrencyController::class, 'getAll'])->name('currencies.index');
@@ -50,7 +53,8 @@ Route::group(['prefix' => 'v1'], function () {
         });
 
         Route::group([
-            'prefix' => '/abouts','controller' => AboutController::class, ], function () {
+            'prefix' => '/abouts', 'controller' => AboutController::class,
+        ], function () {
             // Route::get('/', 'getAll');
             Route::get('/{id}', 'find');
             Route::post('/', 'create');
@@ -162,6 +166,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'customer'], function () {
 
         Route::get('/setting', [SettingController::class, 'getAll'])->name('setting');
+        Route::get('/payment-method', [PaymentMethodController::class, 'getAll']);
 
         Route::group(['prefix' => 'favorite', 'middleware' => 'auth:customer'], function () {
 

@@ -121,7 +121,7 @@ class BookingService
         DB::beginTransaction();
 
         $validatedData['check_in_date'] = $booking->check_in_date;
-        $validatedData['total_price']   = $trip->price * $validatedData['total_guests'];
+        $validatedData['total_price']   = $booking->bookable->price * $validatedData['total_guests'];
         $this->bookingRepository->updateTrip($validatedData, $booking);
 
         DB::commit();
