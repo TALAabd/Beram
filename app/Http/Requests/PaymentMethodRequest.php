@@ -23,6 +23,12 @@ class PaymentMethodRequest extends FormRequest
      */
     public function rules()
     {
+        if (request()->routeIs('payment_methods.addMedia')) {
+            return [
+                'image' => 'image|mimes:jpeg,jpg,png',
+            ];
+        }
+
         return [
             'name'   => '',
             'status' => ''

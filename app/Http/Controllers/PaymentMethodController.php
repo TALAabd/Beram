@@ -8,6 +8,7 @@ use App\Http\Requests\PaymentMethodRequest;
 use App\Http\Resources\PaymentMethodResource;
 use App\Services\PaymentMethodService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentMethodController extends Controller
 {
@@ -93,5 +94,20 @@ class PaymentMethodController extends Controller
     public function destroy(PaymentMethod $paymentMethod)
     {
         //
+    }
+
+    public function addMedia(PaymentMethodRequest $request, $id)
+    {
+        $validatedData = $request->validated();
+        DB::beginTransaction();
+
+        if ($request->file('media') && $request->file('media')->isValid()) {
+            $this->paymentmethodservice->createMedia($id, $request->file('media'));
+        }
+        DB::commit();
+        return $this->successResponse(
+            null,
+            'dataAddedSuccessfully'
+        );
     }
 }

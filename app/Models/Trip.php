@@ -117,8 +117,8 @@ class Trip extends Model implements HasMedia
         if (isset(request()->starting_city_id))
             $query->where('starting_city_id', request()->starting_city_id);
 
-        // if (isset(request()->status))
-        //     $query->where('status', request()->status);
+        if (isset(request()->status))
+            $query->where('status', request()->status);
 
         if (isset(request()->destination_city_id)) {
             $city_id = request()->destination_city_id;

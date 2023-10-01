@@ -21,7 +21,7 @@ class PaymentMethodService
 
     public function find($payment_methodId)
     {
-        return $this->findByIdOrFail(PaymentMethod::class,'payment_method', $payment_methodId);
+        return $this->findByIdOrFail(PaymentMethod::class, 'payment_method', $payment_methodId);
     }
 
     public function create($validatedData)
@@ -37,7 +37,7 @@ class PaymentMethodService
 
     public function update($validatedData, $payment_methodId)
     {
-        $payment_method = $this->findByIdOrFail(PaymentMethod::class,'payment_method', $payment_methodId);
+        $payment_method = $this->findByIdOrFail(PaymentMethod::class, 'payment_method', $payment_methodId);
 
         DB::beginTransaction();
         $payment_method->status = $validatedData['status'];
@@ -50,7 +50,7 @@ class PaymentMethodService
 
     public function delete($payment_methodId)
     {
-        $payment_method = $this->findByIdOrFail(PaymentMethod::class,'payment_method', $payment_methodId);
+        $payment_method = $this->findByIdOrFail(PaymentMethod::class, 'payment_method', $payment_methodId);
 
         DB::beginTransaction();
 
@@ -59,5 +59,16 @@ class PaymentMethodService
         DB::commit();
 
         return true;
+    }
+
+    public function createMedia($payment_methodId, $mediaFile)
+    {
+        $payment_method = $this->findByIdOrFail(PaymentMethod::class, 'payment_method', $payment_methodId);
+
+        $payment_method->clearMediaCollection('payment_method');
+        $payment_method->addMedia($mediaFile)->toMediaCollection('payment_method');
+
+        return true;
+
     }
 }

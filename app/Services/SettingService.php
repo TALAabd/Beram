@@ -8,9 +8,11 @@ use App\Http\Resources\SettingResource;
 use App\Models\Setting;
 use App\Models\Country;
 use App\Models\PaymentMethod;
+use App\Traits\ModelHelper;
 
 class SettingService
 {
+    use ModelHelper;
 
     public function getAll()
     {
@@ -21,32 +23,32 @@ class SettingService
             'rangs'          => $rangs,
             'country'        => $country,
             'payment_method' => $paymentMethods,
-            ];
+        ];
     }
-         
-    public function find($settingId)
+
+    public function find()
     {
-        return $this->settingRepository->find($settingId);
+        return Setting::first();
     }
 
     public function create($validatedData)
     {
         DB::beginTransaction();
 
-        $setting = $this->settingRepository->create($validatedData);
+        // $setting = $this->settingRepository->create($validatedData);
 
         DB::commit();
 
-        return $setting;
+        // return $setting;
     }
 
     public function update($validatedData, $settingId)
     {
-        $setting = $this->settingRepository->find($settingId);
+        $setting = Setting::first();
 
         DB::beginTransaction();
 
-        $this->settingRepository->update($validatedData, $setting);
+        $setting->update($validatedData);
 
         DB::commit();
 

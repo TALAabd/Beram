@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('beds')->nullable();
+            // $table->integer('beds')->nullable();
+            // $table->integer('baths')->nullable();
             $table->integer('min_price')->nullable();
-            $table->integer('baths')->nullable();
             $table->integer('max_price')->nullable();
+            $table->integer('child_age')->nullable();
             $table->timestamps();
         });
     }

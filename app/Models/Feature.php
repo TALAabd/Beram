@@ -15,8 +15,8 @@ class Feature extends Model
     use SoftDeletes;
     use Notifiable;
 
-    protected $table         = 'features';
- 
+    protected $table = 'features';
+
     const PATH = 'features';
 
     public $translatable = ['name'];

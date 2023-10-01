@@ -47,7 +47,7 @@ class TripService
         if (isset($request->lang)) {
             app()->setlocale($request->lang);
         }
-        return $this->findByIdOrFail(Trip::class,'trip', $tripId);
+        return $this->findByIdOrFail(Trip::class, 'trip', $tripId);
     }
 
     public function create($validatedData)
@@ -100,11 +100,11 @@ class TripService
 
     public function update($validatedData, $tripId)
     {
-        
+
         if (!isset($validatedData['lang'])) {
             $validatedData['lang'] = app()->getLocale();
         }
-        $trip =  $this->findByIdOrFail(Trip::class,'trip', $tripId);
+        $trip =  $this->findByIdOrFail(Trip::class, 'trip', $tripId);
 
         DB::beginTransaction();
 
@@ -176,7 +176,7 @@ class TripService
 
     public function delete($tripId)
     {
-        $trip = $this->findByIdOrFail(Trip::class,'trip', $tripId);
+        $trip = $this->findByIdOrFail(Trip::class, 'trip', $tripId);
 
 
         DB::beginTransaction();
@@ -190,7 +190,7 @@ class TripService
 
     public function createMedia($tripId, $mediaFile, $type = 'media')
     {
-        $hotel =    $this->findByIdOrFail(Trip::class,'trip', $tripId);
+        $hotel = $this->findByIdOrFail(Trip::class, 'trip', $tripId);
 
         if ($type == 'main') {
             $hotel->clearMediaCollection('trip');
@@ -198,11 +198,13 @@ class TripService
         } elseif ($type == 'media') {
             $hotel->addMedia($mediaFile)->toMediaCollection('trips-media');
         }
+
+        return true;
     }
 
     public function getAllMedia($id)
     {
-        $hotel =  $this->findByIdOrFail(Trip::class,'trip', $id);
+        $hotel =  $this->findByIdOrFail(Trip::class, 'trip', $id);
 
         $media = $hotel->getMedia('trips-media');
         $thumbnails = $media->map(function ($item) {
@@ -217,7 +219,7 @@ class TripService
 
     public function deleteMediaForId($tripId, $mediaId)
     {
-        $hotel = $this->findByIdOrFail(Trip::class,'trip', $tripId);
+        $hotel = $this->findByIdOrFail(Trip::class, 'trip', $tripId);
 
         $media = Media::where('id', $mediaId)->first();
         $mediaItem = $hotel->getMedia($media->collection_name)->firstWhere('id', $mediaId);

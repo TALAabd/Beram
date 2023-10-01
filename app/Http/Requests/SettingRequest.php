@@ -25,7 +25,10 @@ class SettingRequest extends FormRequest
     {
         return [
             'beds' => '',
-            'baths' => ''
+            'baths' => '',
+            'min_price' => '',
+            'max_price' => '',
+            'child_age' => '',
         ];
     }
 }

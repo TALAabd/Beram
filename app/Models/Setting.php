@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'settings';
 
     protected $fillable = [
@@ -17,5 +17,6 @@ class Setting extends Model
         'baths',
         'max_price',
         'min_price',
+        'child_age',
     ];
 }

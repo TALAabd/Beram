@@ -23,9 +23,9 @@ class SettingController extends Controller
         );
     }
 
-    public function find($settingId)
+    public function find()
     {
-        $setting = $this->settingService->find($settingId);
+        $setting = $this->settingService->find();
 
         return $this->successResponse(
             $this->resource($setting, SettingResource::class),

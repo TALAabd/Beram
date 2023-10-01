@@ -12,6 +12,7 @@ use Modules\Resturant\Models\Resturant;
 use Modules\Resturant\Models\Table;
 use Modules\Resturant\Models\Menu;
 use App\Models\City;
+use App\Models\PaymentMethod;
 use App\Models\Story;
 use App\Models\StoryItem;
 use App\Models\Trip;
@@ -75,6 +76,9 @@ class CustomPathGenerator implements PathGenerator
                 break;
             case About::class:
                 return About::PATH . '/' . $media->id . '/';
+                break;
+            case PaymentMethod::class:
+                return PaymentMethod::PATH . '/' . $media->id . '/';
                 break;
             default:
                 return $media->id . '/';

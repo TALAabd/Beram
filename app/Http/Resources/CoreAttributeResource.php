@@ -31,6 +31,7 @@ class CoreAttributeResource extends JsonResource
             'lang'       => $locale,
             'id'         => $this->id,
             'name'       => $this->getTranslation('name', $locale) ?? '',
+            'service'    => $this->service,
             'position'   => $this->position,
             'icon'       => $this->icon,
             'created_at' => $this->created_at
@@ -44,6 +45,7 @@ class CoreAttributeResource extends JsonResource
             'lang'       => $locale,
             'id'         => $this->id,
             'name'       => $this->getTranslation('name', $locale) ?? '',
+            'service'    => $this->service,
             'position'   => $this->position,
             'icon'       => $this->icon,
             'created_at' => $this->created_at,

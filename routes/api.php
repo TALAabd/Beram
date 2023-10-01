@@ -42,6 +42,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::group(['prefix' => '/payment_methods'], function () {
             Route::post('{payment_methods}', [PaymentMethodController::class, 'updateStatus']);
+            Route::post('media/{payment_methods}', [PaymentMethodController::class, 'addMedia'])->name('payment_methods.addMedia');
         });
         //Routes BY Currencies
         Route::group(['prefix' => 'currencies'], function () {
@@ -159,6 +160,11 @@ Route::group(['prefix' => 'v1'], function () {
             Route::get('/{businessSettingId}', [BusinessSettingController::class, 'find'])->name('business-settings.find');
             Route::put('/{businessSettingId}', [BusinessSettingController::class, 'update'])->name('business-settings.update');
             Route::delete('/{businessSettingId}', [BusinessSettingController::class, 'delete'])->name('business-settings.destroy');
+        });
+
+        Route::group(['prefix' => 'settings'], function () {
+            Route::get('/details', [SettingController::class, 'find'])->name('setting.find.admin');
+            Route::post('/{setting}', [SettingController::class, 'update'])->name('setting.update.admin');
         });
     });
 
