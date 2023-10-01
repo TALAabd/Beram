@@ -14,10 +14,15 @@ class PaymentMethodResource extends JsonResource
      */
     public function toArray($request)
     {
+        // $media_urls =  $this->getMedia('payment_method')->map(function ($media) {
+        //     return $media->getFullUrl();
+        // })->toArray();
+
         return [
-            'id'     => $this->id,
-            'name'   => $this->name,
-            'status' => $this->status,
+            'id'         => $this->id,
+            'name'       => $this->name,
+            'status'     => $this->status,
+            'media_url' => $this->getFirstMediaUrl('payment_method'),
         ];
     }
 }

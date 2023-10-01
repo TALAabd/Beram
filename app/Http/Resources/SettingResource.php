@@ -20,6 +20,7 @@ class SettingResource extends JsonResource
             'baths'     => $this->baths,
             'min_price' => $this->min_price,
             'max_price' => $this->max_price,
+            'child_age' => $this->child_age,
         ];
     }
 }
