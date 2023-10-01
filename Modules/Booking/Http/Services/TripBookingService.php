@@ -2,9 +2,12 @@
 
 namespace Modules\Booking\Http\Services;
 
+use App\Mail\AdminBookingMail;
 use App\Models\Trip;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Modules\Authentication\Models\User;
 use Modules\Booking\Repositories\HotelRoomsBookingRepository;
 use Modules\Hotels\Repositories\HotelRepository;
 use Modules\Booking\Repositories\BookingRepository;
@@ -42,6 +45,13 @@ class TripBookingService
         // Assign booking to hotel
         $trip->bookings()->save($booking);
 
+        $admins = User::where('role', 'administrator')->get();
+        foreach ($admins as $admin) {
+            if ($admin->email) {
+                Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
+            }
+        }
+
         DB::commit();
 
         return $booking->booking_code;
@@ -58,6 +68,13 @@ class TripBookingService
 
         // Assign booking to hotel
         $trip->bookings()->save($booking);
+
+        $admins = User::where('role', 'administrator')->get();
+        foreach ($admins as $admin) {
+            if ($admin->email) {
+                Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
+            }
+        }
 
         DB::commit();
 
