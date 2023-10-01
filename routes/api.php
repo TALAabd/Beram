@@ -42,10 +42,10 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::post('/update-privacy', [AboutController::class, 'updatePrivacy'])->name('update-privacy');
         Route::post('/update-terms', [AboutController::class, 'updateTerms'])->name('update-terms');
-        
+
         Route::group(['prefix' => '/payment_methods'], function () {
-            Route::post('{payment_methods}', [PaymentMethodController::class, 'updateStatus']);
-            Route::post('media/{payment_methods}', [PaymentMethodController::class, 'addMedia'])->name('payment_methods.addMedia');
+            Route::post('/media/{payment_methods}', [PaymentMethodController::class, 'addMedia'])->name('payment_methods.addMedia');
+            Route::post('/{payment_methods}', [PaymentMethodController::class, 'updateStatus']);
         });
         //Routes BY Currencies
         Route::group(['prefix' => 'currencies'], function () {
