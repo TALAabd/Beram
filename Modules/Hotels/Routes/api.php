@@ -68,6 +68,7 @@ Route::group(['prefix' => 'v1'], function () {
     //Routes BY Appication
     Route::group(['prefix' => 'customer'], function () {
         Route::group(['prefix' => 'hotels'], function () {
+            Route::get('/get-nearest-hotel', [HotelsController::class, 'getNearestHotel'])->name('hotels.near');
             Route::get('/all', [CustomerHotelsController::class, 'getAllHotels'])->name('customer.hotels');
             Route::get('/featured', [CustomerHotelsController::class, 'getFeaturedHotels'])->name('customer.hotels.featured');
             Route::get('/rooms', [CustomerHotelsController::class, 'getRoomsByHotel'])->name('customer.hotel.rooms');

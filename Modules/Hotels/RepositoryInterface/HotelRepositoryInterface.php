@@ -24,4 +24,6 @@ interface HotelRepositoryInterface
     public function updateTermsByhotel(Hotel $hotel,$termIds);
     public function getAttributesTermsByHotelStatus(Hotel $hotel);
     public function getAttributesTermsByHotel(Hotel $hotel);
+    public function getNearestHotel($request);
+    
 }

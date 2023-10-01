@@ -43,6 +43,10 @@ class HotelService
     {
         return $this->hotelRepository->recentlyHotels();
     }
+    public function getNearestHotel($request)
+    {
+        return $this->hotelRepository->getNearestHotel($request);
+    }
 
     public function createHotel($validatedRequest)
     {
@@ -147,6 +151,8 @@ class HotelService
         $nearlyHotels = $nearlyHotels->sortBy('distance')->take(10);  // Sort the nearly hotels by distance and take top 10
         return $nearlyHotels;
     }
+    
+
 
     public function count(): int
     {

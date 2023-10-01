@@ -121,18 +121,18 @@ class CustomerBookingController extends Controller
     public function createTripBooking(BookingRequest $request)
     {
         $validatedData = $request->validated();
-        $this->tripBookingService->create($validatedData);
+        $data = $this->tripBookingService->create($validatedData);
         return $this->successResponse(
-            null,
+            $data,
             'bookingSuccessfully'
         );
     }
     public function createGuestBooking(BookingRequest $request)
     {
         $validatedData = $request->validated();
-        $this->tripBookingService->createGuestBooking($validatedData);
+        $data =  $this->tripBookingService->createGuestBooking($validatedData);
         return $this->successResponse(
-            null,
+            $data,
             'bookingSuccessfully'
         );
     }

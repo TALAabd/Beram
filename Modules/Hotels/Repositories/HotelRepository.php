@@ -9,6 +9,7 @@ use Modules\Hotels\Models\Hotel;
 use Illuminate\Support\Str;
 use App\Traits\ModelHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\Authentication\Models\User;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -159,4 +160,15 @@ class HotelRepository implements HotelRepositoryInterface
     {
         return $hotel->terms()->sync($termIds);
     }
+    public function getNearestHotel($request)
+    {
+        $radius=2;
+        $nearest_hotel = Hotel::select(
+            DB::raw('*, ( 3959 * acos( cos( radians('.$request->lat.') ) * cos( radians( map_lat ) ) * cos( radians( map_lng ) - radians('.$request->long.') ) + sin( radians('.$request->lat.') ) * sin( radians( map_lat ) ) ) ) as distance')
+        )->having('distance', '<', $radius)
+        ->orderBy('distance', 'ASC')
+        ->get();
+        return $nearest_hotel;
+    }
+    
 }

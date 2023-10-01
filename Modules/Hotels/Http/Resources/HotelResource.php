@@ -26,10 +26,27 @@ class HotelResource extends JsonResource
         return match ($actionMethod) {
             'getAppHomePageData' => $this->getAppHomePage($request),
             'getAllHotels'       => $this->getAppHomePage($request),
+            'getNearestHotel'    => $this->getNearestHotel($request),
             default              => $this->allData($request),
         };
     }
 
+    public function getNearestHotel($request)
+    {
+        $locale = app()->getLocale();
+        $data = [];
+        $data = [
+            'lang'                => $locale,
+            'id'                  => $this->id,
+            'name'                => $this->getTranslation('name', $locale) ?? '',
+            'address'             => $this->getTranslation('address', $locale) ?? '',
+            'star_rate'           => $this->star_rate,
+            'lat'                 => $this->map_lat,
+            'long'                => $this->map_lng,
+        ];
+
+        return $data;
+    }
     public function getAppHomePage($request)
     {
         $fav = 0;
