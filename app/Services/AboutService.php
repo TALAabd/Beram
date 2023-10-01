@@ -19,6 +19,11 @@ class AboutService
         App::setlocale($request->lang);
         return About::first();
     }
+    public function getTerms($request)
+    {
+        App::setlocale($request->lang);
+        return About::first();
+    }
 
     public function find($aboutId)
     {
@@ -57,6 +62,19 @@ class AboutService
         DB::beginTransaction();
 
         $about->setTranslation('privacy', $validatedData['lang'], $validatedData['privacy']);
+        $about->save();
+
+        DB::commit();
+
+        return $about;
+    }
+    public function updateTerms($validatedData)
+    {
+        $about = About::first();
+
+        DB::beginTransaction();
+
+        $about->setTranslation('terms', $validatedData['lang'], $validatedData['terms']);
         $about->save();
 
         DB::commit();

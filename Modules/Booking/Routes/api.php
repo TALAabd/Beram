@@ -59,6 +59,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'customer', 'middleware' => 'auth:customer'], function () {
 
         Route::get('/search', [CustomerBookingController::class,'search']);
+        Route::get('/trip-search', [CustomerBookingController::class,'search']);
+
         ############################################
         Route::group(['prefix' => 'bookings',], function () {
             Route::get('/', [CustomerBookingController::class, 'getAllByCustomer']);
@@ -75,6 +77,8 @@ Route::group(['prefix' => 'v1'], function () {
             ############################################
             Route::group(['prefix' => 'hotel',], function () {
                 Route::post('/create-booking',  [CustomerBookingController::class, 'createHotelBooking']);
+                Route::post('/create-guest-booking',  [CustomerBookingController::class, 'HotelGuestBooking']);
+
             });
 
             ############################################

@@ -30,6 +30,14 @@ class AboutController extends Controller
             'dataFetchedSuccessfully'
         );
     }
+    public function getTerms(Request $request)
+    {
+        $abouts = $this->aboutService->getTerms($request);
+        return $this->successResponse(
+            $this->resource($abouts, AboutResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
     public function find($aboutId)
     {
         $about = $this->aboutService->find($aboutId);
@@ -75,6 +83,17 @@ class AboutController extends Controller
             'dataUpdatedSuccessfully'
         );
     }
+    public function updateTerms(AboutRequest $request)
+    {
+        $validatedData = $request->validated();
+        $about = $this->aboutService->updateTerms($validatedData);
+
+        return $this->successResponse(
+            null,
+            'dataUpdatedSuccessfully'
+        );
+    }
+    
 
     public function delete($aboutId)
     {

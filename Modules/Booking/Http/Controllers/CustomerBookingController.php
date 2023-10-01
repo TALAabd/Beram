@@ -108,6 +108,15 @@ class CustomerBookingController extends Controller
             'bookingSuccessfully'
         );
     }
+    public function HotelGuestBooking(HotelRoomsBookingRequest $request)
+    {
+        $validatedData = $request->validated();
+        $data = $this->hotelRoomsBookingService->HotelGuestBooking($validatedData);
+        return $this->successResponse(
+            $data,
+            'bookingSuccessfully'
+        );
+    }
 
     public function createTripBooking(BookingRequest $request)
     {
@@ -127,7 +136,7 @@ class CustomerBookingController extends Controller
             'bookingSuccessfully'
         );
     }
-    
+
     // public function createResturantBooking(ResturantTablesBookingRequest $request)
     // {
     //     $validatedData = $request->validated();

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->text('privacy')->nullable();
+            $table->text('terms')->nullable();
             $table->timestamps();
         });
     }

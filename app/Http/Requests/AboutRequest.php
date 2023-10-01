@@ -27,10 +27,13 @@ class AboutRequest extends FormRequest
             return $this->update();
         } elseif (request()->routeIs('update-privacy')) {
             return $this->updatePrivacy();
+        }elseif (request()->routeIs('update-terms')) {
+            return $this->updateTerms();
         }
         return match ($this->getFunctionName()) {
             'update'        => $this->update(),
             'updatePrivacy' => $this->updatePrivacy(),
+            'updateTerms'   => $this->updateTerms(),
             default => []
         };
     }
@@ -49,6 +52,13 @@ class AboutRequest extends FormRequest
       return [
             'lang'     => 'required',
             'privacy'  => 'required',
+        ];
+    }
+    public function updateTerms()
+    {
+      return [
+            'lang'     => 'required',
+            'terms'    => 'required',
         ];
     }
 }
