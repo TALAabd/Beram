@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Modules\Booking\Repositories\BookingRepository;
 use App\Helper\bookingHelper;
 use App\Http\Services\NotificationService;
+use App\Mail\ProviderBookingMail;
 use App\Traits\NotificationMessages;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+use Modules\Authentication\Models\User;
 
 class BookingService
 {
@@ -64,6 +67,20 @@ class BookingService
         $booking = $this->find($bookingId);
         DB::beginTransaction();
         $booking->update($validatedData);
+        if ($booking->status == 'Confirmed') {
+            if ($booking->service_type == 'hotel') {
+                $provider = User::where('id',  $booking->bookable->user_id)->first();
+                if ($provider->email) {
+                    Mail::to($provider->email)->send(new ProviderBookingMail($booking, $booking->bookable->getTranslation('name', 'en')));
+                }
+            } elseif ($booking->service_type == 'trip') {
+                $provider = User::where('id',  $booking->bookable->provider_id)->first();
+                if ($provider->email) {
+                    Mail::to($provider->email)->send(new ProviderBookingMail($booking, $booking->bookable->getTranslation('name', 'en')));
+                }
+            }
+        }
+
         $this->notificationService->sendNotificationChangeStatusBooking($booking->customer, $booking);
         DB::commit();
         return $booking;
