@@ -44,7 +44,7 @@ class TripBookingService
 
         DB::commit();
 
-        return $booking->roomBookings;
+        return $booking->booking_code;
     }
     public function createGuestBooking($validatedData)
     {
@@ -61,7 +61,7 @@ class TripBookingService
 
         DB::commit();
 
-        return $booking->roomBookings;
+        return $booking->booking_code;
     }
     public function update($validatedData, $hotel_rooms_bookingId)
     {

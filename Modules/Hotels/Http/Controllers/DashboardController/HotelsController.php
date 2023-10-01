@@ -20,8 +20,8 @@ class HotelsController extends Controller
 
     public function __construct(HotelRepositoryInterface $hotelRepository, private HotelService $hotelService)
     {
-        $this->middleware('permission:hotels_manager');
-        $this->middleware('permission:rooms_manager', ['only' => ['getRooms']]);
+        // $this->middleware('permission:hotels_manager');
+        // $this->middleware('permission:rooms_manager', ['only' => ['getRooms']]);
         $this->hotelRepository = $hotelRepository;
     }
     /**
@@ -100,7 +100,15 @@ class HotelsController extends Controller
             'dataDeletedSuccessfully'
         );
     }
-
+    public function getNearestHotel(HotelRequest $request)
+    {
+        $hotel = $this->hotelService->getNearestHotel($request);
+        return $this->successResponse(
+            $this->resource($hotel, HotelResource::class),
+            'dataUpdatedSuccessfully'
+        );
+    }
+    
     public function updateStatus($id)
     {
         DB::beginTransaction();

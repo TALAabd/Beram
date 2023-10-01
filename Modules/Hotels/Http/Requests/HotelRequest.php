@@ -24,38 +24,35 @@ class HotelRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'name'           => 'required|string|max:255',
-            'title'          => '',
-            'content'        => 'required|string',
-            'location_id'    => 'required|integer|exists:cities,id',
-            'address'        => 'required|string|max:255',
-            'map_lat'        => 'required|string|max:20',
-            'map_lng'        => 'required|string|max:20',
-            'map_zoom'       => 'required|integer',
-            'policy'         => 'required|string',
-            'star_rate'      => 'required|integer|min:1|max:5',
-            'check_in_time'  => 'required|string|max:255',
-            'check_out_time' => 'required|string|max:255',
-            'web'            => 'nullable|url|max:255',
-            'fax'            => 'nullable|string|max:20',
-            'email'          => 'nullable|email|max:255',
-            'phone'          => 'nullable|string|max:20',
-            'min_price'      => '',
-            'max_price'      => '',
+        return match ($this->route()->getActionMethod()) {
+            'getNearestHotel' => $this->getNearestHotel(),
+            default  => [
+                'name'           => 'required|string|max:255',
+                'title'          => '',
+                'content'        => 'required|string',
+                'location_id'    => 'required|integer|exists:cities,id',
+                'address'        => 'required|string|max:255',
+                'map_lat'        => 'required|string|max:20',
+                'map_lng'        => 'required|string|max:20',
+                'map_zoom'       => 'required|integer',
+                'policy'         => 'required|string',
+                'star_rate'      => 'required|integer|min:1|max:5',
+                'check_in_time'  => 'required|string|max:255',
+                'check_out_time' => 'required|string|max:255',
+                'web'            => 'nullable|url|max:255',
+                'fax'            => 'nullable|string|max:20',
+                'email'          => 'nullable|email|max:255',
+                'phone'          => 'nullable|string|max:20',
+                'min_price'      => '',
+                'max_price'      => '',
+            ]
+        };
+    }
+    public function getNearestHotel()
+    {
+        return [
+            'lat'   => 'required',
+            'long'  => 'required',
         ];
-        switch ($this->method()) {
-            case 'POST': {
-                    $rules += [
-                        'image' => ['file', 'required'],
-                    ];
-                    return $rules;
-                }
-            case 'PUT': {
-                    return $rules;
-                }
-            default:
-                break;
-        }
     }
 }
