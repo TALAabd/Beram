@@ -32,7 +32,9 @@ class City extends Model implements HasMedia
         'id',
         'name',
         'best_location',
-        'country_id'
+        'country_id',
+        'map_lat',
+        'map_lng',
     ];
 
     protected $casts = [

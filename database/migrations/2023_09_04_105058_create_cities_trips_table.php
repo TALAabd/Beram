@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('trip_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();
+            $table->string('map_lat', 20)->nullable();
+            $table->string('map_lng', 20)->nullable();
             $table->text('dis')->nullable();
             $table->timestamps();
         });

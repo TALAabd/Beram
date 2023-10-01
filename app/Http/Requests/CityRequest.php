@@ -24,13 +24,15 @@ class CityRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
+            'name'    => ['required', 'string', 'max:255'],
+            'map_lng' => ['required'],
+            'map_lat' => ['required'],
         ];
 
         switch ($this->method()) {
             case 'POST': {
                     $rules += [
-                        'country_id' => ['required','integer'],
+                        'country_id' => ['required', 'integer'],
                     ];
                     return $rules;
                 }

@@ -20,6 +20,8 @@ class CityResource extends JsonResource
             'name'            => $this->getTranslation('name', $locale) ?? '',
             'best_location'   => $this->best_location,
             'country_id'      => $this->country_id,
+            'map_lat'         => $this->map_lat,
+            'map_lng'         => $this->map_lng,
             'media_urls'      => $this->media_urls,
             'hotels_count'    => Hotel::where('location_id',$this->id)->count(),
             'created_at'      => $this->created_at
