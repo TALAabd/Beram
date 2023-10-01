@@ -32,36 +32,36 @@ class TripRequest extends FormRequest
     public function tripCreate()
     {
         return [
-            'name'        => 'required|string|max:255',
-            'provider_id' => 'required|exists:users,id',
-            'description' => '',
-            'period'      => 'required',
+            'name'             => 'required|string|max:255',
+            'provider_id'      => 'required|exists:users,id',
+            'description'      => '',
+            'period'           => 'required',
             'starting_city_id' => 'required|exists:cities,id',
-            'price' => 'required',
-            'image' => '',
-            'contact' => 'required',
-            'date' => 'required',
-            'cities' => '',
-            'feature' => '',
-            'lang' => ''
+            'price'            => 'required',
+            'image'            => '',
+            'contact'          => 'required',
+            'date'             => 'required',
+            'cities'           => '',
+            'feature'          => '',
+            'lang'             => ''
         ];
     }
 
     public function update()
     {
         return [
-            'name'        => 'required|string|max:255',
-            'provider_id' => 'nullable|exists:users,id',
-            'description' => '',
-            'period'      => 'required',
+            'name'             => 'required|string|max:255',
+            'provider_id'      => 'nullable|exists:users,id',
+            'description'      => '',
+            'period'           => 'required',
             'starting_city_id' => 'required|exists:cities,id',
-            'price' => 'required',
-            'image' => '',
-            'contact' => 'required',
-            'date' => 'required',
-            'cities' => '',
-            'feature' => '',
-            'lang' => ''
+            'price'            => 'required',
+            'image'            => '',
+            'contact'          => 'required',
+            'date'             => 'required',
+            'cities'           => '',
+            'feature'          => '',
+            'lang'             => ''
         ];
     }
 }

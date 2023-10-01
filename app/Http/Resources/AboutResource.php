@@ -18,6 +18,7 @@ class AboutResource extends JsonResource
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
             'getPrivacy' => $this->getPrivacy($request),
+            'getTerms'   => $this->getTerms($request),
             default      => $this->allData($request),
         };
     }
@@ -34,6 +35,12 @@ class AboutResource extends JsonResource
     {
         return [
             'privacy' => $this->privacy ?? null,
+        ];
+    }
+    public function getTerms($request)
+    {
+        return [
+            'terms' => $this->terms ?? null,
         ];
     }
 }

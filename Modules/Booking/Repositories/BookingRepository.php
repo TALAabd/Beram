@@ -98,6 +98,14 @@ class BookingRepository
         $booking->save();
         return $booking;
     }
+    public function HotelGuestBooking($validatedData)
+    {
+        $validatedData['booking_code'] = bookingHelper::generateBookingCode();
+        $validatedData['service_type'] = "hotel";
+        $booking = new Booking($validatedData);
+        $booking->save();
+        return $booking;
+    }
 
     public function update($validatedData, Booking $booking)
     {

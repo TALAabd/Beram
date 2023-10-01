@@ -67,7 +67,42 @@ class HotelRoomsBookingService
 
         return $booking->booking_code;
     }
+    public function HotelGuestBooking($validatedData)
+    {
+        DB::beginTransaction();
+        // Find hotel for booking user
+        $hotel = $this->hotelRepository->find($validatedData['hotel_id']);
+        $room  = Room::where('id', $validatedData['room_id'])->first();
+        // Create booking
+        $validatedData['total_price'] = $room->syrian_price * $validatedData['rooms_count'];
+        $validatedData['total_guests']  = $validatedData['max_guests'];
+        $booking = $this->bookingRepository->HotelGuestBooking($validatedData);
 
+        // Assign booking to hotel
+        $hotel->bookings()->save($booking);
+
+        // Create room bookings
+        $roomBookings = [];
+        $roomData = [
+            'room_id'     => $validatedData['room_id'],
+            'start_date'  => $validatedData['check_in_date'],
+            'end_date'    => $validatedData['check_out_date'],
+            'max_guests'  => $validatedData['max_guests'],
+            'rooms_count' => $validatedData['rooms_count'],
+        ];
+        // foreach ($validatedData['rooms'] as $room) {
+        $roomBooking = $this->hotelRoomsBookingRepository->create($roomData);
+        $roomBookings[] = $roomBooking;
+        // }
+
+        // Assign room bookings to booking user
+        $booking->roomBookings()->saveMany($roomBookings);
+
+        DB::commit();
+
+        return $booking->booking_code;
+    }
+    
     public function update($validatedData, $hotel_rooms_bookingId)
     {
         $hotel_rooms_booking = $this->hotelRoomsBookingRepository->find($hotel_rooms_bookingId);
