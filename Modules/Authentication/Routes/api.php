@@ -74,6 +74,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('/change-password', [CustomerAuthController::class, 'changePassword']);
             Route::post('/save-fcm-token', [CustomerAuthController::class, 'saveFcmToken']);
             Route::put('/edit-profile', [CustomerController::class, 'update']);
+            Route::post('/check-token', [CustomerAuthController::class, 'checkToken']);
         });
     });
 

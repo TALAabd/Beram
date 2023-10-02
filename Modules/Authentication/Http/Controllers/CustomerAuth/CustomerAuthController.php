@@ -104,4 +104,12 @@ class CustomerAuthController extends Controller
             'requestedSuccessfully'
         );
     }
+
+    public function checkToken()
+    {
+        return $this->successResponse(
+            null,
+            'validToken'
+        );
+    }
 }

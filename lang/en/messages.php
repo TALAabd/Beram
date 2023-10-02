@@ -22,6 +22,7 @@ return [
     'currentPasswordIncorrect'       => 'Your current password does not matches with the password you provided. Please try again.',
     'passwordConfirmationNotMatch'   => 'The Password confirmation does not match.',
     'credentialsError'               => 'Wrong ID or password',
+    'validToken'                     => 'the token is valid.',
 
     'Unauthorized'                   => 'You do not have permissions to perform this action',
     'Unauthenticated'                => 'PLease login first',
