@@ -45,7 +45,8 @@ class Booking extends Model
         'nationality',
         'is_confirmed',
         'create_user',
-        'payment_id'
+        'payment_id',
+        'provider_id'
     ];
 
     protected $hidden = [

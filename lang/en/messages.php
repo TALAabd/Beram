@@ -49,7 +49,7 @@ return [
     //Booking
     'bookingSuccessfully'            => 'Booking successfully',
     'SorryYouCannotChangeTheBookingStatus' => 'Sorry, you cannot change the booking status',
-
+    'wallet dose not have enough money' => 'wallet dose not have enough money',
     'YourBookingPendingSuccessfully'   => 'Your booking is pending .',
     'YourBookingConfirmedSuccessfully' => 'Your booking is confirmed successfully .',
     'YourBookingCancelledSuccessfully' => 'Your booking is cancelled successfully .',

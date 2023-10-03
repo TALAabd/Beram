@@ -23,7 +23,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
 
+    Route::post('/trip/create-guest-booking',  [CustomerBookingController::class, 'createGuestBooking']);
+    Route::post('/hotel/create-guest-booking', [CustomerBookingController::class, 'HotelGuestBooking']);
 
+    Route::get('/search', [CustomerBookingController::class,'search'])->name('booking.search.hotel');
+    Route::get('/trip-search', [CustomerBookingController::class,'search'])->name('booking.search.trip');
+    
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 
         ############################################
@@ -58,9 +63,6 @@ Route::group(['prefix' => 'v1'], function () {
     //Routes BY Provider
     Route::group(['prefix' => 'customer', 'middleware' => 'auth:customer'], function () {
 
-        Route::get('/search', [CustomerBookingController::class,'search'])->name('booking.search.hotel');
-        Route::get('/trip-search', [CustomerBookingController::class,'search'])->name('booking.search.trip');
-
         ############################################
         Route::group(['prefix' => 'bookings',], function () {
             Route::get('/', [CustomerBookingController::class, 'getAllByCustomer']);
@@ -77,7 +79,6 @@ Route::group(['prefix' => 'v1'], function () {
             ############################################
             Route::group(['prefix' => 'hotel',], function () {
                 Route::post('/create-booking',  [CustomerBookingController::class, 'createHotelBooking']);
-                Route::post('/create-guest-booking',  [CustomerBookingController::class, 'HotelGuestBooking']);
 
             });
 
@@ -89,7 +90,6 @@ Route::group(['prefix' => 'v1'], function () {
             ############################################
             Route::group(['prefix' => 'trip'], function () {
                 Route::post('/create-booking',  [CustomerBookingController::class, 'createTripBooking']);
-                Route::post('/create-guest-booking',  [CustomerBookingController::class, 'createGuestBooking']);
             });
         });
     });
