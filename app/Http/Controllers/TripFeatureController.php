@@ -7,7 +7,7 @@ use App\Http\Requests\TripFeatureRequest;
 use App\Http\Resources\TripFeatureResource;
 use App\Services\TripFeatureService;
 
-class TripFeatureController extends ApiController
+class TripFeatureController extends Controller
 {
     public function __construct(private TripFeatureService $trip_featureService)
     {

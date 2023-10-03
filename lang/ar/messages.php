@@ -50,6 +50,7 @@ return [
 
     //booking
     'bookingSuccessfully'            => 'تم الحجز بنجاح',
+    'wallet dose not have enough money' =>'لايوجد مال كافي في المحفظة',
     'SorryYouCannotChangeTheBookingStatus' => 'عذراً لا يمكنك تغيير حالة الحجز',
 
     'YourBookingPendingSuccessfully' => 'تم تقديم حجزك بنجاح وهو في انتظار الموافقة. ستتلقى رسالة إلكترونية بالتأكيد بمجرد تأكيد الحجز.',

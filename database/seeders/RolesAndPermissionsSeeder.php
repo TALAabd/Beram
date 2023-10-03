@@ -19,7 +19,7 @@ class RolesAndPermissionsSeeder extends Seeder
         //Hotel
         Permission::findOrCreate('hotels_manager');
         Permission::findOrCreate('rooms_manager');
-        Permission::findOrCreate('update_rooms_manager');
+        Permission::findOrCreate('update_rooms_manager');//for provider to update price and image
 
         //Public
         Permission::findOrCreate('permissions_manager');
@@ -34,8 +34,16 @@ class RolesAndPermissionsSeeder extends Seeder
 
         //Bookings
         Permission::findOrCreate('hotel_bookings_manager');
+        Permission::findOrCreate('get_confirmed_hotel_bookings_manager');
+        Permission::findOrCreate('book_room');// for provider booking 
+
         Permission::findOrCreate('trip_bookings_manager');
-        Permission::findOrCreate('bookings_manager_other');
+        // Permission::findOrCreate('bookings_manager_other');
+        Permission::findOrCreate('get_confirmed_trip_bookings_manager');
+        Permission::findOrCreate('book_trip');// for provider booking 
+
+        //wallet
+        Permission::findOrCreate('wallet_manager');
 
         //Employees
         // Permission::findOrCreate('employees_manager');
@@ -55,26 +63,28 @@ class RolesAndPermissionsSeeder extends Seeder
     public function initProvider()
     {
         $provider = Role::findOrCreate('provider');
-        $provider->givePermissionTo('hotels_manager');
-        $provider->givePermissionTo('rooms_manager');
+        $provider->givePermissionTo('get_confirmed_hotel_bookings_manager');
         $provider->givePermissionTo('update_rooms_manager');
-        $provider->givePermissionTo('hotel_bookings_manager');
-        $provider->givePermissionTo('trip_bookings_manager');
-        $provider->givePermissionTo('trips_manager');
+        $provider->givePermissionTo('book_room');
+        $provider->givePermissionTo('get_confirmed_trip_bookings_manager');
+        $provider->givePermissionTo('book_trip');
+       
     }
 
     public function initHotelProvider()
     {
         $provider = Role::findOrCreate('Hotel_provider');
-        $provider->givePermissionTo('hotel_bookings_manager');
+        $provider->givePermissionTo('get_confirmed_hotel_bookings_manager');
         $provider->givePermissionTo('update_rooms_manager');
+        $provider->givePermissionTo('book_room');
 
     }
 
     public function initTripProvider()
     {
         $provider = Role::findOrCreate('Trip_provider');
-        $provider->givePermissionTo('trip_bookings_manager');
+        $provider->givePermissionTo('get_confirmed_trip_bookings_manager');
+        $provider->givePermissionTo('book_trip');
     }
 
     public function initAdministrator()

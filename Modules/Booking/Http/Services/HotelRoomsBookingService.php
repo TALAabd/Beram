@@ -2,6 +2,7 @@
 
 namespace Modules\Booking\Http\Services;
 
+use App\Models\Wallet;
 use App\Mail\AdminBookingMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,7 @@ use Modules\Booking\Repositories\HotelRoomsBookingRepository;
 use Modules\Hotels\Repositories\HotelRepository;
 use Modules\Booking\Repositories\BookingRepository;
 use Modules\Hotels\Models\Room;
+use App\Traits\ApiResponser;
 
 class HotelRoomsBookingService
 {
@@ -86,6 +88,31 @@ class HotelRoomsBookingService
         // Create booking
         $validatedData['total_price'] = $room->syrian_price * $validatedData['rooms_count'];
         $validatedData['total_guests']  = $validatedData['max_guests'];
+
+        //booking by provider 
+        if (Auth::guard('user')->user()->role == "provider") {
+
+            $validatedData['provider_id'] = Auth::guard('user')->user()->id;
+
+            $wallet = Wallet::where('provider_id', Auth::guard('user')->user()->id)->first();
+            //check peovider wallet
+            if ($wallet->amount >= $room->syrian_price) {
+
+                $new_wallet     = $wallet->amount -  $room->syrian_price;
+                $wallet->amount = $new_wallet;
+                $wallet->save();
+
+                if ($new_wallet <= 0) {
+                    $wallet->status = 0;
+                    $wallet->save();
+                }
+            } else {
+                return ApiResponser::errorResponse(
+                    null,
+                    'wallet dose not have enough money'
+                );
+            }
+        }
         $booking = $this->bookingRepository->HotelGuestBooking($validatedData);
 
         // Assign booking to hotel
@@ -117,7 +144,12 @@ class HotelRoomsBookingService
 
         DB::commit();
 
-        return $booking->booking_code;
+        return ApiResponser::successResponse(
+            $booking->booking_code,
+            'bookingSuccessfully'
+
+        );
+        // return $booking->booking_code;
     }
 
     public function update($validatedData, $hotel_rooms_bookingId)

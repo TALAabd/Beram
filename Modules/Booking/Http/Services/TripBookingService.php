@@ -4,6 +4,8 @@ namespace Modules\Booking\Http\Services;
 
 use App\Mail\AdminBookingMail;
 use App\Models\Trip;
+use App\Models\Wallet;
+use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -63,6 +65,32 @@ class TripBookingService
         $trip = Trip::find($validatedData['trip_id']);
         $validatedData['total_price']   = $trip->price * $validatedData['total_guests'];
         $validatedData['check_in_date'] = $trip->date;
+
+        //booking by provider 
+        if (Auth::guard('user')->user()->role == "provider") {
+
+            $validatedData['provider_id'] = Auth::guard('user')->user()->id;
+
+            $wallet = Wallet::where('provider_id', Auth::guard('user')->user()->id)->first();
+            //check peovider wallet
+            if ($wallet->amount >= $trip->price) {
+
+                $new_wallet     = $wallet->amount -  $trip->price;
+                $wallet->amount = $new_wallet;
+                $wallet->save();
+
+                if ($new_wallet <= 0) {
+                    $wallet->status = 0;
+                    $wallet->save();
+                }
+            } else {
+                return ApiResponser::errorResponse(
+                    null,
+                    'wallet dose not have enough money'
+
+                );
+            }
+        }
         // Create booking
         $booking = $this->bookingRepository->createGuestBooking($validatedData);
 
@@ -78,7 +106,12 @@ class TripBookingService
 
         DB::commit();
 
-        return $booking->booking_code;
+        return ApiResponser::successResponse(
+            $booking->booking_code,
+            'bookingSuccessfully'
+
+        );
+        // return $booking->booking_code;
     }
     public function update($validatedData, $hotel_rooms_bookingId)
     {

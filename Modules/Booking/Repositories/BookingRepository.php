@@ -5,6 +5,7 @@ namespace Modules\Booking\Repositories;
 use Modules\Booking\Models\Booking;
 use App\Traits\ModelHelper;
 use App\Helper\bookingHelper;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Auth;
 use Modules\Authentication\Models\Customer;
 
@@ -101,7 +102,6 @@ class BookingRepository
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "trip";
         $booking = new Booking($validatedData);
-        //$booking->customer_id   = Auth::guard('customer')->user()->id;
         $booking->save();
         return $booking;
     }

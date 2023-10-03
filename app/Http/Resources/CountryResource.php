@@ -29,8 +29,10 @@ class CountryResource extends JsonResource
         if (isset($this->cities)) {
             $data = $this->cities->map(function ($item) {
                 return [
-                    'id' => $item->id,
-                    'name' => $item->name
+                    'id'      => $item->id,
+                    'name'    => $item->name,
+                    'map_lat' => $item->map_lat,
+                    'map_lng' => $item->map_lng
                 ];
             });
         }

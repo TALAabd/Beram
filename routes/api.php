@@ -65,6 +65,17 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('/{id}', 'update')->name('update');
             Route::delete('/{id}', 'delete');
         });
+        Route::get('/register', [WalletController::class, 'getRegister']);
+        Route::group([
+            'prefix' => '/wallets'
+        ], function () {
+            Route::get('/', [WalletController::class, 'getAll']);
+            Route::get('/{id}', [WalletController::class,'find']);
+            // Route::post('/', 'create');
+            Route::post('/{id}',[WalletController::class, 'update']);
+            Route::post('/{id}/add',[WalletController::class, 'AddToWallet']);
+            Route::delete('/{id}',[WalletController::class, 'delete']);
+        });
 
         Route::group(['prefix' => 'feature'], function () {
             Route::get('/', [FeatureController::class, 'getAll']);
@@ -344,3 +355,5 @@ Route::group([
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
 });
+
+
