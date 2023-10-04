@@ -23,6 +23,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('/privacy', [AboutController::class, 'getPrivacy'])->name('privacy');
     Route::get('/terms', [AboutController::class, 'getTerms'])->name('terms');
+    Route::get('/about', [AboutController::class, 'getAll'])->name('about');
 
     //Roles
     Route::middleware('auth:user')->group(function () {
@@ -64,6 +65,17 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('/', 'create');
             Route::post('/{id}', 'update')->name('update');
             Route::delete('/{id}', 'delete');
+        });
+        Route::get('/register', [WalletController::class, 'getRegister']);
+        Route::group([
+            'prefix' => '/wallets'
+        ], function () {
+            Route::get('/', [WalletController::class, 'getAll']);
+            Route::get('/{id}', [WalletController::class,'find']);
+            // Route::post('/', 'create');
+            Route::post('/{id}',[WalletController::class, 'update']);
+            Route::post('/{id}/add',[WalletController::class, 'AddToWallet']);
+            Route::delete('/{id}',[WalletController::class, 'delete']);
         });
 
         Route::group(['prefix' => 'feature'], function () {
@@ -344,3 +356,5 @@ Route::group([
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
 });
+
+

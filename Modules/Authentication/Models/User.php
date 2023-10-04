@@ -3,6 +3,7 @@
 namespace Modules\Authentication\Models;
 
 use App\Models\Trip;
+use App\Models\WalletRegister;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -113,14 +114,22 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     }
     public function trips()
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Trip::class, 'provider_id');
     }
 
     public function resturants()
     {
         return $this->hasMany(Resturant::class);
     }
-
+    public function wallet()
+    {
+        return $this->hasOne(wallet::class);
+    }
+    public function walletRegister()
+    {
+        return $this->hasMany(WalletRegister::class);
+    }
+    
 
     //Tree in table users for employees (provider and admin)
     public function children()

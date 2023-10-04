@@ -8,6 +8,7 @@ use Modules\Booking\Http\Services\BookingService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Modules\Booking\Http\Requests\BookingRequest;
 use Modules\Booking\Http\Requests\HotelRoomsBookingRequest;
 use Modules\Booking\Http\Services\HotelRoomsBookingService;
@@ -20,6 +21,10 @@ class CustomerBookingController extends Controller
         private HotelRoomsBookingService $hotelRoomsBookingService,
         private TripBookingService $tripBookingService,
     ) {
+        if (Auth::guard('user')->user()) {
+            $this->middleware('permission:book_room', ['only' => ['HotelGuestBooking']]);
+            $this->middleware('permission:book_trip', ['only' => ['createGuestBooking']]);
+        }
     }
 
     public function getAllByCustomerStatus($status)
@@ -127,23 +132,14 @@ class CustomerBookingController extends Controller
             'bookingSuccessfully'
         );
     }
-    public function createGuestBooking(BookingRequest $request)
+    public function createGuestBooking(BookingRequest $request)//trip
     {
         $validatedData = $request->validated();
         $data =  $this->tripBookingService->createGuestBooking($validatedData);
-        return $this->successResponse(
-            $data,
-            'bookingSuccessfully'
-        );
+        return $data;
+        //  $this->successResponse(
+        //     $data,
+        //     'bookingSuccessfully'
+        // );
     }
-
-    // public function createResturantBooking(ResturantTablesBookingRequest $request)
-    // {
-    //     $validatedData = $request->validated();
-    //     $this->ResturantTablesBookingService->create($validatedData);
-    //     return $this->successResponse(
-    //          null,
-    //         'bookingSuccessfully'
-    //     );
-    // }
 }

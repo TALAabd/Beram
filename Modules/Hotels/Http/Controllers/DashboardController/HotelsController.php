@@ -20,7 +20,9 @@ class HotelsController extends Controller
 
     public function __construct(HotelRepositoryInterface $hotelRepository, private HotelService $hotelService)
     {
-        // $this->middleware('permission:hotels_manager');
+        $this->middleware('permission:hotels_manager',['only' => ['store','update','destroy','updateFeatured','updateTerms']]);
+        $this->middleware('permission:hotels_manager||update_rooms_manager',['only' => ['updateStatus','addMedia','deleteMedia']]);
+
         // $this->middleware('permission:rooms_manager', ['only' => ['getRooms']]);
         $this->hotelRepository = $hotelRepository;
     }

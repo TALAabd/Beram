@@ -13,6 +13,7 @@ class TripController extends Controller
 {
     public function __construct(private TripService $tripService)
     {
+        $this->middleware('permission:trips_manager',['only' => ['create','update','delete','addMedia','deleteMedia']]);
     }
 
     public function getAll(Request $request)
@@ -85,7 +86,6 @@ class TripController extends Controller
             'mediaFetchedSuccessfully'
         );
     }
-
 
     public function addMedia(Request $request, $id)
     {

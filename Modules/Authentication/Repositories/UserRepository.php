@@ -2,6 +2,7 @@
 
 namespace Modules\Authentication\Repositories;
 
+use App\Models\Wallet;
 use Modules\Authentication\RepositoryInterface\UserRepositoryInterface;
 use Modules\Authentication\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +14,7 @@ class UserRepository implements UserRepositoryInterface
     use ModelHelper;
     public function getUsers()
     {
-        return User::with('roles')->where('role','!=','employee')->orderBy('id','Desc')->get();
+        return User::with('roles')->where('role', '!=', 'employee')->orderBy('id', 'Desc')->get();
     }
 
     public function createUser($attributes)
@@ -21,6 +22,15 @@ class UserRepository implements UserRepositoryInterface
         $attributes['password'] = Hash::make($attributes['password']);
         $user = User::create($attributes);
         $user->assignRole($attributes['role']);
+
+        //create wallet
+        if ($attributes['role'] == 'provider') {
+            $wallet = new Wallet();
+            $wallet->provider_id = $user->id;
+            $wallet->amount      = 0;
+            $wallet->status      = 0;
+            $wallet->save();
+        }
         return $user;
     }
 
