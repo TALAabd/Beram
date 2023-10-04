@@ -68,7 +68,7 @@ class Booking extends Model
     ];
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class,'payment_id','id');
+        return $this->belongsTo(PaymentMethod::class, 'payment_id', 'id');
     }
     public function bookable()
     {
@@ -98,12 +98,12 @@ class Booking extends Model
     public function scopeBookings($query)
     {
         $user = Auth::user();
-        if ($user->can('bookings_manager_other') && $user->role == "administrator") {
+        if ($user->role == "administrator") {
             return $query;
-        } elseif ($user->can('bookings_manager') && $user->role == "employee") {
+        } elseif (($user->role == "provider" || $user->role == "Trip_provider") && request()->type == 'trip') {
             $bookings = collect();
-            foreach ($user->parent->hotels as $hotel) {
-                $bookings = $bookings->merge($hotel->bookings);
+            foreach ($user->trips as $trip) {
+                $bookings = $bookings->merge($trip->bookings);
             }
             return $query->whereIn('id', $bookings->pluck('id'));
         } else {
@@ -113,6 +113,7 @@ class Booking extends Model
             }
             return $query->whereIn('id', $bookings->pluck('id'));
         }
+        return $query;
     }
 
     public function scopeHotelBookings($query)
@@ -128,7 +129,7 @@ class Booking extends Model
     public function scopeServiceTypeBookings($query, $serviceType)
     {
         $user = Auth::user();
-        if ($user->can('bookings_manager_other') && $user->role == "administrator") {
+        if ($user->role == "administrator") {
             return $query->where('service_type', $serviceType);
         } elseif ($user->can('bookings_manager') && $user->role == "employee") {
             $bookings = $user->parent->hotels->flatMap(function ($hotel) {

@@ -22,6 +22,7 @@ class HotelRoomsBookingService
         private BookingRepository $bookingRepository,
         private HotelRoomsBookingRepository $hotelRoomsBookingRepository
     ) {
+        
     }
 
     public function getAll()
@@ -90,7 +91,7 @@ class HotelRoomsBookingService
         $validatedData['total_guests']  = $validatedData['max_guests'];
 
         //booking by provider 
-        if (Auth::guard('user')->user()->role == "provider") {
+        if (Auth::guard('user')->user()->role == "provider"||Auth::guard('user')->user()->role == "Hotel_provider") {
 
             $validatedData['provider_id'] = Auth::guard('user')->user()->id;
 

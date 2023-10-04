@@ -23,6 +23,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('/privacy', [AboutController::class, 'getPrivacy'])->name('privacy');
     Route::get('/terms', [AboutController::class, 'getTerms'])->name('terms');
+    Route::get('/about', [AboutController::class, 'getAll'])->name('about');
 
     //Roles
     Route::middleware('auth:user')->group(function () {

@@ -67,7 +67,7 @@ class TripBookingService
         $validatedData['check_in_date'] = $trip->date;
 
         //booking by provider 
-        if (Auth::guard('user')->user()->role == "provider") {
+        if (Auth::guard('user')->user()->role == "provider"||Auth::guard('user')->user()->role == "Trip_provider") {
 
             $validatedData['provider_id'] = Auth::guard('user')->user()->id;
 
