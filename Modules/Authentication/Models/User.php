@@ -114,7 +114,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     }
     public function trips()
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Trip::class, 'provider_id');
     }
 
     public function resturants()

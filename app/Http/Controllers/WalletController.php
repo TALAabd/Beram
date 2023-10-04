@@ -13,6 +13,7 @@ class WalletController extends Controller
 {
     public function __construct(private WalletService $walletservice)
     {
+        $this->middleware('permission:wallet_manager', ['only' => ['getRegister','update','AddToWallet']]);
     }
 
     public function getAll(Request $request)

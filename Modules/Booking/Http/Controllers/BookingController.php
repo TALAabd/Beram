@@ -13,7 +13,9 @@ class BookingController extends Controller
 {
     public function __construct(private BookingService $bookingService)
     {
-        // $this->middleware('permission:bookings_manager', ['only' => ['getAll', 'getRecentBookings', 'getBookingDetails', 'find', 'update', 'changeStatusBooking']]);
+        $this->middleware('permission:hotel_bookings_manager||trip_bookings_manager', ['only' => ['update','updateTrip', 'changeStatusBooking']]);
+        $this->middleware('permission:hotel_bookings_manager||trip_bookings_manager||get_confirmed_hotel_bookings_manager||get_confirmed_trip_bookings_manager',
+         ['only' => ['getBookings','getRecentBookings','find']]);
     }
 
     public function getBookings(Request $request, $status)

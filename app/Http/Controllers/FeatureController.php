@@ -12,6 +12,7 @@ class FeatureController extends Controller
 {
     public function __construct(private FeatureService $featureService)
     {
+        $this->middleware('permission:trip_features_manager',['only' => ['create','update','delete']]);
     }
 
     public function getAll(Request $request)
