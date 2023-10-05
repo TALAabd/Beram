@@ -101,6 +101,12 @@ class BookingRepository
     {
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "trip";
+        $customer = Customer::where('id', $validatedData['customer_id'])->first();
+        $validatedData['email']        = $customer->email;
+        $validatedData['first_name']   = $customer->first_name;
+        $validatedData['last_name']    = $customer->last_name;
+        $validatedData['phone']        = $customer->phone;
+        $validatedData['nationality']  = $customer->nationality;
         $booking = new Booking($validatedData);
         $booking->save();
         return $booking;
@@ -109,6 +115,15 @@ class BookingRepository
     {
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "hotel";
+
+        if ($validatedData['customer_id']) {
+            $customer = Customer::where('id', $validatedData['customer_id'])->first();
+            $validatedData['email']        = $customer->email;
+            $validatedData['first_name']   = $customer->first_name;
+            $validatedData['last_name']    = $customer->last_name;
+            $validatedData['phone']        = $customer->phone;
+            $validatedData['nationality']  = $customer->nationality;
+        }
         $booking = new Booking($validatedData);
         $booking->save();
         return $booking;
