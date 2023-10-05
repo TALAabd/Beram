@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,4 +32,14 @@ Route::get('/seed', function () {
 Route::get('/optimize-clear', function () {
     $i = Artisan::call('optimize:clear');
     return $i;
+});
+Route::get('/composer-update', function () {
+    // Define the Composer update command
+    $command = 'composer update';
+
+    // Create a Symfony Process to run the Composer update command
+    $process = Process::fromShellCommandline($command);
+
+    // Run the Composer update command
+    $process->run();
 });

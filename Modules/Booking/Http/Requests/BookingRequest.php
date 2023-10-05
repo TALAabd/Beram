@@ -75,6 +75,7 @@ class BookingRequest extends FormRequest
             'trip_id'        => 'required|integer|exists:trips,id',
             'total_guests'   => 'required|numeric',
             'customer_notes' => 'nullable|string',
+            'payment_id'     => ''
         ];
     }
 

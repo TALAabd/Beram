@@ -54,7 +54,7 @@ class TripController extends Controller
     }
 
     public function create(TripRequest $request)
-    {
+    {   dd('kk');
         $validatedData = $request->validated();
         $trip = $this->tripService->create($validatedData);
         if ($request->file('image') && $request->file('image')->isValid()) {

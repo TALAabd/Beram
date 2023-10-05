@@ -20,10 +20,10 @@ class BookingResource extends JsonResource
     {
         $actionMethod = $request->route()->getActionMethod();
         return match ($actionMethod) {
-            'getRecentBookings' => $this->getRecentBookings($request),
-            'getAllByCustomer' => $this->getAllByCustomer($request),
+            'getRecentBookings'     => $this->getRecentBookings($request),
+            'getAllByCustomer'      => $this->getAllByCustomer($request),
             'getAllTripsByCustomer' => $this->getAllTripsByCustomer($request),
-            default            => $this->allData($request),
+            default                 => $this->allData($request),
         };
     }
 
