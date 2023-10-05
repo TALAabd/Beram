@@ -41,7 +41,7 @@ class HotelService
                 $query->where('status', 1)->select('id', 'title', 'status', 'hotel_id');
             },
         ])
-            ->with('rooms')->where('status', 1)->orderBy('name', 'asc', app()->getLocale())->get(['id', 'name']);
+            ->where('status', 1)->orderBy('name', 'asc', app()->getLocale())->get(['id', 'name']);
         return $hotels;
     }
 
@@ -113,7 +113,7 @@ class HotelService
     {
         DB::beginTransaction();
         // if ($hotelId == null) {
-        $rooms = Room::get();
+        $rooms = Room::where('hotel_id',$hotelId)->get();
         // }
         //  else {
         //     $hotel = $this->hotelRepository->find($hotelId);

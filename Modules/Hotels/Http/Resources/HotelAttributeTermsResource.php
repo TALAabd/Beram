@@ -41,6 +41,7 @@ class HotelAttributeTermsResource extends JsonResource
             'name'                 => $this->getTranslation('name', $locale) ?? '',
             'content'              => $this->getTranslation('content', $locale) ?? '',
             'location_id'          => $this->location_id,
+            'is_featured'          => $this->is_featured,
             'address'              => $this->getTranslation('address', $locale) ?? '',
             'map_lat'              => $this->map_lat,
             'map_lng'              => $this->map_lng,
