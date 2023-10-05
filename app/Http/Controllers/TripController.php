@@ -7,13 +7,22 @@ use App\Http\Requests\TripRequest;
 use App\Http\Resources\TripResource;
 use App\Services\TripService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TripController extends Controller
 {
     public function __construct(private TripService $tripService)
     {
-        $this->middleware('permission:trips_manager',['only' => ['create','update','delete','addMedia','deleteMedia']]);
+        if(Auth::guard('user')->user()) {
+            $this->middleware('permission:trips_get',['only' => ['getAll']]);
+        }
+
+        $this->middleware('permission:trips_create', ['only' => ['create']]);
+        $this->middleware('permission:trips_update', ['only' => ['update', 'addMedia', 'deleteMedia']]);
+        $this->middleware('permission:trips_create|trips_update', ['only' => ['addMedia', 'deleteMedia']]);
+
+        $this->middleware('permission:trips_delete', ['only' => ['delete']]);
     }
 
     public function getAll(Request $request)
@@ -107,6 +116,16 @@ class TripController extends Controller
         return $this->successResponse(
             null,
             'dataDeletedSuccessfully'
+        );
+    }
+
+    public function updateStatus(Request $request, $tripId)
+    {
+        $this->tripService->updateStatus($request, $tripId);
+
+        return $this->successResponse(
+            null,
+            'dataUpdatedSuccessfully'
         );
     }
 }

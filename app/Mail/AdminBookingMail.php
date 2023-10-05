@@ -32,7 +32,7 @@ class AdminBookingMail extends Mailable
     {
         if ($this->booking->service_type == 'hotel')
             return $this->view('email.adminBookingMail')->subject('New Hotel Booking');
-        elseif ($this->bookable_name->service_type == 'trip')
+        elseif ($this->booking->service_type == 'trip')
             return $this->view('email.adminBookingMail')->subject('New Trip Booking');
     }
 }

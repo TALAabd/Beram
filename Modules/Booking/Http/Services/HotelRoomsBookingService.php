@@ -22,7 +22,7 @@ class HotelRoomsBookingService
         private BookingRepository $bookingRepository,
         private HotelRoomsBookingRepository $hotelRoomsBookingRepository
     ) {
-        
+
     }
 
     public function getAll()
@@ -69,7 +69,7 @@ class HotelRoomsBookingService
         // Assign room bookings to booking user
         $booking->roomBookings()->saveMany($roomBookings);
 
-        $admins = User::where('role', 'administrator')->get();
+        $admins = User::where('role', 'administrator')->where('status', 1)->get();
         foreach ($admins as $admin) {
             if ($admin->email) {
                 Mail::to($admin->email)->send(new AdminBookingMail($booking, $hotel->getTranslation('name', 'en')));
@@ -90,7 +90,7 @@ class HotelRoomsBookingService
         $validatedData['total_price'] = $room->syrian_price * $validatedData['rooms_count'];
         $validatedData['total_guests']  = $validatedData['max_guests'];
 
-        //booking by provider 
+        //booking by provider
         if (Auth::guard('user')->user()->role == "provider"||Auth::guard('user')->user()->role == "Hotel_provider") {
 
             $validatedData['provider_id'] = Auth::guard('user')->user()->id;
@@ -114,6 +114,7 @@ class HotelRoomsBookingService
                 );
             }
         }
+
         $booking = $this->bookingRepository->HotelGuestBooking($validatedData);
 
         // Assign booking to hotel
@@ -136,7 +137,7 @@ class HotelRoomsBookingService
         // Assign room bookings to booking user
         $booking->roomBookings()->saveMany($roomBookings);
 
-        $admins = User::where('role', 'administrator')->get();
+        $admins = User::where('role', 'administrator')->where('status', 1)->get();
         foreach ($admins as $admin) {
             if ($admin->email) {
                 Mail::to($admin->email)->send(new AdminBookingMail($booking, $hotel->getTranslation('name', 'en')));

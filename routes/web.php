@@ -22,3 +22,13 @@ Route::get('/storage-link', function () {
     $i = Artisan::call('storage:link');
     return $i;
 });
+
+Route::get('/seed', function () {
+    $i = Artisan::call('db:seed');
+    return $i;
+});
+
+Route::get('/optimize-clear', function () {
+    $i = Artisan::call('optimize:clear');
+    return $i;
+});

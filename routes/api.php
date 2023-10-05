@@ -92,6 +92,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('/{trip}', [TripController::class, 'update'])->name('trip.update.admin');
             Route::delete('/{trip}', [TripController::class, 'delete'])->name('trip.delete.admin');
             Route::prefix('{trip}')->group(function () {
+                Route::post('/update-status', [TripController::class, 'updateStatus']);
                 Route::get('media', [TripController::class, 'getMedia'])->name('trip.media');
                 Route::post('media', [TripController::class, 'addMedia'])->name('trip.addMedia');
                 Route::delete('media/{mediaId}', [TripController::class, 'deleteMedia'])->name('trip.deleteMedia');

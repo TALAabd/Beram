@@ -43,8 +43,9 @@ return [
     //General errors
 
     'routeNotFound'                  => 'Route not found',
-    'VerificationCompletedSuccessfully' => 'Verification completed successfully',
-    'ThephoneNumberOrEmailAlreadyExists' => 'Phone number or the email already exists',
+    'VerificationCompletedSuccessfully'     => 'Verification completed successfully',
+    'ThephoneNumberOrEmailAlreadyExists'    => 'Phone number or the email already exists',
+    'theWebsiteBannerHasAlreadyBeenCreated' => 'The website banner has already been created.',
 
 
     //Booking

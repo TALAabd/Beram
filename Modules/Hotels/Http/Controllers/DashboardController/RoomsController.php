@@ -19,9 +19,13 @@ class RoomsController extends Controller
 
     public function __construct(private RoomService $roomService)
     {
-        $this->middleware('permission:rooms_manager',['only' => ['store','update','destroy','updateTerms']]);
-        $this->middleware('permission:rooms_manager||update_rooms_manager',['only' => ['updatePrice','updateStatus','addMedia','deleteMedia']]);
+        // $this->middleware('permission:rooms_manager',['only' => ['store','update','destroy','updateTerms']]);
+        // $this->middleware('permission:rooms_manager||update_rooms_manager',['only' => ['updatePrice','updateStatus','addMedia','deleteMedia']]);
 
+        $this->middleware('permission:rooms_create',['only' => ['store']]);
+        $this->middleware('permission:rooms_update',['only' => ['update', 'updatePrice','updateTerms']]);
+        $this->middleware('permission:rooms_delete',['only' => ['destroy']]);
+        $this->middleware('permission:update_rooms_price',['only' => ['updatePrice']]);
     }
 
     /**

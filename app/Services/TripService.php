@@ -58,6 +58,7 @@ class TripService
         DB::beginTransaction();
 
         //create trip
+        // $validatedData['status'] = $validatedData['status'] ? $validatedData['status'] : 0;
         $data[] = $validatedData;
         $trip = Trip::create($validatedData);
         $trip->setTranslation('name', $validatedData['lang'], $validatedData['name']);
@@ -114,6 +115,7 @@ class TripService
         $trip->date    = $validatedData['date'];
         $trip->period  = $validatedData['period'];
         $trip->contact = $validatedData['contact'];
+        // $trip->status  = $validatedData['status'] ? $validatedData['status'] : $trip->status;
         $trip->starting_city_id = $validatedData['starting_city_id'];
         $trip->save();
 
@@ -224,6 +226,19 @@ class TripService
         $media = Media::where('id', $mediaId)->first();
         $mediaItem = $hotel->getMedia($media->collection_name)->firstWhere('id', $mediaId);
         $mediaItem->delete();
+        return true;
+    }
+
+    public function updateStatus($request, $tripId)
+    {
+        $trip = $this->findByIdOrFail(Trip::class, 'trip', $tripId);
+
+        DB::beginTransaction();
+        $trip->status = $request->status;
+        $trip->save();
+
+        DB::commit();
+
         return true;
     }
 }

@@ -48,6 +48,8 @@ return [
 
     'VerificationCompletedSuccessfully' => 'تم التحقق بنجاح',
     'ThephoneNumberOrEmailAlreadyExists' => 'رقم الهاتف او الأيميل موجود مسبقا',
+    'theWebsiteBannerHasAlreadyBeenCreated' => '.لقد تم بالفعل إنشاء قسم اعلانات الموقع',
+
 
     //booking
     'bookingSuccessfully'            => 'تم الحجز بنجاح',

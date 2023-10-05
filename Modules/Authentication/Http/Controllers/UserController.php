@@ -5,6 +5,7 @@ namespace  Modules\Authentication\Http\Controllers;
 use Modules\Authentication\Http\Requests\UserRequest;
 use Modules\Authentication\RepositoryInterface\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Authentication\Http\Resources\UserResource;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +15,9 @@ class UserController extends Controller
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->middleware('permission:users_manager', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+        if (Auth::guard('user')->user()) {
+            $this->middleware('permission:users_manager', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+        }
         $this->userRepository = $userRepository;
     }
 

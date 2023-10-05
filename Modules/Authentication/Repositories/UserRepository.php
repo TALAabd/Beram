@@ -24,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
         $user->assignRole($attributes['role']);
 
         //create wallet
-        if ($attributes['role'] == 'provider') {
+        if ($attributes['role'] == 'Hotel_provider' || $attributes['role'] == 'Trip_provider' || $attributes['role'] == 'provider') {
             $wallet = new Wallet();
             $wallet->provider_id = $user->id;
             $wallet->amount      = 0;

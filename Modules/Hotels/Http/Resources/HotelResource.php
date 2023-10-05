@@ -27,6 +27,7 @@ class HotelResource extends JsonResource
             'getAppHomePageData' => $this->getAppHomePage($request),
             'getAllHotels'       => $this->getAppHomePage($request),
             'getNearestHotel'    => $this->getNearestHotel($request),
+            'getHotelsAndRooms'  => $this->getHotelsAndRooms($request),
             default              => $this->allData($request),
         };
     }
@@ -43,6 +44,28 @@ class HotelResource extends JsonResource
             'star_rate'           => $this->star_rate,
             'lat'                 => $this->map_lat,
             'long'                => $this->map_lng,
+        ];
+
+        return $data;
+    }
+
+    public function getHotelsAndRooms($request)
+    {
+        $locale = app()->getLocale();
+        $data = [];
+
+        $rooms = [];
+        foreach ($this->rooms as $room) {
+            $rooms[] = [
+                'id'    => $room->id,
+                'title' => $room->getTranslation('title', $locale) ?? '',
+            ];
+        }
+
+        $data = [
+            'id'    => $this->id,
+            'name'  => $this->getTranslation('name', $locale) ?? '',
+            'rooms' => $rooms,
         ];
 
         return $data;

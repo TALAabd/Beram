@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             'state' => ['required', 'string', 'max:255'],
             'country' => ['required', 'string', 'max:255'],
             'zip_code' => ['required', 'integer'],
-            'role' => ['required','in:provider,administrator']
+            'role' => ['required','in:provider,administrator,Hotel_provider,Trip_provider']
         ];
 
         switch ($this->method()) {

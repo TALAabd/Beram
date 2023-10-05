@@ -47,7 +47,7 @@ class TripBookingService
         // Assign booking to hotel
         $trip->bookings()->save($booking);
 
-        $admins = User::where('role', 'administrator')->get();
+        $admins = User::where('role', 'administrator')->where('status', 1)->get();
         foreach ($admins as $admin) {
             if ($admin->email) {
                 Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
@@ -66,7 +66,7 @@ class TripBookingService
         $validatedData['total_price']   = $trip->price * $validatedData['total_guests'];
         $validatedData['check_in_date'] = $trip->date;
 
-        //booking by provider 
+        //booking by provider
         if (Auth::guard('user')->user()->role == "provider"||Auth::guard('user')->user()->role == "Trip_provider") {
 
             $validatedData['provider_id'] = Auth::guard('user')->user()->id;
@@ -97,7 +97,7 @@ class TripBookingService
         // Assign booking to hotel
         $trip->bookings()->save($booking);
 
-        $admins = User::where('role', 'administrator')->get();
+        $admins = User::where('role', 'administrator')->where('status', 1)->get();
         foreach ($admins as $admin) {
             if ($admin->email) {
                 Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
