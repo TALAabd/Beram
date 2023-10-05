@@ -8,6 +8,7 @@ use Modules\Hotels\Models\Hotel;
 use Modules\Hotels\Models\Room;
 use Illuminate\Database\Eloquent\Collection;
 use App\Traits\MapHelper;
+use Illuminate\Support\Facades\App;
 
 class HotelService
 {
@@ -28,6 +29,20 @@ class HotelService
         }
         $page = (isset($request->page)) ? $request->page :  null;
         return $this->hotelRepository->all($page, $request->per_page);
+    }
+
+    public function getHotelsAndRooms($request)
+    {
+        if ($request->lang) {
+            App::setlocale($request->lang);
+        }
+        $hotels = Hotel::with([
+            'rooms' => function ($query) {
+                $query->where('status', 1)->select('id', 'title', 'status', 'hotel_id');
+            },
+        ])
+            ->with('rooms')->where('status', 1)->orderBy('name', 'asc', app()->getLocale())->get(['id', 'name']);
+        return $hotels;
     }
 
     public function getFeaturedHotels()
@@ -82,8 +97,8 @@ class HotelService
     {
         DB::beginTransaction();
         // if ($request->id == null) {
-            // $rooms = Room::filter($request)->get();
-            $rooms = Room::filter($request);
+        // $rooms = Room::filter($request)->get();
+        $rooms = Room::filter($request);
         // }
         // else {
         //     $hotel = $this->hotelRepository->find($request->id);
@@ -98,7 +113,7 @@ class HotelService
     {
         DB::beginTransaction();
         // if ($hotelId == null) {
-            $rooms = Room::get();
+        $rooms = Room::get();
         // }
         //  else {
         //     $hotel = $this->hotelRepository->find($hotelId);
@@ -151,7 +166,7 @@ class HotelService
         $nearlyHotels = $nearlyHotels->sortBy('distance')->take(10);  // Sort the nearly hotels by distance and take top 10
         return $nearlyHotels;
     }
-    
+
 
 
     public function count(): int

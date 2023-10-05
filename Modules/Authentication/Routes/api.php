@@ -28,6 +28,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/login', [UserAuthController::class, 'login']);
         Route::group(['middleware' => 'auth:user'], function () {
             Route::get('/user-Permissions', [UserAuthController::class, 'userPermissions']);
+            Route::get('/trip-providers',   [UserAuthController::class, 'getTripProviders']);
+            Route::get('/hotel-providers',  [UserAuthController::class, 'getHotelProviders']);
             Route::get('/user-Role', [UserAuthController::class, 'userRole']);
             Route::get('/profile-details', [UserAuthController::class, 'getProfileDetails']);
             Route::post('/logout', [UserAuthController::class, 'logout']);
@@ -74,6 +76,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('/change-password', [CustomerAuthController::class, 'changePassword']);
             Route::post('/save-fcm-token', [CustomerAuthController::class, 'saveFcmToken']);
             Route::put('/edit-profile', [CustomerController::class, 'update']);
+            Route::post('/check-token', [CustomerAuthController::class, 'checkToken']);
         });
     });
 

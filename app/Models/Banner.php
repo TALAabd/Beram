@@ -34,7 +34,8 @@ class Banner extends Model implements HasMedia
         'url_link',
         'service',
         'provider_id',
-        'created_at'
+        'created_at',
+        'description',
     ];
 
     protected $casts = [

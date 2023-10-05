@@ -24,10 +24,9 @@ class UserAuthController extends Controller
             ['roles' => $details],
             'userSuccessfullySignedIn',
             200,
-           ''
+            ''
         );
     }
-
 
     public function userPermissions(UserAuthRequest $request)
     {
@@ -39,6 +38,27 @@ class UserAuthController extends Controller
             200
         );
     }
+
+    public function getTripProviders()
+    {
+        $providers = $this->userAuthService->getTripProviders();
+        return $this->successResponse(
+            ['providers' => $providers],
+            'success',
+            200
+        );
+    }
+
+    public function getHotelProviders()
+    {
+        $providers = $this->userAuthService->getHotelProviders();
+        return $this->successResponse(
+            ['providers' => $providers],
+            'success',
+            200
+        );
+    }
+
     public function userRole(UserAuthRequest $request)
     {
         $validatedData = $request->validated();

@@ -30,6 +30,7 @@ class BannerRequest extends FormRequest
             'service' => 'nullable|in:hotel,restaurant',
             'provider_id' => 'nullable|integer|exists:users,id',
             'images.*.name' => 'nullable|file',
+            'description' => 'nullable|string',
         ];
         return $rules;
     }

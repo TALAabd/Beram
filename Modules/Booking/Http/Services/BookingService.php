@@ -70,12 +70,12 @@ class BookingService
         if ($booking->status == 'Confirmed') {
             if ($booking->service_type == 'hotel') {
                 $provider = User::where('id',  $booking->bookable->user_id)->first();
-                if ($provider->email) {
+                if ($provider && $provider->email) {
                     Mail::to($provider->email)->send(new ProviderBookingMail($booking, $booking->bookable->getTranslation('name', 'en')));
                 }
             } elseif ($booking->service_type == 'trip') {
                 $provider = User::where('id',  $booking->bookable->provider_id)->first();
-                if ($provider->email) {
+                if ($provider && $provider->email) {
                     Mail::to($provider->email)->send(new ProviderBookingMail($booking, $booking->bookable->getTranslation('name', 'en')));
                 }
             }

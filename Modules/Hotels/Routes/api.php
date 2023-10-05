@@ -22,6 +22,7 @@ use Modules\Hotels\Http\Controllers\CustomerController\CustomerHotelsController;
 
 Route::group(['prefix' => 'v1'], function () {
 
+    Route::get('/get-rooms-names', [HotelsController::class, 'getHotelsAndRooms'])->name('hotels.getHotelsAndRooms');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 

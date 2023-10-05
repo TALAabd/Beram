@@ -45,7 +45,7 @@ class UserAuthService extends Controller
             'token' => $token
         ];
     }
-   
+
     public function userPermissions($validatedData)
     {
         $user = Auth::guard('user')->user();
@@ -59,9 +59,41 @@ class UserAuthService extends Controller
 
         return $roles;
     }
+
+    public function getTripProviders()
+    {
+        $providers = User::where('role', 'provider')->orWhere('role', 'trip_provider')->get(['id', 'first_name', 'last_name', 'role']);
+        $data = [];
+        foreach ($providers as $provider) {
+            $data[] = [
+                'id'         => $provider->id,
+                'first_name' => $provider->first_name,
+                'last_name'  => $provider->last_name,
+                'role'       => $provider->role,
+            ];
+        }
+        return $data;
+    }
+    
+
+    public function getHotelProviders()
+    {
+        $providers = User::where('role', 'provider')->orWhere('role', 'hotel_provider')->get(['id', 'first_name', 'last_name', 'role']);
+        $data = [];
+        foreach ($providers as $provider) {
+            $data[] = [
+                'id'         => $provider->id,
+                'first_name' => $provider->first_name,
+                'last_name'  => $provider->last_name,
+                'role'       => $provider->role,
+            ];
+        }
+        return $data;
+    }
+
     public function userRole($validatedData)
     {
-      
+
         return Role::get();
     }
 

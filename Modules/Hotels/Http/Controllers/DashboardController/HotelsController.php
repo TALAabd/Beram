@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Modules\Hotels\Http\Requests\HotelRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Hotels\RepositoryInterface\HotelRepositoryInterface;
 use Modules\Hotels\Http\Resources\HotelResource;
@@ -20,8 +21,17 @@ class HotelsController extends Controller
 
     public function __construct(HotelRepositoryInterface $hotelRepository, private HotelService $hotelService)
     {
-        $this->middleware('permission:hotels_manager',['only' => ['store','update','destroy','updateFeatured','updateTerms']]);
-        $this->middleware('permission:hotels_manager||update_rooms_manager',['only' => ['updateStatus','addMedia','deleteMedia']]);
+        if(Auth::guard('user')->user()) {
+            $this->middleware('permission:hotels_get',['only' => ['index']]);
+            $this->middleware('permission:rooms_get', ['only' => ['getRooms']]);
+        }
+
+        $this->middleware('permission:hotels_create',['only' => ['store']]);
+        $this->middleware('permission:hotels_update',['only' => ['update', 'updateTerms']]);
+        $this->middleware('permission:hotels_is_featured',['only' => ['updateFeatured']]);
+        $this->middleware('permission:hotels_delete',['only' => ['destroy']]);
+
+        // $this->middleware('permission:hotels_manager|update_rooms_manager',['only' => ['updateStatus','addMedia','deleteMedia']]);
 
         // $this->middleware('permission:rooms_manager', ['only' => ['getRooms']]);
         $this->hotelRepository = $hotelRepository;
@@ -110,7 +120,7 @@ class HotelsController extends Controller
             'dataUpdatedSuccessfully'
         );
     }
-    
+
     public function updateStatus($id)
     {
         DB::beginTransaction();
@@ -208,6 +218,15 @@ class HotelsController extends Controller
         return $this->successResponse(
             null,
             'dataUpdatedSuccessfully'
+        );
+    }
+
+    public function getHotelsAndRooms(Request $request)
+    {
+        $hotels = $this->hotelService->getHotelsAndRooms($request);
+        return $this->successResponse(
+            $this->resource($hotels, HotelResource::class),
+            'dataFetchedSuccessfully'
         );
     }
 }
