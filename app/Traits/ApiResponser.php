@@ -14,7 +14,7 @@ trait ApiResponser
         ], $code, $token ? ['Authorization' => $token] : []);
     }
 
-    public static function errorResponse( $data = null,$message = null, $code = 500)
+    public static function errorResponse($data = null, $message = null, $code = 500)
     {
         return response()->json([
             'status'       => 'Error',

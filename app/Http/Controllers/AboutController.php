@@ -12,6 +12,8 @@ class AboutController extends Controller
 {
     public function __construct(private AboutService $aboutService)
     {
+        $this->middleware('permission:settings', ['only' => ['create', 'update', 'updatePrivacy', 'updateTerms']]);
+
     }
 
     public function getAll(Request $request)
@@ -93,7 +95,7 @@ class AboutController extends Controller
             'dataUpdatedSuccessfully'
         );
     }
-    
+
 
     public function delete($aboutId)
     {

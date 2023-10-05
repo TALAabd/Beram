@@ -39,6 +39,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::findOrCreate('users_manager');
         Permission::findOrCreate('attributes_manager');
         Permission::findOrCreate('terms_manager');
+        Permission::findOrCreate('settings');
 
         //Location
         Permission::findOrCreate('countries_manager');
