@@ -3,6 +3,7 @@
 namespace Modules\Booking\Http\Services;
 
 use App\Mail\AdminBookingMail;
+use App\Models\PaymentMethod;
 use App\Models\Trip;
 use App\Models\Wallet;
 use App\Traits\ApiResponser;
@@ -67,42 +68,47 @@ class TripBookingService
         $validatedData['check_in_date'] = $trip->date;
 
         //booking by provider
-        if (Auth::guard('user')->user()->role == "provider"||Auth::guard('user')->user()->role == "Trip_provider") {
+        if (Auth::guard('user')->user()) {
+            if (Auth::guard('user')->user()->role == "provider" || Auth::guard('user')->user()->role == "Trip_provider") {
 
-            $validatedData['provider_id'] = Auth::guard('user')->user()->id;
+                $validatedData['provider_id'] = Auth::guard('user')->user()->id;
+                $payment_id = PaymentMethod::where('name','Cash')->first();
+                $validatedData['payment_id']  = $payment_id->id;
 
-            $wallet = Wallet::where('provider_id', Auth::guard('user')->user()->id)->first();
-            //check peovider wallet
-            if ($wallet->amount >= $trip->price) {
+                $wallet = Wallet::where('provider_id', Auth::guard('user')->user()->id)->first();
+                //check peovider wallet
+                if ($wallet->amount >= $trip->price) {
 
-                $new_wallet     = $wallet->amount -  $trip->price;
-                $wallet->amount = $new_wallet;
-                $wallet->save();
-
-                if ($new_wallet <= 0) {
-                    $wallet->status = 0;
+                    $new_wallet     = $wallet->amount -  $trip->price;
+                    $wallet->amount = $new_wallet;
                     $wallet->save();
-                }
-            } else {
-                return ApiResponser::errorResponse(
-                    null,
-                    'wallet dose not have enough money'
 
-                );
+                    if ($new_wallet <= 0) {
+                        $wallet->status = 0;
+                        $wallet->save();
+                    }
+                } else {
+                    return ApiResponser::errorResponse(
+                        null,
+                        'wallet dose not have enough money'
+
+                    );
+                }
             }
         }
+
         // Create booking
         $booking = $this->bookingRepository->createGuestBooking($validatedData);
 
         // Assign booking to hotel
         $trip->bookings()->save($booking);
 
-        $admins = User::where('role', 'administrator')->where('status', 1)->get();
-        foreach ($admins as $admin) {
-            if ($admin->email) {
-                Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
-            }
-        }
+        // $admins = User::where('role', 'administrator')->where('status', 1)->get();
+        // foreach ($admins as $admin) {
+        //     if ($admin->email) {
+        //         Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
+        //     }
+        // }
 
         DB::commit();
 
