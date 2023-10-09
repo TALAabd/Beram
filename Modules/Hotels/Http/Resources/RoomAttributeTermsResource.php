@@ -27,6 +27,7 @@ class RoomAttributeTermsResource extends JsonResource
             'id'        => $this->id,
             'title'     => $this->getTranslation('title', $locale) ?? '',
             'content'   => $this->getTranslation('content', $locale) ?? '',
+            'policy'    => $this->getTranslation('policy', $locale) ?? '',
             'price'     => $this->syrian_price,
             'hotel_id'  => $this->hotel->id,
             'name'      => $this->hotel->name,

@@ -24,6 +24,15 @@ class WalletController extends Controller
             'dataFetchedSuccessfully'
         );
     }
+    public function providerWallet(Request $request)
+    {
+        $trips = $this->walletservice->providerWallet($request);
+        return $this->successResponse(
+            $this->resource($trips, WalletResource::class),
+            'dataFetchedSuccessfully'
+        );
+    }
+    
     public function getRegister(Request $request)
     {
         $trips = $this->walletservice->getRegister($request);

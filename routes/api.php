@@ -71,11 +71,13 @@ Route::group(['prefix' => 'v1'], function () {
             'prefix' => '/wallets'
         ], function () {
             Route::get('/', [WalletController::class, 'getAll']);
+            Route::get('/provider-wallet', [WalletController::class, 'providerWallet']);
             Route::get('/{id}', [WalletController::class,'find']);
             // Route::post('/', 'create');
             Route::post('/{id}',[WalletController::class, 'update']);
             Route::post('/{id}/add',[WalletController::class, 'AddToWallet']);
             Route::delete('/{id}',[WalletController::class, 'delete']);
+
         });
 
         Route::group(['prefix' => 'feature'], function () {
