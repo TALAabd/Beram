@@ -167,13 +167,14 @@ class Hotel extends Model implements HasMedia
                 $newQuery = $query;
             }
         }
+        
 
         if (request()->skip_count != null && request()->max_count != null) {
             $skipCount = request()->skip_count;
             $maxCount  = request()->max_count;
             $newQuery  = $newQuery->skip($skipCount)->take($maxCount);
         }
-
+        // dd($newQuery);
         return $newQuery;
     }
 

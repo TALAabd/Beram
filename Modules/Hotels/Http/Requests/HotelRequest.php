@@ -24,6 +24,7 @@ class HotelRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return match ($this->route()->getActionMethod()) {
             'getNearestHotel' => $this->getNearestHotel(),
             default  => [
@@ -39,7 +40,7 @@ class HotelRequest extends FormRequest
                 'star_rate'      => 'required|integer|min:1|max:5',
                 'check_in_time'  => 'required|string|max:255',
                 'check_out_time' => 'required|string|max:255',
-                'web'            => 'nullable|url|max:255',
+                'web'            => 'nullable|max:255',
                 'fax'            => 'nullable|string|max:20',
                 'email'          => 'nullable|email|max:255',
                 'phone'          => 'nullable|string|max:20',

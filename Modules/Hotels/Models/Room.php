@@ -28,10 +28,12 @@ class Room extends Model implements HasMedia
     const PATH = 'rooms';
     const SERVICE = 'rooms';
 
-    public $translatable = ['title', 'content'];
+    public $translatable = ['title', 'content','policy'];
 
     protected $fillable = [
-        'title', 'content', 'foreign_price', 'syrian_price', 'number', 'beds', 'size', 'baths', 'adults', 'children', 'status',
+        'title', 'content', 'foreign_price', 'syrian_price', 'number'
+        , 'beds', 'size', 'baths', 'adults', 'children', 'status',
+        'policy'
     ];
 
     protected $hidden = ['create_user', 'update_user', 'deleted_at'];

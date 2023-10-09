@@ -37,6 +37,7 @@ class RoomRequest extends FormRequest
         $rules = [
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string', 'max:255'],
+            'policy' => ['nullable'],
             'syrian_price' => ['required', 'numeric'],
             // 'foreign_price' => ['required', 'numeric'],
             'number' => ['required', 'numeric'],

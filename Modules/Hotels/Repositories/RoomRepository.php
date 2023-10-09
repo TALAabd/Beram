@@ -30,6 +30,7 @@ class RoomRepository implements RoomRepositoryInterface
         $room = new Room;
         $room->setTranslation('title', $lang, $attributes['title']);
         $room->setTranslation('content', $lang, $attributes['content']);
+        $room->setTranslation('policy', $lang, $attributes['policy']);
         // $room->foreign_price = $attributes['foreign_price'];
         $room->syrian_price = $attributes['syrian_price'];
         $room->number = $attributes['number'];
@@ -49,6 +50,8 @@ class RoomRepository implements RoomRepositoryInterface
         $lang = app()->getLocale();
         $room->setTranslation('title', $lang, $attributes['title']);
         $room->setTranslation('content', $lang, $attributes['content']);
+        $room->setTranslation('policy', $lang, $attributes['policy']);
+
         // $room->foreign_price = $attributes['foreign_price'];
         $room->syrian_price = $attributes['syrian_price'];
         $room->number = $attributes['number'];
