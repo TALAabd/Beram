@@ -6,6 +6,8 @@ use App\Models\Wallet;
 use App\Models\WalletRegister;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\WalletRepository;
+use Illuminate\Support\Facades\Auth;
+use Modules\Authentication\Models\User;
 
 class WalletService
 {
@@ -17,6 +19,12 @@ class WalletService
     {
         return Wallet::get();
     }
+    public function providerWallet()
+    {
+        $user = Auth::user();
+        return Wallet::where('provider_id', $user->id)->first();
+    }
+    
     public function getRegister()
     {
         return WalletRegister::get();
