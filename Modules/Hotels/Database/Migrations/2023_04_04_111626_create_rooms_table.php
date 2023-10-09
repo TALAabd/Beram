@@ -35,6 +35,8 @@ return new class extends Migration
             $table->bigInteger('create_user')->nullable();
             $table->bigInteger('update_user')->nullable();
             $table->unsignedBigInteger('hotel_id');
+            $table->text('policy')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');

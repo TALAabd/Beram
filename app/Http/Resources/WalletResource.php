@@ -15,11 +15,13 @@ class WalletResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'          => $this->id,
-            'provider_id' => $this->provider_id,
-            'provider'    => $this->provider->first_name,
-            'amount'      => $this->amount,
-            'status'      => $this->status,
+            'id'                   => $this->id,
+            'provider_id'          => $this->provider_id,
+            'provider_first_name'  => $this->provider->first_name,
+            'provider_last_name'   => $this->provider->last_name,
+            'role'                 => $this->provider->role,
+            'amount'               => $this->amount,
+            'status'               => $this->status,
         ];
     }
 }

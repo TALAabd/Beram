@@ -38,6 +38,7 @@ class RoomResource extends JsonResource
                 'id'        => $this->id,
                 'title'     => $this->getTranslation('title', $locale) ?? '',
                 'content'   => $this->getTranslation('content', $locale) ?? '',
+                'policy'   => $this->getTranslation('policy', $locale) ?? '',
                 'price'         => $price,
                 'syrian_price'  => $this->syrian_price,
                 'foreign_price' => $this->foreign_price,
@@ -59,6 +60,8 @@ class RoomResource extends JsonResource
                 'id' => $this->id,
                 'title' => $this->getTranslation('title', $locale) ?? '',
                 'content' => $this->getTranslation('content', $locale) ?? '',
+                'policy'   => $this->getTranslation('policy', $locale) ?? '',
+
                 'status' => $this->status,
                 'hotel_id'  => $this->hotel->id,
                 'name'      => $this->hotel->name,

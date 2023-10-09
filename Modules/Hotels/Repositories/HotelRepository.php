@@ -55,7 +55,7 @@ class HotelRepository implements HotelRepositoryInterface
     {
         $lang = app()->getLocale();
         $hotel->setTranslation('name', $lang, $attributes['name']);
-        $hotel->setTranslation('title', $lang, $attributes['title']);
+        // $hotel->setTranslation('title', $lang, $attributes['title']);
         $hotel->setTranslation('content', $lang, $attributes['content']);
         $hotel->setTranslation('address', $lang, $attributes['address']);
         $hotel->setTranslation('policy', $lang, $attributes['policy']);
@@ -66,8 +66,8 @@ class HotelRepository implements HotelRepositoryInterface
         $hotel->star_rate = $attributes['star_rate'];
         $hotel->check_in_time = $attributes['check_in_time'];
         $hotel->check_out_time = $attributes['check_out_time'];
-        $hotel->min_price = $attributes['min_price'];
-        $hotel->max_price = $attributes['max_price'];
+        // $hotel->min_price = $attributes['min_price'];
+        // $hotel->max_price = $attributes['max_price'];
         $hotel->web = $attributes['web'];
         $hotel->phone = $attributes['phone'];
         $hotel->email = $attributes['email'];

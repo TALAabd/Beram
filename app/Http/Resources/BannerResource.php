@@ -43,7 +43,7 @@ class BannerResource extends JsonResource
             return [
                 'id'          => $this->id,
                 'url_link'    => $this->url_link,
-                'media_urls'  => $media_urls[0],
+                'media_urls'  => $media_urls[0]?? '',
             ];
         }
 
