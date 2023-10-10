@@ -4,6 +4,7 @@ namespace Modules\Booking\Http\Services;
 
 use App\Models\Wallet;
 use App\Mail\AdminBookingMail;
+use App\Models\GuestData;
 use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,18 @@ class HotelRoomsBookingService
         // Assign booking to hotel
         $hotel->bookings()->save($booking);
 
+        //create guest 
+        if ($validatedData['guest']) {
+            $data = $validatedData['guest'];
+            for ($i = 0; $i < count($data); $i++) {
+                $guest = new GuestData();
+                $guest->booking_id = $booking->id;
+                $guest->first_name = $data[$i]['first_name'];
+                $guest->last_name  = $data[$i]['last_name'];
+                $guest->age        = $data[$i]['age'];
+                $guest->save();
+            }
+        }
         // Create room bookings
         $roomBookings = [];
         $roomData = [
@@ -69,12 +82,12 @@ class HotelRoomsBookingService
         // Assign room bookings to booking user
         $booking->roomBookings()->saveMany($roomBookings);
 
-        $admins = User::where('role', 'administrator')->where('status', 1)->get();
-        foreach ($admins as $admin) {
-            if ($admin->email) {
-                Mail::to($admin->email)->send(new AdminBookingMail($booking, $hotel->getTranslation('name', 'en')));
-            }
-        }
+        // $admins = User::where('role', 'administrator')->where('status', 1)->get();
+        // foreach ($admins as $admin) {
+        //     if ($admin->email) {
+        //         Mail::to($admin->email)->send(new AdminBookingMail($booking, $hotel->getTranslation('name', 'en')));
+        //     }
+        // }
 
         DB::commit();
 
@@ -95,7 +108,7 @@ class HotelRoomsBookingService
             if (Auth::guard('user')->user()->role == "provider" || Auth::guard('user')->user()->role == "Hotel_provider") {
 
                 $validatedData['provider_id'] = Auth::guard('user')->user()->id;
-                $payment_id = PaymentMethod::where('name','Cash')->first();
+                $payment_id = PaymentMethod::where('name', 'Cash')->first();
                 $validatedData['payment_id']  = $payment_id->id;
 
 
