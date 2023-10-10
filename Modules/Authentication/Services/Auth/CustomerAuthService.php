@@ -27,12 +27,20 @@ class CustomerAuthService
             throw new Exception(__('messages.credentialsError'), 401);
         }
 
-        if (!$token = Auth::guard('customer')->attempt($validatedData)) {
+        if (!$token = Auth::guard('customer')->attempt([
+            'phone'    => $validatedData['phone'],
+            'password' => $validatedData['password']
+        ])) {
             throw new Exception(__('messages.incorrect_password'), 401);
         }
 
         if ($customer->status != 1) {
             throw new Exception(__('messages.blockedUser'), 401);
+        }
+
+        if (isset($validatedData['fcm_token'])) {
+            $customer->fcm_token = $validatedData['fcm_token'];
+            $customer->save();
         }
         return $token;
     }
@@ -44,9 +52,22 @@ class CustomerAuthService
             throw new Exception(__('messages.credentialsError'), 401);
         }
 
-        if (!$token = Auth::guard('customer')->attempt($validatedData)) {
+        if (!$token = Auth::guard('customer')->attempt([
+            'email'    => $validatedData['email'],
+            'password' => $validatedData['password']
+        ])) {
             throw new Exception(__('messages.incorrect_password'), 401);
         }
+
+        if ($customer->status != 1) {
+            throw new Exception(__('messages.blockedUser'), 401);
+        }
+
+        if (isset($validatedData['fcm_token'])) {
+            $customer->fcm_token = $validatedData['fcm_token'];
+            $customer->save();
+        }
+
         return $token;
     }
     public function SiteRegister($validatedData)
@@ -67,7 +88,7 @@ class CustomerAuthService
     public function register($validatedData)
     {
         $attemptedData = [
-            'phone' => $validatedData['phone'],
+            'phone'    => $validatedData['phone'],
             'password' => $validatedData['password']
         ];
 

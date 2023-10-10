@@ -47,20 +47,24 @@ class CustomerAuthRequest extends FormRequest
             'phone' => ['required', 'numeric', 'unique:customers,phone'],
             'password' => ['required', 'string', 'min:6','confirmed'],
             'password_confirmation' => ['required', 'string', 'min:6'],
+            'fcm_token' => '',
         ];
     }
     public function login()
     {
         return [
-            'phone'  => 'required|string|min:9|max:10',
-            'password'      => 'required|string|min:6|max:30'
+            'phone'     => 'required|string|min:9|max:10',
+            'password'  => 'required|string|min:6|max:30',
+            'fcm_token' => '',
         ];
     }
     public function login2()
     {
         return [
             'email'  => 'required|email',
-            'password'      => 'required|string|min:6|max:30'
+            'password'      => 'required|string|min:6|max:30',
+            'fcm_token' => '',
+
         ];
     }
 
@@ -77,6 +81,7 @@ class CustomerAuthRequest extends FormRequest
             // 'birthday' => ['nullable', 'date'],
             'password' => ['required', 'string', 'min:6','confirmed'],
             'password_confirmation' => ['required', 'string', 'min:6'],
+            'fcm_token' => '',
             // 'city' => ['nullable', 'string', 'max:255'],
             // 'state' => ['nullable', 'string', 'max:255'],
             // 'country' => ['nullable', 'string', 'max:255'],
