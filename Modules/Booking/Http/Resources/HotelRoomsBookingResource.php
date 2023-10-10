@@ -24,6 +24,7 @@ class HotelRoomsBookingResource extends JsonResource
             'end_date'     => $this->end_date,
             'price'        => $this->price,
             'max_guests'   => $this->max_guests,
+            'guest_data'   => $this->booking->guest,
             'rooms_count'  => $this->max_guests,
             'booking_id'   => $this->booking_id,
             'room_id'      => $this->room_id,

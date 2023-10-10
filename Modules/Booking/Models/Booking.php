@@ -76,7 +76,7 @@ class Booking extends Model
         return $this->morphTo();
     }
     public function guest()
-    {
+    { 
         return $this->hasMany(GuestData::class);
     }
     public function customer()
