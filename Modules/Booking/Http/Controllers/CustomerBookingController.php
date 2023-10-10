@@ -82,7 +82,9 @@ class CustomerBookingController extends Controller
     public function getBookingDetails($bookingId)
     {
         $booking = $this->bookingService->getBookingDetails($bookingId);
+        // dd($booking->roomBookings);
         if ($booking->service_type == "hotel")
+
             return $this->successResponse(
                 $this->resource($booking->roomBookings, HotelRoomsBookingResource::class),
                 'dataFetchedSuccessfully'
@@ -133,7 +135,7 @@ class CustomerBookingController extends Controller
             'bookingSuccessfully'
         );
     }
-    public function createGuestBooking(BookingRequest $request)//trip
+    public function createGuestBooking(BookingRequest $request) //trip
     {
         $validatedData = $request->validated();
         $data =  $this->tripBookingService->createGuestBooking($validatedData);
