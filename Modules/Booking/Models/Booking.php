@@ -2,6 +2,7 @@
 
 namespace Modules\Booking\Models;
 
+use App\Models\GuestData;
 use App\Models\PaymentMethod;
 use App\Models\Trip;
 use Modules\Authentication\Models\User;
@@ -74,7 +75,10 @@ class Booking extends Model
     {
         return $this->morphTo();
     }
-
+    public function guest()
+    {
+        return $this->hasMany(GuestData::class);
+    }
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');

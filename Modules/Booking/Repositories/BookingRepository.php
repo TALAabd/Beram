@@ -5,6 +5,7 @@ namespace Modules\Booking\Repositories;
 use Modules\Booking\Models\Booking;
 use App\Traits\ModelHelper;
 use App\Helper\bookingHelper;
+use App\Models\GuestData;
 use App\Models\Wallet;
 use Illuminate\Support\Facades\Auth;
 use Modules\Authentication\Models\Customer;
@@ -101,7 +102,7 @@ class BookingRepository
     {
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "trip";
-        
+
         if ($validatedData['customer_id']) {
             $customer = Customer::where('id', $validatedData['customer_id'])->first();
             $validatedData['email']        = $customer->email;
@@ -129,6 +130,19 @@ class BookingRepository
         }
         $booking = new Booking($validatedData);
         $booking->save();
+
+        //create guest 
+        if ($validatedData['guest']) {
+            $data = $validatedData['guest'];
+            for ($i = 0; $i < count($data); $i++) {
+                $guest = new GuestData();
+                $guest->booking_id = $booking->id;
+                $guest->first_name = $data[$i]['first_name'];
+                $guest->last_name  = $data[$i]['last_name'];
+                $guest->age        = $data[$i]['age'];
+                $guest->save();
+            }
+        }
         return $booking;
     }
 

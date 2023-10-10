@@ -45,6 +45,7 @@ class HotelRoomsBookingRequest extends FormRequest
             'room_id'        => 'required|exists:rooms,id',
             'max_guests'     => 'required|integer|min:1',
             'rooms_count'    => 'required|integer|min:1',
+            'guest'          => '',
         ];
     }
     public function createHotelBooking()
@@ -58,6 +59,7 @@ class HotelRoomsBookingRequest extends FormRequest
             'room_id'        => 'required|exists:rooms,id',
             'max_guests'     => 'required|integer|min:1',
             'rooms_count'    => 'required|integer|min:1',
+            'guest'          => '',
         ];
     }
 }
