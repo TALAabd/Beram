@@ -28,7 +28,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('/search', [CustomerBookingController::class,'search'])->name('booking.search.hotel');
     Route::get('/trip-search', [CustomerBookingController::class,'search'])->name('booking.search.trip');
-    
+
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:user'], function () {
 
         ############################################
@@ -44,6 +44,7 @@ Route::group(['prefix' => 'v1'], function () {
                 Route::get('/details', [BookingController::class, 'getBookingDetails']);
                 Route::put('/change-status', [BookingController::class, 'changeStatusBooking']);
                 Route::put('/confirmed',     [BookingController::class, 'confirmedBooking']);
+                Route::post('/save-booking-file', [BookingController::class, 'saveBookingFile']);
             });
             ############################################
             Route::group(['prefix' => 'hotel',], function () {

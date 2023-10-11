@@ -103,12 +103,12 @@ class TripBookingService
         // Assign booking to hotel
         $trip->bookings()->save($booking);
 
-        // $admins = User::where('role', 'administrator')->where('status', 1)->get();
-        // foreach ($admins as $admin) {
-        //     if ($admin->email) {
-        //         Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
-        //     }
-        // }
+        $admins = User::where('role', 'administrator')->where('status', 1)->get();
+        foreach ($admins as $admin) {
+            if ($admin->email) {
+                Mail::to($admin->email)->send(new AdminBookingMail($booking, $trip->getTranslation('name', 'en')));
+            }
+        }
 
         DB::commit();
 

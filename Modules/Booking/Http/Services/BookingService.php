@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Booking\Repositories\BookingRepository;
 use App\Helper\bookingHelper;
 use App\Http\Services\NotificationService;
+use App\Mail\BookingPdfMail;
 use App\Mail\ProviderBookingMail;
 use App\Traits\NotificationMessages;
 use Exception;
@@ -162,5 +163,45 @@ class BookingService
     public function count(): int
     {
         return DB::table('bookings')->count();
+    }
+
+    public function saveBookingFile($bookingId, $mediaFile)
+    {
+        $booking = $this->find($bookingId);
+        $booking->clearMediaCollection('pdf');
+        $booking->addMedia($mediaFile)->toMediaCollection('pdf');
+
+        $media = $booking->getFirstMedia('pdf')->getPath();
+        $admins = User::where('role', 'administrator')->where('status', 1)->get();
+
+        foreach ($admins as $admin) {
+            if ($admin->email) {
+                $mail = new BookingPdfMail($booking, $booking->bookable->getTranslation('name', 'en'));
+                $mail->attach($media, [
+                    'as' => $booking->first_name . ' ' . $booking->last_name . ' receipt.pdf',
+                ]);
+                Mail::to($admin->email)->send($mail);
+            }
+        }
+
+        if ($booking->service_type == 'hotel') {
+            $provider = User::where('id',  $booking->bookable->user_id)->where('role', '!=', 'administrator')->first();
+            if ($provider && $provider->email) {
+                $mail = new BookingPdfMail($booking, $booking->bookable->getTranslation('name', 'en'));
+                $mail->attach($media, [
+                    'as' => $booking->first_name . ' ' . $booking->last_name . ' receipt.pdf',
+                ]);
+                Mail::to($provider->email)->send($mail);
+            }
+        } elseif ($booking->service_type == 'trip') {
+            $provider = User::where('id',  $booking->bookable->provider_id)->where('role', '!=', 'administrator')->first();
+            if ($provider && $provider->email) {
+                $mail = new BookingPdfMail($booking, $booking->bookable->getTranslation('name', 'en'));
+                $mail->attach($media, [
+                    'as' => $booking->first_name . ' ' . $booking->last_name . ' receipt.pdf',
+                ]);
+                Mail::to($provider->email)->send($mail);
+            }
+        }
     }
 }

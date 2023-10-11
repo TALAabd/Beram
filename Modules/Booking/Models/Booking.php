@@ -6,13 +6,17 @@ use App\Models\PaymentMethod;
 use App\Models\Trip;
 use Modules\Authentication\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Modules\Authentication\Models\Customer;
 
-class Booking extends Model
+class Booking extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+
 
     protected $table         = 'bookings';
     protected $slugField     = 'slug';
