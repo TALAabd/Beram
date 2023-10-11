@@ -120,7 +120,7 @@ class BookingRepository
         $validatedData['booking_code'] = bookingHelper::generateBookingCode();
         $validatedData['service_type'] = "hotel";
 
-        if ($validatedData['customer_id']) {
+        if (isset($validatedData['customer_id'])) {
             $customer = Customer::where('id', $validatedData['customer_id'])->first();
             $validatedData['email']        = $customer->email;
             $validatedData['first_name']   = $customer->first_name;
