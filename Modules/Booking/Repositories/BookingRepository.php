@@ -132,7 +132,7 @@ class BookingRepository
         $booking->save();
 
         //create guest 
-        if ($validatedData['guest']) {
+        if (isset($validatedData['guest'])) {
             $data = $validatedData['guest'];
             for ($i = 0; $i < count($data); $i++) {
                 $guest = new GuestData();
