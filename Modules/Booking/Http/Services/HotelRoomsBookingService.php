@@ -54,7 +54,7 @@ class HotelRoomsBookingService
         $hotel->bookings()->save($booking);
 
         //create guest 
-        if ($validatedData['guest']) {
+        if (isset($validatedData['guest'])) {
             $data = $validatedData['guest'];
             for ($i = 0; $i < count($data); $i++) {
                 $guest = new GuestData();
@@ -106,14 +106,13 @@ class HotelRoomsBookingService
         //booking by provider
         if (Auth::guard('user')->user()) {
             if (Auth::guard('user')->user()->role == "provider" || Auth::guard('user')->user()->role == "Hotel_provider") {
-
+              
                 $validatedData['provider_id'] = Auth::guard('user')->user()->id;
                 $payment_id = PaymentMethod::where('name', 'Cash')->first();
                 $validatedData['payment_id']  = $payment_id->id;
 
-
                 $wallet = Wallet::where('provider_id', Auth::guard('user')->user()->id)->first();
-
+                
                 //check peovider wallet
                 if ($wallet->amount >= $room->syrian_price) {
 
