@@ -23,6 +23,7 @@ return [
     'passwordConfirmationNotMatch'   => 'تأكيد كلمة المرور غير متطابقة. يرجى إعادة المحاولة',
     'credentialsError'               => 'خطأ في الرقم الوطني او كلمة المرور',
     'validToken'                     => 'التوكين صالح',
+    'incorrect_password'             => '.كلمة السر خاطئة',
 
     'Unauthorized'                   => 'لا تملك صلاحيات للقيام بهذا الإجراء',
     'Unauthenticated'                => 'الرجاء تسجيل الدخول اولاً',

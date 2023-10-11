@@ -29,6 +29,7 @@ class BookingRequest extends FormRequest
             'createGuestBooking'  => $this->createGuestBooking(),
             'changeStatusBooking' => $this->changeStatusBooking(),
             'createTripBooking'   => $this->createTripBooking(),
+            'saveBookingFile'     => $this->saveBookingFile(),
             'DELETE' => $this->destroy(),
             default => []
         };
@@ -85,6 +86,13 @@ class BookingRequest extends FormRequest
             'booking_code' => 'required',
             'last_name'    => 'required',
             'first_name'   => 'required',
+        ];
+    }
+
+    public function saveBookingFile()
+    {
+        return [
+            'file' => 'required|file',
         ];
     }
 

@@ -23,6 +23,7 @@ return [
     'passwordConfirmationNotMatch'   => 'The Password confirmation does not match.',
     'credentialsError'               => 'Wrong ID or password',
     'validToken'                     => 'the token is valid.',
+    'incorrect_password'             => 'incorrect password.',
 
     'Unauthorized'                   => 'You do not have permissions to perform this action',
     'Unauthenticated'                => 'PLease login first',

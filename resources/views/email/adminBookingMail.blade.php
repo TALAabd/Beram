@@ -13,7 +13,7 @@
 				<a href="https://control.alberam.sy/trip_booking/pending"> Check it out </a>
 			@endif
 		</h2>
-		<p style="font-size: 0.9em;">Regards,<br />Beram</p>
+		<p style="font-size: 0.9em;">Regards, Beram</p>
 		<hr style="border: none; border-top: 1px solid #eee" />
 	</div>
 </div>

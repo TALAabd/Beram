@@ -116,4 +116,21 @@ class BookingController extends Controller
             'dataUpdatedSuccessfully'
         );
     }
+
+    public function saveBookingFile(BookingRequest $request, $bookingId)
+    {
+        $validatedData = $request->validated();
+
+        if ($request->file('file') && $request->file('file')->isValid()) {
+            $this->bookingService->saveBookingFile($bookingId, $request->file('file'));
+        }
+
+
+        return $this->successResponse(
+            null,
+            'dataUpdatedSuccessfully'
+        );
+    }
+
+
 }

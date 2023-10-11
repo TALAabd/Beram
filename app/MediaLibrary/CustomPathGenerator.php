@@ -16,6 +16,7 @@ use App\Models\PaymentMethod;
 use App\Models\Story;
 use App\Models\StoryItem;
 use App\Models\Trip;
+use Modules\Booking\Models\Booking;
 use Modules\Resturant\Models\Meal;
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -79,6 +80,9 @@ class CustomPathGenerator implements PathGenerator
                 break;
             case PaymentMethod::class:
                 return PaymentMethod::PATH . '/' . $media->id . '/';
+                break;
+            case Booking::class:
+                return Booking::PATH . '/' . $media->id . '/';
                 break;
             default:
                 return $media->id . '/';

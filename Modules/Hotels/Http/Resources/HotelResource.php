@@ -19,7 +19,7 @@ class HotelResource extends JsonResource
      */
     public function toArray($request)
     {
-       
+
         if (request()->routeIs('appWishlist')) {
             return $this->getAppHomePage($request);
         }
@@ -81,7 +81,7 @@ class HotelResource extends JsonResource
                 ['markable_id', '=', $this->id],
                 ['markable_type', '=', get_class(new Hotel())]
             ])->count();
-           
+
         }
 
         $locale = app()->getLocale();
@@ -142,7 +142,7 @@ class HotelResource extends JsonResource
 
     public function allData($request)
     {
-        
+
         $media = $this->getMedia('hotels-media');
         $sub_media_urls = $media->map(function ($item) {
             return $item->getFullUrl();
