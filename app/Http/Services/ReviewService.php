@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Services\TripService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Hotels\Http\Services\HotelService;
@@ -9,7 +10,7 @@ use Digikraaft\ReviewRating\Models\Review;
 
 class ReviewService
 {
-    public function __construct(private HotelService $hotelService)
+    public function __construct(private TripService $tripService,private HotelService $hotelService)
     {
     }
 
@@ -49,6 +50,17 @@ class ReviewService
         $user = Auth::guard('customer')->user();
         $hotel = $this->hotelService->showHotelDetails($hotelId);
         $hotel->review($validatedData['review'], $user, $validatedData['rating'], $validatedData['title']);
+
+        DB::commit();
+    }
+    public function addTripReview($tripId, $validatedData)
+    {
+        DB::beginTransaction();
+
+        $user = Auth::guard('customer')->user();
+        $trip = $this->tripService->find($tripId ,'en');
+
+        $trip->review($validatedData['review'], $user, $validatedData['rating'], $validatedData['title']);
 
         DB::commit();
     }

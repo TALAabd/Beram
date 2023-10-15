@@ -72,12 +72,11 @@ Route::group(['prefix' => 'v1'], function () {
         ], function () {
             Route::get('/', [WalletController::class, 'getAll']);
             Route::get('/provider-wallet', [WalletController::class, 'providerWallet']);
-            Route::get('/{id}', [WalletController::class,'find']);
+            Route::get('/{id}', [WalletController::class, 'find']);
             // Route::post('/', 'create');
-            Route::post('/{id}',[WalletController::class, 'update']);
-            Route::post('/{id}/add',[WalletController::class, 'AddToWallet']);
-            Route::delete('/{id}',[WalletController::class, 'delete']);
-
+            Route::post('/{id}', [WalletController::class, 'update']);
+            Route::post('/{id}/add', [WalletController::class, 'AddToWallet']);
+            Route::delete('/{id}', [WalletController::class, 'delete']);
         });
 
         Route::group(['prefix' => 'feature'], function () {
@@ -258,6 +257,13 @@ Route::group(['prefix' => 'v1'], function () {
                 });
             });
 
+            Route::group(['prefix' => 'trip'], function () {
+                Route::group(['middleware' => 'auth:customer'], function () {
+                    Route::delete('/{trip}/remove/{review}', [ReviewController::class, 'reviewRemove']);
+                    Route::post('/{trip}/add', [ReviewController::class, 'addTripReview']);
+                });
+            });
+
             Route::group(['prefix' => 'restaurant'], function () {
                 //
             });
@@ -359,5 +365,3 @@ Route::group([
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
 });
-
-

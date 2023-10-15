@@ -30,7 +30,7 @@ class HotelRepository implements HotelRepositoryInterface
 
     public function allTopRated()
     {
-        return Hotel::where('star_rate', [4, 5])->orderBy('id', 'Desc')->get();
+        return Hotel::where('star_rate', [4,5])->orderBy('id', 'Desc')->get();
     }
     public function recentlyHotels()
     {
@@ -66,6 +66,7 @@ class HotelRepository implements HotelRepositoryInterface
         $hotel->star_rate = $attributes['star_rate'];
         $hotel->check_in_time = $attributes['check_in_time'];
         $hotel->check_out_time = $attributes['check_out_time'];
+        $hotel->user_id    = $attributes['provider_id'];
         // $hotel->min_price = $attributes['min_price'];
         // $hotel->max_price = $attributes['max_price'];
         $hotel->web = $attributes['web'];

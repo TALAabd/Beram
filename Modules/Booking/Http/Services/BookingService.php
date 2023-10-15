@@ -82,7 +82,9 @@ class BookingService
             }
         }
 
-        $this->notificationService->sendNotificationChangeStatusBooking($booking->customer, $booking);
+        if (isset($booking->customer)) {
+            $this->notificationService->sendNotificationChangeStatusBooking($booking->customer, $booking);
+        }
         DB::commit();
         return $booking;
     }

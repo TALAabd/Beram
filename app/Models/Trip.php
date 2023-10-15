@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Digikraaft\ReviewRating\Traits\HasReviewRating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Booking\Models\Booking;
@@ -25,6 +26,7 @@ class Trip extends Model implements HasMedia
     use InteractsWithMedia;
     use SoftDeletes;
     use Notifiable;
+    use HasReviewRating;
 
     protected $table  = 'trips';
 

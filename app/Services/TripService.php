@@ -52,7 +52,6 @@ class TripService
 
     public function create($validatedData)
     {
-        dd('kk');
         if (!isset($validatedData['lang'])) {
             $validatedData['lang'] = app()->getLocale();
         }

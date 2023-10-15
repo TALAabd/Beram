@@ -37,7 +37,15 @@ class ReviewController extends Controller
             'dataAddedSuccessfully'
         );
     }
-
+    public function addTripReview($tripId,Request $request)
+    {
+        $this->reviewService->addTripReview($tripId,$request);
+        return $this->successResponse(
+            null,
+            'dataAddedSuccessfully'
+        );
+    }
+    
     public function reviewRemove($hotelId,$reviewId)
     {
         $this->reviewService->delete($hotelId,$reviewId);

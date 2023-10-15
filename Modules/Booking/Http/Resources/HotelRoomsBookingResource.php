@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Hotels\Http\Resources\RoomResource;
 use App\Traits\ResourceHelper;
 use Illuminate\Support\Facades\Auth;
+use Modules\Hotels\Http\Resources\HotelResource;
 
 class HotelRoomsBookingResource extends JsonResource
 {
@@ -30,6 +31,7 @@ class HotelRoomsBookingResource extends JsonResource
             'room_id'      => $this->room_id,
             'created_at'   => $this->created_at,
             'room'         => $this->resource($this->room, RoomResource::class),
+            'hotel'        => $this->resource($this->room->hotel, HotelResource::class),
         ];
 
         if (Auth::guard('customer')->check()) {

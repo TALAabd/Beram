@@ -44,6 +44,7 @@ class HotelRequest extends FormRequest
                 'fax'            => 'nullable|string|max:20',
                 'email'          => 'nullable|email|max:255',
                 'phone'          => 'nullable|string|max:20',
+                'provider_id'    => '',
                 'min_price'      => '',
                 'max_price'      => '',
             ]

@@ -33,7 +33,6 @@ class HotelAttributeTermsResource extends JsonResource
             return $item->getFullUrl();
         });
 
-
         $locale = app()->getLocale();
         return [
             'lang'                 => $locale,
@@ -57,6 +56,7 @@ class HotelAttributeTermsResource extends JsonResource
             'numberOfReviews'      => $this->numberOfReviews(),
             'numberOfRatings'      => $this->numberOfRatings(),
             'attributes_and_terms' =>  $data,
+            'review'               => $this->reviews,
         ];
     }
 }
